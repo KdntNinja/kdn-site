@@ -1,6 +1,6 @@
-import './app.css';
+import "./app.css";
 
 declare global {
-  namespace App {}
+    namespace App {}
 }
 export {};

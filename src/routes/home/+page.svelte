@@ -1,22 +1,25 @@
 <script>
-  import Post from '$lib/components/post/Post.svelte';
-  import { routes } from '$lib/routes';
+    import Post from "$lib/components/posts/Post.svelte";
+    import ShowPosts from "$lib/components/posts/ShowPosts.svelte";
 
-  import { getAuth, onAuthStateChanged } from 'firebase/auth';
-  import { onMount } from 'svelte';
+    import { routes } from "$lib/routes";
 
-  let auth;
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { onMount } from "svelte";
 
-  onMount(() => {
-    auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = routes.LOGIN;
-      }
+    let auth;
+
+    onMount(() => {
+        auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = routes.LOGIN;
+            }
+        });
     });
-  });
 </script>
 
 <main>
-  <Post />
+    <Post />
+    <ShowPosts />
 </main>

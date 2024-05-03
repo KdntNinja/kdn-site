@@ -1,11 +1,11 @@
 <script lang="ts">
-  import '../app.pcss';
-  import { ModeWatcher } from 'mode-watcher';
-  import { Toaster } from '$lib/components/ui/sonner';
+    import "../app.pcss";
+    import { ModeWatcher } from "mode-watcher";
+    import { Toaster } from "$lib/components/ui/sonner";
 
-  import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+    import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
 
-  injectSpeedInsights();
+    injectSpeedInsights();
 </script>
 
 <slot></slot>
