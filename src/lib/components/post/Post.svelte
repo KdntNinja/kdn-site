@@ -5,6 +5,8 @@
   import { Textarea } from '$lib/components/ui/textarea/index.js';
   import Button from '$lib/components/ui/button/button.svelte';
   import Toaster from '$lib/components/ui/sonner/sonner.svelte';
+import { Label } from '$lib/components/ui/label/index.js';
+
 
   let title = '';
   let content = '';
@@ -39,12 +41,14 @@
           <Drawer.Title>Create a new post</Drawer.Title>
         </Drawer.Header>
         <div class="p-4 pb-0">
-          <Textarea
+<Label for="title">Title</Label>
+          <Textarea id="title"
             bind:value={title}
             placeholder="Title"
             class="mb-4 small-textarea"
           />
-          <Textarea
+<Label for="content">Content</Label>
+          <Textarea id="content"
             bind:value={content}
             placeholder="Content"
             class="mb-4 text-lg"
