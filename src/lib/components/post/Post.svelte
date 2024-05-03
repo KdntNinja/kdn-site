@@ -92,7 +92,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 45vh;
+    height: 100vh;
     width: 100vw;
   }
   .p-4 {
