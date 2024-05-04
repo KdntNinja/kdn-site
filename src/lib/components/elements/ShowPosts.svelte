@@ -2,9 +2,8 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { Badge } from "$lib/components/ui/badge/index.js";
     import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
-
     import { Button } from "$lib/components/ui/button/index.js";
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { collection, getDocs } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
@@ -23,12 +22,14 @@
 
     let auth: ReturnType<typeof getAuth>;
     let posts: Post[] = [];
+    let intervalId: NodeJS.Timeout | number;
 
     const fetchPosts = async () => {
         try {
             const postCollection = collection(firestore, "posts");
             const postSnapshot = await getDocs(postCollection);
             posts = postSnapshot.docs.map((doc) => ({ userId: { uid: doc.id }, ...doc.data() }) as Post);
+            posts = posts.reverse();
         } catch (err) {
             console.error(err instanceof Error ? err.message : "An unknown error occurred");
         }
@@ -41,8 +42,13 @@
                 window.location.href = routes.LOGIN;
             } else {
                 fetchPosts();
+                intervalId = setInterval(fetchPosts, 1500);
             }
         });
+    });
+
+    onDestroy(() => {
+        clearInterval(intervalId as number);
     });
 </script>
 
@@ -111,14 +117,5 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
-    }
-    Button {
-        background-color: #444;
-        color: #fff;
-        padding: 10px 20px;
-        transition: background-color 0.3s ease;
-    }
-    Button:hover {
-        background-color: #666;
     }
 </style>
