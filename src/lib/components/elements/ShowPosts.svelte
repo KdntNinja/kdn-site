@@ -55,7 +55,6 @@
 <div class="svelte-scroll-area rounded-md border posts-container">
     <ScrollArea>
         <div class="p-4">
-            <h4 class="mb-4 text-sm font-medium leading-none">Posts</h4>
             {#each posts as post}
                 <div class="post-card">
                     <div class="post-header post-author">
@@ -121,6 +120,7 @@
 
     @media (max-width: 768px) {
         .svelte-scroll-area {
+            margin-top: 20px;
             width: 100%;
         }
         .post-card {
