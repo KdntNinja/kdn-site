@@ -1,7 +1,7 @@
 export const routes = {
     INDEX: "/",
     HOME: "/home",
-    POST: "/posts",
+    POST: "/elements",
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
 };

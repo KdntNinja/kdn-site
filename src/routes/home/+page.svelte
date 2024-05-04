@@ -1,6 +1,6 @@
 <script>
-    import Post from "$lib/components/posts/Post.svelte";
-    import ShowPosts from "$lib/components/posts/ShowPosts.svelte";
+    import Post from "$lib/components/elements/Post.svelte";
+    import ShowPosts from "$lib/components/elements/ShowPosts.svelte";
 
     import { routes } from "$lib/routes";
 

@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Drawer from "$lib/components/ui/drawer/index.js";
+    import { toast } from "svelte-sonner";
     import { addDoc, collection } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { Textarea } from "$lib/components/ui/textarea/index.js";
@@ -11,7 +12,6 @@
 
     let title = "";
     let content = "";
-    let message = "";
     let errorMessage = "";
 
     const createPost = async () => {
@@ -20,18 +20,31 @@
             if (!userId) {
                 throw new Error("User not authenticated");
             }
-            const docRef = await addDoc(collection(firestore, "posts"), {
+            await addDoc(collection(firestore, "posts"), {
                 title,
                 content,
                 userId,
                 userName: $userName,
             });
-            message = "Post created successfully";
+            toast.success("Post created successfully", {
+                description: `Title: ${title}, Content: ${content}`,
+                action: {
+                    label: "Dismiss",
+                    onClick: () => toast.dismiss(),
+                },
+            });
             title = "";
             content = "";
         } catch (e) {
             console.error("Error creating posts", e);
             errorMessage = (e as Error).message;
+            toast.error("Error creating post", {
+                description: errorMessage,
+                action: {
+                    label: "Dismiss",
+                    onClick: () => toast.dismiss(),
+                },
+            });
         }
     };
 </script>
@@ -89,9 +102,9 @@
         </Drawer.Content>
     </Drawer.Root>
 
-    {#if message}
+    {#if errorMessage}
         <Toaster>
-            {message}
+            {errorMessage}
         </Toaster>
     {/if}
 

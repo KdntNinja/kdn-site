@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
+import { query, orderBy, limit, startAfter, collection, getDocs } from "firebase/firestore";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -7,6 +8,7 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
+    onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -24,4 +26,18 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const firestore = getFirestore();
 
-export { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut };
+export {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    query,
+    orderBy,
+    limit,
+    startAfter,
+    QueryDocumentSnapshot,
+    onAuthStateChanged,
+    collection,
+    getDocs,
+};
