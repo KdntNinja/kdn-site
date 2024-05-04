@@ -12,13 +12,13 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAdW6pft22SorhcmcaNT8CCK517Li0hjqg",
-    authDomain: "linkedout-98516.firebaseapp.com",
-    projectId: "linkedout-98516",
-    storageBucket: "linkedout-98516.appspot.com",
-    messagingSenderId: "650404596688",
-    appId: "1:650404596688:web:2d25e753517a684b3cc7d5",
-    measurementId: "G-MRY45J7JS9",
+    apiKey: "AIzaSyBjINey1Rhf45R9wyUkZMP26E027tNx_E4",
+    authDomain: "linkedout-bf642.firebaseapp.com",
+    projectId: "linkedout-bf642",
+    storageBucket: "linkedout-bf642.appspot.com",
+    messagingSenderId: "736199130601",
+    appId: "1:736199130601:web:0bc87bdedbff1dff39df78",
+    measurementId: "G-LJKWWMZ1PX",
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

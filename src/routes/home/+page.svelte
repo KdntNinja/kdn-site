@@ -1,6 +1,7 @@
 <script>
-    import Post from "$lib/components/elements/Post.svelte";
-    import ShowPosts from "$lib/components/elements/ShowPosts.svelte";
+    import Post from "$lib/components/elements/posts/Post.svelte";
+    import ShowPosts from "$lib/components/elements/posts/ShowPosts.svelte";
+    import { changeUserGroup } from "$lib/components/elements/posts/UpdateGroup";
 
     import { routes } from "$lib/routes";
 
@@ -21,5 +22,13 @@
 
 <main>
     <Post />
-    <ShowPosts />
+    <div class="spacer">
+        <ShowPosts />
+    </div>
 </main>
+
+<style>
+    .spacer {
+        margin-top: 50px;
+    }
+</style>

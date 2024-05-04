@@ -3,8 +3,10 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "$lib/firebase";
-    import googleIcon from "../../../Google.svg";
+    import { auth, signInWithEmailAndPassword } from "$lib/firebase";
+    import googleIcon from "$lib/components/ui/Google.svg";
+
+    import { continueWithGoogle } from "$lib/googleAuth";
 
     import { routes } from "$lib/routes";
 
@@ -14,16 +16,6 @@
     const login = async () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            window.location.href = routes.HOME;
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const loginWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
             window.location.href = routes.HOME;
         } catch (error) {
             console.error(error);
@@ -54,7 +46,7 @@
         <Card.Footer class="flex justify-between">
             <div class="flex justify-center">
                 <Button on:click="{login}">Login</Button>
-                <button on:click="{loginWithGoogle}" class="ml-4">
+                <button on:click="{continueWithGoogle}" class="ml-4">
                     <img src="{googleIcon}" alt="Google logo" />
                 </button>
             </div>

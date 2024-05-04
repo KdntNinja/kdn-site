@@ -3,8 +3,11 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "$lib/firebase";
-    import googleIcon from "../../../Google.svg";
+    import { auth, createUserWithEmailAndPassword } from "$lib/firebase";
+    import { updateProfile } from "firebase/auth";
+    import googleIcon from "$lib/components/ui/Google.svg";
+
+    import { continueWithGoogle } from "$lib/googleAuth";
 
     import { routes } from "$lib/routes";
 
@@ -19,17 +22,14 @@
             return;
         }
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            window.location.href = routes.HOME;
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const signupWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user) {
+                await updateProfile(user, {
+                    displayName: name,
+                    photoURL: "default",
+                });
+            }
             window.location.href = routes.HOME;
         } catch (error) {
             console.error(error);
@@ -73,7 +73,7 @@
         <Card.Footer class="flex justify-between">
             <div class="flex justify-center">
                 <Button on:click="{signup}">Sign Up</Button>
-                <button on:click="{signupWithGoogle}" class="ml-4">
+                <button on:click="{continueWithGoogle}" class="ml-4">
                     <img src="{googleIcon}" alt="Google logo" />
                 </button>
             </div>
