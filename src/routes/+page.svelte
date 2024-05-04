@@ -15,7 +15,7 @@
 <div class="card-container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
     <Card.Root class="w-[350px]">
         <Card.Header>
-            <Card.Title>Welcome to Kdn-Site!</Card.Title>
+            <Card.Title>Welcome to LinkedOut!</Card.Title>
             <Card.Description>The best Reddit and StackOverflow alternative.</Card.Description>
         </Card.Header>
         <Card.Content>
