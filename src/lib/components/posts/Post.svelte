@@ -52,14 +52,14 @@
                         id="title"
                         bind:value="{title}"
                         placeholder="Enter the title of your post here..."
-                        class="mb-4 small-textarea"
+                        class="mb-4 small-textarea mt-4"
                     />
                     <Label for="content">Content</Label>
                     <Textarea
                         id="content"
                         bind:value="{content}"
                         placeholder="Enter the content of your post here..."
-                        class="mb-4 text-lg"
+                        class="mb-4 text-lg mt-4"
                     />
                 </div>
                 <Drawer.Footer>
