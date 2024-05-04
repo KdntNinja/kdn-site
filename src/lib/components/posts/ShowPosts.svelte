@@ -23,15 +23,12 @@
 
     let auth: ReturnType<typeof getAuth>;
     let posts: Post[] = [];
-    let ShowPosts;
-    let loading = true;
 
     const fetchPosts = async () => {
         try {
             const postCollection = collection(firestore, "posts");
             const postSnapshot = await getDocs(postCollection);
             posts = postSnapshot.docs.map((doc) => ({ userId: { uid: doc.id }, ...doc.data() }) as Post);
-            loading = false;
         } catch (err) {
             console.error(err instanceof Error ? err.message : "An unknown error occurred");
         }
