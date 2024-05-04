@@ -82,7 +82,7 @@
 
 <style>
     .svelte-scroll-area {
-        width: 38%;
+        width: 100%;
         height: 100vh;
         overflow-y: auto;
         margin: auto;
@@ -117,5 +117,20 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+        .svelte-scroll-area {
+            width: 100%;
+        }
+        .post-card {
+            padding: 15px;
+        }
+        .post-title h2 {
+            font-size: 1.2em;
+        }
+        .post-content p {
+            font-size: 0.9em;
+        }
     }
 </style>

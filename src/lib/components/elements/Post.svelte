@@ -125,6 +125,15 @@
         justify-content: center;
         align-items: center;
     }
+
+    @media (max-width: 768px) {
+        .post-button {
+            right: 10%;
+            width: 80%;
+            height: 50px;
+        }
+    }
+
     .p-4 {
         display: flex;
         flex-direction: column;
