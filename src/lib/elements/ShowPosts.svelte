@@ -29,7 +29,7 @@
                         content: data.content,
                         userId: data.userId,
                         userName: data.userName,
-                        group: data.group,
+
                         timestamp: data.timestamp,
                         imageUrl: data.imageUrl,
                     } as PostModel;

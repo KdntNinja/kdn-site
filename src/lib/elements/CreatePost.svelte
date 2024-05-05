@@ -85,7 +85,6 @@
                 content,
                 userId,
                 userName,
-                group: userData?.group || "default",
                 timestamp: Date.now(),
                 imageUrl,
             });
