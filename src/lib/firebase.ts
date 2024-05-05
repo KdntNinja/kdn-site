@@ -24,14 +24,16 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBjINey1Rhf45R9wyUkZMP26E027tNx_E4",
-    authDomain: "linkedout-bf642.firebaseapp.com",
-    projectId: "linkedout-bf642",
-    storageBucket: "linkedout-bf642.appspot.com",
-    messagingSenderId: "736199130601",
-    appId: "1:736199130601:web:0bc87bdedbff1dff39df78",
-    measurementId: "G-LJKWWMZ1PX",
+  apiKey: "AIzaSyBOicMl0t0Z3dDKnRM8gAfr2phKqwaAiDs",
+  authDomain: "linkedout-fe8e8.firebaseapp.com",
+  projectId: "linkedout-fe8e8",
+  storageBucket: "linkedout-fe8e8.appspot.com",
+  messagingSenderId: "407055288715",
+  appId: "1:407055288715:web:661f156f5dbcfefd7c478e",
+  measurementId: "G-1XEYK2GNKZ"
+
 };
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = initializeApp(firebaseConfig);

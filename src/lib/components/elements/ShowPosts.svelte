@@ -34,6 +34,7 @@
                         timestamp: data.timestamp,
                         imageUrl: data.imageUrl,
                     } as Post;
+
                     if (change.type === "added") {
                         posts = [post, ...posts];
                     } else if (change.type === "modified") {
@@ -44,6 +45,9 @@
                     } else if (change.type === "removed") {
                         posts = posts.filter((p) => p.id !== post.id);
                     }
+
+                    // Sort the posts array in descending order by timestamp
+                    posts.sort((a, b) => b.timestamp - a.timestamp);
                 });
             },
             (err) => {
