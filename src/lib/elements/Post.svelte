@@ -12,6 +12,10 @@
 
     const auth = getAuth();
     const currentUserId = auth.currentUser?.uid;
+
+    const postUpdated = () => {
+        isEditing = false;
+    };
 </script>
 
 <div class="post-card">
@@ -48,7 +52,7 @@
 </div>
 
 {#if isEditing && post.userId === currentUserId}
-    <EditPost postId="{post.id}" on:close="{() => (isEditing = false)}" />
+    <EditPost postId="{post.id}" on:postUpdated="{postUpdated}" on:close="{() => (isEditing = false)}" />
 {/if}
 
 <style>

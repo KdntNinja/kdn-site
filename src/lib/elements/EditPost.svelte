@@ -6,6 +6,8 @@
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
     import { v4 as uuidv4 } from "uuid";
     import { Button } from "$lib/components/ui/button";
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
 
     export let postId: string;
     let post: PostModel | null = null;
@@ -74,6 +76,7 @@
             });
 
             successMessage = "Post updated successfully!";
+            dispatch("postUpdated");
         }
     };
 </script>
