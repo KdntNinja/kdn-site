@@ -45,8 +45,6 @@
                     } else if (change.type === "removed") {
                         posts = posts.filter((p) => p.id !== post.id);
                     }
-
-                    // Sort the posts array in descending order by timestamp
                     posts.sort((a, b) => b.timestamp - a.timestamp);
                 });
             },
@@ -95,11 +93,11 @@
                             <div class="post-title">
                                 <h2>{post.title}</h2>
                             </div>
-                            <div class="post-image">
-                                <img src="{post.imageUrl}" alt="{post.title}" />
-                            </div>
                             <div class="post-text">
                                 <p>{post.content}</p>
+                            </div>
+                            <div class="post-image">
+                                <img src="{post.imageUrl}" alt="{post.title}" />
                             </div>
                             <div class="post-timestamp">
                                 <Separator orientation="horizontal" />
