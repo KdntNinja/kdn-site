@@ -100,9 +100,9 @@
                                 <p>{post.content}</p>
                             </div>
                             <div class="post-timestamp">
-                                <Separator orientation="horizontal"/>
-                                <Separator orientation="horizontal"/>
-                                <Separator orientation="horizontal"/>
+                                <Separator orientation="horizontal" />
+                                <Separator orientation="horizontal" />
+                                <Separator orientation="horizontal" />
                                 <p>{new Date(post.timestamp).toLocaleString()}</p>
                             </div>
                         </div>
