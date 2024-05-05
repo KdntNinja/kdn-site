@@ -34,7 +34,6 @@
                         timestamp: data.timestamp,
                         imageUrl: data.imageUrl,
                     } as Post;
-
                     if (change.type === "added") {
                         posts = [post, ...posts];
                     } else if (change.type === "modified") {
@@ -46,7 +45,6 @@
                         posts = posts.filter((p) => p.id !== post.id);
                     }
                 });
-                posts = posts.reverse();
             },
             (err) => {
                 error = err.message;
