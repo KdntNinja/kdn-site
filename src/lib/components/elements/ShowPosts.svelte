@@ -4,50 +4,49 @@
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box/index.js";
     import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { collection, getDocs, query, orderBy, getDoc } from "firebase/firestore";
-    import { firestore, doc } from "$lib/firebase";
+    import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+    import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
     import type { Post } from "$lib/models";
 
     let auth: ReturnType<typeof getAuth>;
     let posts: Post[] = [];
-    let intervalId: NodeJS.Timeout | number;
     let isLoading: boolean = false;
     let error: string | null = null;
     let initialLoad: boolean = true;
+    let unsubscribe: (() => void) | null = null;
 
-    const fetchPosts = async () => {
-        isLoading = true;
-        error = null;
-        try {
-            const postCollection = collection(firestore, "posts");
-            const postSnapshot = await getDocs(query(postCollection, orderBy("timestamp", "desc")));
-            if (auth.currentUser?.uid) {
-                const userDocRef = doc(firestore, "users", auth.currentUser.uid);
-                const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data();
-                posts = postSnapshot.docs
-                    .filter((doc) => doc.data().group === userData?.group)
-                    .map((doc) => {
-                        const data = doc.data();
-                        return {
-                            id: doc.id,
-                            title: data.title,
-                            content: data.content,
-                            userId: data.userId,
-                            userName: data.userName,
-                            group: data.group,
-                            timestamp: data.timestamp,
-                            imageUrl: data.imageUrl,
-                        } as Post;
-                    });
-                initialLoad = false;
-            }
-        } catch (err) {
-            error = err instanceof Error ? err.message : "An unknown error occurred";
-        } finally {
-            isLoading = false;
-        }
+    const fetchPosts = () => {
+        const postCollection = collection(firestore, "posts");
+        unsubscribe = onSnapshot(query(postCollection, orderBy("timestamp", "desc")), (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                const data = change.doc.data();
+                const post = {
+                    id: change.doc.id,
+                    title: data.title,
+                    content: data.content,
+                    userId: data.userId,
+                    userName: data.userName,
+                    group: data.group,
+                    timestamp: data.timestamp,
+                    imageUrl: data.imageUrl,
+                } as Post;
+
+                if (change.type === "added") {
+                    posts = [post, ...posts];
+                } else if (change.type === "modified") {
+                    const index = posts.findIndex((p) => p.id === post.id);
+                    if (index !== -1) {
+                        posts[index] = post;
+                    }
+                } else if (change.type === "removed") {
+                    posts = posts.filter((p) => p.id !== post.id);
+                }
+            });
+            posts = posts.reverse()
+        }, (err) => {
+            error = err.message;
+        });
     };
 
     onMount(() => {
@@ -62,7 +61,9 @@
     });
 
     onDestroy(() => {
-        clearInterval(intervalId as number);
+        if (unsubscribe) {
+            unsubscribe();
+        }
     });
 </script>
 
