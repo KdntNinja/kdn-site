@@ -143,7 +143,7 @@
     @media (max-width: 768px) {
         .svelte-scroll-area {
             margin-top: 30px;
-            width: 90%;
+            width: 100%;
         }
         .post-card {
             padding: 10px;
