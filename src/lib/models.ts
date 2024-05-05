@@ -14,6 +14,6 @@ export type Post = {
 };
 
 export interface UserRole {
-    role: "default" | "family" | "friend" | "admin";
+    role: "default" | "family" | "friend";
     isAdmin: boolean;
 }
