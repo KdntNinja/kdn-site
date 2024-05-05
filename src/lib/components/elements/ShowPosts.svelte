@@ -57,7 +57,6 @@
                 window.location.href = routes.LOGIN;
             } else {
                 fetchPosts();
-                intervalId = setInterval(fetchPosts, 1500);
             }
         });
     });
