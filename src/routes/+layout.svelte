@@ -4,7 +4,7 @@
     import { Toaster } from "$lib/components/ui/sonner";
 
     import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
-    import { inject } from '@vercel/analytics'
+    import { inject } from "@vercel/analytics";
 
     inject();
     injectSpeedInsights();

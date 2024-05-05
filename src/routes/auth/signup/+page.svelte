@@ -5,7 +5,7 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import { auth, createUserWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
-    import { continueWithGoogle } from "$lib/googleAuth";
+    import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
 
@@ -72,7 +72,12 @@
         </Card.Content>
         <Card.Footer class="flex justify-between">
             <div class="flex justify-center">
-                <Button on:click="{signup}">Sign Up</Button>
+                <Button
+                    on:click="{(e) => {
+                        e.preventDefault();
+                        signup(email, password);
+                    }}">Sign Up</Button
+                >
                 <button on:click="{continueWithGoogle}" class="ml-4">
                     <img src="{googleIcon}" alt="Google logo" />
                 </button>

@@ -14,7 +14,6 @@ export const continueWithGoogle = async () => {
                 await setDoc(
                     userDocRef,
                     {
-                        name: user.displayName,
                         group: "default",
                         isAdmin: false,
                     },
