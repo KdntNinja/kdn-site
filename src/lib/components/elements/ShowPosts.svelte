@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Badge } from "$lib/components/ui/badge/index.js";
-    import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
+    import { ScrollArea } from "$lib/components/ui/posts-scroll-box/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
     import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -84,13 +84,13 @@
     });
 </script>
 
-<div class="svelte-scroll-area rounded-md posts-container">
-    <ScrollArea>
+<div class="svelte-scroll-area">
+    <ScrollArea class="rounded-md justify-center p-4" >
         <div class="p-4">
             {#each posts as post}
                 <div class="post-card">
                     <div class="post-header post-author">
-                        <Badge>{post.userId.name}</Badge>
+                        <Badge>{post.userName}</Badge>
                     </div>
                     <div class="post-content">
                         <div class="post-title">
@@ -100,11 +100,6 @@
                             <p>{post.content}</p>
                         </div>
                     </div>
-                    <div class="post-footer">
-                        {#if post.userId.uid === (auth.currentUser ? auth.currentUser.uid : null)}
-                            <Button variant="outline">Delete</Button>
-                        {/if}
-                    </div>
                 </div>
             {/each}
         </div>
@@ -113,40 +108,40 @@
 
 <style>
     .svelte-scroll-area {
-        width: 100%;
-        height: 100vh;
-        overflow-y: auto;
-        margin: auto;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 94vh;
+    margin: auto;
     }
     .post-card {
-        width: 100%;
-        margin-bottom: 20px;
+        width: 90%;
+        margin: 20px auto;
         background-color: #222;
         color: #fff;
         padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .post-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
     }
+
     .post-title h2 {
         font-size: 1.6em;
         font-weight: bold;
         margin-bottom: 10px;
         color: #fff;
     }
+
     .post-content p {
         line-height: 1.5;
         color: #fff;
         margin-bottom: 10px;
-    }
-    .post-footer {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 20px;
     }
 
     @media (max-width: 768px) {
@@ -154,12 +149,15 @@
             margin-top: 20px;
             width: 100%;
         }
+
         .post-card {
             padding: 10px;
         }
+
         .post-title h2 {
             font-size: 1.3em;
         }
+
         .post-content p {
             font-size: 0.9em;
         }
