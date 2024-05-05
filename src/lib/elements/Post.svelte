@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Label } from "$lib/components/ui/label/index.js";
-    import { Switch } from "$lib/components/ui/switch/index.js";
-    import { Badge } from "$lib/components/ui/badge/index.js";
-    import { Separator } from "$lib/components/ui/separator/index.js";
+    import { Label } from "$lib/components/ui/label";
+    import { Switch } from "$lib/components/ui/switch";
+    import { Badge } from "$lib/components/ui/badge";
+    import { Separator } from "$lib/components/ui/separator";
     import type { PostModel } from "$lib/models";
     import EditPost from "./EditPost.svelte";
     import { getAuth } from "firebase/auth";

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import * as Drawer from "$lib/components/ui/drawer/index.js";
+    import * as Drawer from "$lib/components/ui/drawer";
     import { v4 as uuidv4 } from "uuid";
     import { toast } from "svelte-sonner";
     import { addDoc, collection, doc, getDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
-    import { Textarea } from "$lib/components/ui/textarea/index.js";
-    import Button from "$lib/components/ui/button/button.svelte";
+    import { Textarea } from "$lib/components/ui/textarea";
+    import Button from "../components/ui/button/button.svelte";
     import Toaster from "$lib/components/ui/sonner/sonner.svelte";
-    import { Label } from "$lib/components/ui/label/index.js";
+    import { Label } from "$lib/components/ui/label";
     import { getAuth } from "firebase/auth";
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
