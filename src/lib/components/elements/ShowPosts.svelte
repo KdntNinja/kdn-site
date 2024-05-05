@@ -18,35 +18,39 @@
 
     const fetchPosts = () => {
         const postCollection = collection(firestore, "posts");
-        unsubscribe = onSnapshot(query(postCollection, orderBy("timestamp", "desc")), (snapshot) => {
-            snapshot.docChanges().forEach((change) => {
-                const data = change.doc.data();
-                const post = {
-                    id: change.doc.id,
-                    title: data.title,
-                    content: data.content,
-                    userId: data.userId,
-                    userName: data.userName,
-                    group: data.group,
-                    timestamp: data.timestamp,
-                    imageUrl: data.imageUrl,
-                } as Post;
+        unsubscribe = onSnapshot(
+            query(postCollection, orderBy("timestamp", "desc")),
+            (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    const data = change.doc.data();
+                    const post = {
+                        id: change.doc.id,
+                        title: data.title,
+                        content: data.content,
+                        userId: data.userId,
+                        userName: data.userName,
+                        group: data.group,
+                        timestamp: data.timestamp,
+                        imageUrl: data.imageUrl,
+                    } as Post;
 
-                if (change.type === "added") {
-                    posts = [post, ...posts];
-                } else if (change.type === "modified") {
-                    const index = posts.findIndex((p) => p.id === post.id);
-                    if (index !== -1) {
-                        posts[index] = post;
+                    if (change.type === "added") {
+                        posts = [post, ...posts];
+                    } else if (change.type === "modified") {
+                        const index = posts.findIndex((p) => p.id === post.id);
+                        if (index !== -1) {
+                            posts[index] = post;
+                        }
+                    } else if (change.type === "removed") {
+                        posts = posts.filter((p) => p.id !== post.id);
                     }
-                } else if (change.type === "removed") {
-                    posts = posts.filter((p) => p.id !== post.id);
-                }
-            });
-            posts = posts.reverse()
-        }, (err) => {
-            error = err.message;
-        });
+                });
+                posts = posts.reverse();
+            },
+            (err) => {
+                error = err.message;
+            },
+        );
     };
 
     onMount(() => {
