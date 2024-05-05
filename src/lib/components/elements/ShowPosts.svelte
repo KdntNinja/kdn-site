@@ -8,17 +8,7 @@
     import { collection, getDocs, query, orderBy, getDoc } from "firebase/firestore";
     import { firestore, doc } from "$lib/firebase";
     import { routes } from "$lib/routes";
-
-    interface Post {
-        title: string;
-        content: string;
-        userId: {
-            uid: string;
-            avatar: string;
-            name: string;
-            badge: string;
-        };
-    }
+    import type { Post } from "$lib/models";
 
     let auth: ReturnType<typeof getAuth>;
     let posts: Post[] = [];
@@ -85,7 +75,7 @@
 </script>
 
 <div class="svelte-scroll-area">
-    <ScrollArea class="rounded-md justify-center p-4" >
+    <ScrollArea class="rounded-md justify-center p-4">
         <div class="p-4">
             {#each posts as post}
                 <div class="post-card">
@@ -108,11 +98,11 @@
 
 <style>
     .svelte-scroll-area {
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 94vh;
-    margin: auto;
+        justify-content: center;
+        align-items: center;
+        width: 40%;
+        height: 94vh;
+        margin: auto;
     }
     .post-card {
         width: 90%;
