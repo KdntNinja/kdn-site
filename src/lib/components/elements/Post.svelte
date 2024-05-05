@@ -48,9 +48,8 @@
 </div>
 
 {#if isEditing && post.userId === currentUserId}
-    <EditPost postId={post.id} on:close="{() => isEditing = false}" />
+    <EditPost postId="{post.id}" on:close="{() => (isEditing = false)}" />
 {/if}
-
 
 <style>
     .post-card {

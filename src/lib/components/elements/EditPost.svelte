@@ -5,6 +5,7 @@
     import type { PostModel } from "$lib/models";
     import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
     import { v4 as uuidv4 } from "uuid";
+    import { Button } from "$lib/components/ui/button";
 
     export let postId: string;
     let post: PostModel | null = null;
@@ -94,7 +95,7 @@
                 <img src="{post.imageUrl}" alt="CurrentImage" class="current-image" />
             {/if}
 
-            <button type="submit">Update Post</button>
+            <Button type="submit">Update Post</Button>
         </form>
         {#if successMessage}
             <p class="success-message">{successMessage}</p>
@@ -119,7 +120,8 @@
         margin-bottom: 5px;
         color: #fff;
     }
-    .edit-post input, .edit-post textarea {
+    .edit-post input,
+    .edit-post textarea {
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
