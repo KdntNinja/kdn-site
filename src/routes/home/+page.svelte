@@ -1,5 +1,5 @@
 <script>
-    import Post from "$lib/components/elements/Post.svelte";
+    import Post from "$lib/components/elements/CreatePost.svelte";
     import ShowPosts from "$lib/components/elements/ShowPosts.svelte";
 
     import { routes } from "$lib/routes";

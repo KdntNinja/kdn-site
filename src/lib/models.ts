@@ -4,7 +4,7 @@ export interface User {
     email: string;
 }
 
-export type Post = {
+export type PostModel = {
     id: string;
     title: string;
     content: string;
