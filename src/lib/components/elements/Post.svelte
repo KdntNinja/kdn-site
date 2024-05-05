@@ -20,7 +20,7 @@
         const input = event.target as HTMLInputElement;
         if (input.files) {
             file = input.files[0];
-        }z
+        }
     };
 
     const createPost = async () => {
