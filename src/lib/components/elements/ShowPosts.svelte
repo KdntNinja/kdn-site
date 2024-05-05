@@ -29,23 +29,22 @@
             const postCollection = collection(firestore, "posts");
             const postSnapshot = await getDocs(query(postCollection, orderBy("timestamp", "desc")));
             if (auth.currentUser?.uid) {
-                const userDocRef = doc(firestore, 'users', auth.currentUser.uid);
+                const userDocRef = doc(firestore, "users", auth.currentUser.uid);
                 const userDoc = await getDoc(userDocRef);
                 const userData = userDoc.data();
-                if (userData?.group === 'admin' || userData?.isAdmin) {
-                    posts = postSnapshot.docs
-                        .map((doc) => {
-                            const data = doc.data();
-                            return {
-                                id: doc.id,
-                                title: data.title,
-                                content: data.content,
-                                userId: data.userId,
-                                userName: data.userName,
-                                group: data.group,
-                                timestamp: data.timestamp,
-                            } as Post;
-                        });
+                if (userData?.group === "admin" || userData?.isAdmin) {
+                    posts = postSnapshot.docs.map((doc) => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            title: data.title,
+                            content: data.content,
+                            userId: data.userId,
+                            userName: data.userName,
+                            group: data.group,
+                            timestamp: data.timestamp,
+                        } as Post;
+                    });
                 } else {
                     posts = postSnapshot.docs
                         .filter((doc) => doc.data().group === userData?.group)

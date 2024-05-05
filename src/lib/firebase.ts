@@ -56,5 +56,5 @@ export {
     doc,
     setDoc,
     updateDoc,
-    getDoc
+    getDoc,
 };
