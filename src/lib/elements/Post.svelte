@@ -41,7 +41,7 @@
         <div class="flex items-center space-x-2 edit-button">
             {#if post.userId === currentUserId}
                 <Switch id="edit-mode" bind:checked="{isEditing}" />
-                <Label for="edit-mode">Edit Mode</Label>
+                <Label for="edit-mode">Edit</Label>
             {/if}
         </div>
     </div>
