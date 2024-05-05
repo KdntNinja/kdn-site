@@ -8,10 +8,19 @@
     import Toaster from "$lib/components/ui/sonner/sonner.svelte";
     import { Label } from "$lib/components/ui/label/index.js";
     import { getAuth } from "firebase/auth";
+    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
     let title = "";
     let content = "";
     let errorMessage = "";
+    let file: File | null = null;
+
+    const onFileChange = (event: Event) => {
+        const input = event.target as HTMLInputElement;
+        if (input.files) {
+            file = input.files[0];
+        }
+    };
 
     const createPost = async () => {
         try {
@@ -28,6 +37,31 @@
             const userDocRef = doc(firestore, "users", userId);
             const userDoc = await getDoc(userDocRef);
             const userData = userDoc.data();
+
+            let imageUrl = "";
+            if (file) {
+                const storage = getStorage();
+                const storageRef = ref(storage, `${userId}/posts/${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                await new Promise((resolve, reject) => {
+                    uploadTask.on('state_changed',
+                        (snapshot) => {
+                            // You can use this section to display the upload progress
+                        },
+                        (error) => {
+                            // Handle unsuccessful uploads
+                            console.error("Upload failed", error);
+                            reject(error);
+                        },
+                        async () => {
+                            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                            resolve(null);
+                        }
+                    );
+                });
+            }
+
             await addDoc(collection(firestore, "posts"), {
                 title,
                 content,
@@ -35,6 +69,7 @@
                 userName,
                 group: userData?.group || "default",
                 timestamp: Date.now(),
+                imageUrl,
             });
             toast.success("Post created successfully", {
                 description: `Title: ${title}, Content: ${content}`,
@@ -84,27 +119,31 @@
                         placeholder="Enter the content of your post here..."
                         class="mb-4 text-lg mt-4"
                     />
+                    <Label for="image">Image</Label>
+                    <input type="file" id="image" on:change="{onFileChange}" class="mb-4 mt-4" />
                 </div>
                 <Drawer.Footer>
                     <div style="display: flex; align-items: center;">
                         <Drawer.Close asChild let:builder>
-                            <Button
-                                builders="{[builder]}"
-                                on:click="{createPost}"
-                                aria-label="Create Post"
-                                class="mr-4 font-bold py-2 px-4 rounded"
-                                disabled="{!title || !content}"
-                            >
-                                {#if title && content}
-                                    Create Post
-                                {:else if title}
-                                    Fill in the content
-                                {:else if content}
-                                    Fill in the title
-                                {:else}
-                                    Fill in the title and content
-                                {/if}
-                            </Button>
+                            <div class="center-button">
+                                <Button
+                                    builders="{[builder]}"
+                                    on:click="{createPost}"
+                                    aria-label="Create Post"
+                                    class="mr-4 font-bold py-2 px-4 rounded"
+                                    disabled="{!title || !content}"
+                                >
+                                    {#if title && content}
+                                        Create Post
+                                    {:else if title}
+                                        Fill in the content
+                                    {:else if content}
+                                        Fill in the title
+                                    {:else}
+                                        Fill in the title and content
+                                    {/if}
+                                </Button>
+                            </div>
                         </Drawer.Close>
                     </div>
                 </Drawer.Footer>
@@ -134,6 +173,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .center-button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     @media (max-width: 768px) {

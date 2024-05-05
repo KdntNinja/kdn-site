@@ -38,6 +38,7 @@
                             userName: data.userName,
                             group: data.group,
                             timestamp: data.timestamp,
+                            imageUrl: data.imageUrl,
                         } as Post;
                     });
                 initialLoad = false;
@@ -86,6 +87,9 @@
                         <div class="post-content">
                             <div class="post-title">
                                 <h2>{post.title}</h2>
+                            </div>
+                            <div class="post-image">
+                                <img src="{post.imageUrl}" alt="{post.title}" />
                             </div>
                             <div class="post-text">
                                 <p>{post.content}</p>

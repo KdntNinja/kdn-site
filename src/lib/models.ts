@@ -11,6 +11,7 @@ export type Post = {
     userId: string;
     userName: string;
     timestamp: number;
+    imageUrl: string;
 };
 
 export interface UserRole {
