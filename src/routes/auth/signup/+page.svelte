@@ -3,7 +3,7 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "$lib/firebase";
+    import { auth, createUserWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/googleAuth";
 
@@ -14,13 +14,26 @@
     let password = "";
     let confirmPassword = "";
 
-    const signup = async () => {
-        if (password !== confirmPassword) {
-            alert("Passwords do not match.");
-            return;
-        }
+    const signup = async (email: string, password: string) => {
+        const db = getFirestore();
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (!userDocSnap.exists()) {
+                    await setDoc(
+                        userDocRef,
+                        {
+                            name: user.displayName,
+                            group: "default",
+                            isAdmin: false,
+                        },
+                        { merge: true },
+                    );
+                }
+            }
             window.location.href = routes.HOME;
         } catch (error) {
             console.error(error);
@@ -37,10 +50,6 @@
         <Card.Content>
             <form>
                 <div class="grid w-full items-center gap-4">
-                    <div class="flex flex-col space-y-1.5">
-                        <Label for="name">Name</Label>
-                        <Input bind:value="{name}" id="name" placeholder="Your name" />
-                    </div>
                     <div class="flex flex-col space-y-1.5">
                         <Label for="email">Email</Label>
                         <Input bind:value="{email}" id="email" placeholder="Your email" />

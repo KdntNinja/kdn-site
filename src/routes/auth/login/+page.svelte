@@ -3,7 +3,7 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "$lib/firebase";
+    import { auth, signInWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/googleAuth";
 
@@ -12,9 +12,30 @@
     let email = "";
     let password = "";
 
-    const login = async () => {
+    const login = async (email: string, password: string) => {
+        if (!email || !password) {
+            alert("Please enter your email and password.");
+            return;
+        }
+        const db = getFirestore();
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (!userDocSnap.exists()) {
+                    await setDoc(
+                        userDocRef,
+                        {
+                            name: user.displayName,
+                            group: "default",
+                            isAdmin: false,
+                        },
+                        { merge: true },
+                    );
+                }
+            }
             window.location.href = routes.HOME;
         } catch (error) {
             console.error(error);
@@ -44,7 +65,7 @@
         </Card.Content>
         <Card.Footer class="flex justify-between">
             <div class="flex justify-center">
-                <Button on:click="{login}">Login</Button>
+                <Button on:click="{(e) => {e.preventDefault(); login(email, password);}}">Login</Button>
                 <button on:click="{continueWithGoogle}" class="ml-4">
                     <img src="{googleIcon}" alt="Google logo" />
                 </button>
