@@ -97,7 +97,9 @@
                                 <p>{post.content}</p>
                             </div>
                             <div class="post-image">
-                                <img src="{post.imageUrl}" alt="{post.title}" />
+                                {#if post.imageUrl}
+                                    <img src="{post.imageUrl}" alt="NoImage" />
+                                {/if}
                             </div>
                             <div class="post-timestamp">
                                 <Separator orientation="horizontal" />

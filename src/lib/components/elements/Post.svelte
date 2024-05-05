@@ -50,7 +50,6 @@
                     uploadTask.on(
                         "state_changed",
                         () => {
-                            // You can use this section to display the upload progress
                         },
                         (error) => {
                             console.error("Upload failed", error);
