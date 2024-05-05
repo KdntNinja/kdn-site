@@ -21,13 +21,5 @@
 
 <main>
     <Post />
-    <div class="spacer">
-        <ShowPosts />
-    </div>
+    <ShowPosts />
 </main>
-
-<style>
-    .spacer {
-        margin-top: 50px;
-    }
-</style>
