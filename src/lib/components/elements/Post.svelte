@@ -1,10 +1,17 @@
 <script lang="ts">
+    import { Label } from "$lib/components/ui/label/index.js";
+    import { Switch } from "$lib/components/ui/switch/index.js";
     import { Badge } from "$lib/components/ui/badge/index.js";
     import { Separator } from "$lib/components/ui/separator/index.js";
     import type { PostModel } from "$lib/models";
-
+    import EditPost from "./EditPost.svelte";
+    import { getAuth } from "firebase/auth";
 
     export let post: PostModel;
+    let isEditing = false;
+
+    const auth = getAuth();
+    const currentUserId = auth.currentUser?.uid;
 </script>
 
 <div class="post-card">
@@ -31,8 +38,19 @@
             <Separator orientation="horizontal" />
             <p>{new Date(post.timestamp).toLocaleString()}</p>
         </div>
+        <div class="flex items-center space-x-2 edit-button">
+            {#if post.userId === currentUserId}
+                <Switch id="edit-mode" bind:checked="{isEditing}" />
+                <Label for="edit-mode">Edit Mode</Label>
+            {/if}
+        </div>
     </div>
 </div>
+
+{#if isEditing && post.userId === currentUserId}
+    <EditPost postId={post.id} on:close="{() => isEditing = false}" />
+{/if}
+
 
 <style>
     .post-card {
@@ -49,6 +67,9 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
+    }
+    .edit-button {
+        justify-content: right;
     }
 
     @media (max-width: 768px) {
