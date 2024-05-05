@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
+    import { Separator } from "$lib/components/ui/separator/index";
     import { Badge } from "$lib/components/ui/badge/index.js";
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box/index.js";
     import { onMount, onDestroy } from "svelte";
@@ -99,6 +100,9 @@
                                 <p>{post.content}</p>
                             </div>
                             <div class="post-timestamp">
+                                <Separator orientation="horizontal"/>
+                                <Separator orientation="horizontal"/>
+                                <Separator orientation="horizontal"/>
                                 <p>{new Date(post.timestamp).toLocaleString()}</p>
                             </div>
                         </div>
