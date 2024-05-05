@@ -2,7 +2,6 @@ export interface User {
     uid: string;
     displayName: string;
     email: string;
-    group: "default" | "family";
 }
 
 export type Post = {
@@ -12,5 +11,9 @@ export type Post = {
     userId: string;
     userName: string;
     timestamp: number;
-    group: "default" | "family";
 };
+
+export interface UserRole {
+    role: "default" | "family";
+    isAdmin: boolean;
+}

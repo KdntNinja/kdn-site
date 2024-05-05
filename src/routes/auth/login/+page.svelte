@@ -3,9 +3,8 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, signInWithEmailAndPassword } from "$lib/firebase";
-    import googleIcon from "$lib/components/ui/Google.svg";
-
+    import { auth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "$lib/firebase";
+    import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/googleAuth";
 
     import { routes } from "$lib/routes";

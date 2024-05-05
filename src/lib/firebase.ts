@@ -1,6 +1,18 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, QueryDocumentSnapshot } from "firebase/firestore";
-import { query, orderBy, limit, startAfter, collection, getDocs } from "firebase/firestore";
+import {
+    query,
+    orderBy,
+    limit,
+    startAfter,
+    collection,
+    getDocs,
+    getFirestore,
+    QueryDocumentSnapshot,
+    doc,
+    setDoc,
+    updateDoc,
+    getDoc,
+} from "firebase/firestore";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -40,4 +52,9 @@ export {
     onAuthStateChanged,
     collection,
     getDocs,
+    getFirestore,
+    doc,
+    setDoc,
+    updateDoc,
+    getDoc
 };
