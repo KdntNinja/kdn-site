@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Drawer from "$lib/components/ui/drawer/index.js";
+    import { v4 as uuidv4 } from "uuid";
     import { toast } from "svelte-sonner";
     import { addDoc, collection, doc, getDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
@@ -41,23 +42,24 @@
             let imageUrl = "";
             if (file) {
                 const storage = getStorage();
-                const storageRef = ref(storage, `${userId}/posts/${file.name}`);
+                const uniqueId = uuidv4();
+                const storageRef = ref(storage, `${userId}/posts/${uniqueId}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
 
                 await new Promise((resolve, reject) => {
-                    uploadTask.on('state_changed',
-                        (snapshot) => {
+                    uploadTask.on(
+                        "state_changed",
+                        () => {
                             // You can use this section to display the upload progress
                         },
                         (error) => {
-                            // Handle unsuccessful uploads
                             console.error("Upload failed", error);
                             reject(error);
                         },
                         async () => {
                             imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
                             resolve(null);
-                        }
+                        },
                     );
                 });
             }

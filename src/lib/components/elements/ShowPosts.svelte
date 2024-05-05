@@ -109,7 +109,7 @@
     .svelte-scroll-area {
         justify-content: center;
         align-items: center;
-        width: 40%;
+        width: 35%;
         height: 94vh;
         margin: auto;
     }
@@ -142,8 +142,8 @@
 
     @media (max-width: 768px) {
         .svelte-scroll-area {
-            margin-top: 20px;
-            width: 100%;
+            margin-top: 30px;
+            width: 90%;
         }
         .post-card {
             padding: 10px;
