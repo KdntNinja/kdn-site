@@ -15,6 +15,5 @@ export type PostModel = {
 };
 
 export interface UserRole {
-
     isAdmin: boolean;
 }
