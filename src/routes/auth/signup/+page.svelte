@@ -5,19 +5,14 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import { auth, createUserWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
-    import { continueWithGoogle, handleRedirectResult } from "$lib/continueWithGoogle";
+    import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
-    import { onMount } from "svelte";
 
     let name = "";
     let email = "";
     let password = "";
-    let confirmPassword = "";
-
-    onMount(async () => {
-        await handleRedirectResult();
-    });
+    let confirmPassword = "";zz
 
     const signup = async (email: string, password: string) => {
         const db = getFirestore();

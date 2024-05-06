@@ -15,12 +15,12 @@ import {
 } from "firebase/firestore";
 import {
     createUserWithEmailAndPassword,
+    getAuth,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
     onAuthStateChanged,
-    getAuth,
 } from "firebase/auth";
 
 const firebaseConfig = {

@@ -1,21 +1,18 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
+    import { Checkbox } from "$lib/components/ui/checkbox/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import { auth, signInWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
-    import { continueWithGoogle, handleRedirectResult } from "$lib/continueWithGoogle";
+    import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
-    import { onMount } from "svelte";
 
     let email = "";
     let password = "";
-
-    onMount(async () => {
-        await handleRedirectResult();
-    });
+    let rememberMe = false;
 
     const login = async (email: string, password: string) => {
         if (!email || !password) {
