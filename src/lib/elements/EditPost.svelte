@@ -7,7 +7,8 @@
     import { v4 as uuidv4 } from "uuid";
     import { Button } from "$lib/components/ui/button";
     import { createEventDispatcher } from "svelte";
-    import { getAuth, signOut } from "firebase/auth";
+    import { getAuth } from "firebase/auth";
+
     const dispatch = createEventDispatcher();
 
     export let postId: string;
@@ -16,12 +17,23 @@
     let successMessage: string | null = null;
 
     onMount(async () => {
-        if (postId) {
-            const postDoc = await getDoc(doc(firestore, "posts", postId));
-            post = postDoc.data() as PostModel;
-        } else {
-            console.error("postId is null");
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        let userId = user ? user.uid : null;
+
+        if (!userId) {
+            throw new Error("User not authenticated");
         }
+        const userDocRef = doc(firestore, "users", userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+
+        if (!userData || !userData.group) {
+            throw new Error("User data is invalid");
+        }
+
+        const postDoc = await getDoc(doc(firestore, "groups", userData.group, "posts", postId));
+        post = postDoc.data() as PostModel;
     });
 
     const onFileChange = (event: Event) => {
@@ -49,33 +61,7 @@
         }
     };
 
-    const editPost = async () => {
-        const authInstance = getAuth();
-        const user = authInstance.currentUser;
-        let userId = user ? user.uid : null;
-
-        if (!user) {
-            console.error("User not authenticated");
-            await signOut(authInstance);
-            return;
-        }
-
-        let userDocRef;
-        if (userId) {
-            userDocRef = doc(firestore, "users", userId);
-        } else {
-            console.error("userId is null");
-            return;
-        }
-
-        const userDoc = await getDoc(userDocRef);
-        const userData = userDoc.data();
-
-        if (!userData || !userData.group) {
-            console.error("User data is invalid");
-            return;
-        }
-
+    const updatePost = async () => {
         if (post) {
             let imageUrl = post.imageUrl;
             if (file) {
@@ -87,7 +73,8 @@
                 await new Promise((resolve, reject) => {
                     uploadTask.on(
                         "state_changed",
-                        () => {},
+                        () => {
+                        },
                         (error) => {
                             console.error("Upload failed", error);
                             reject(error);
@@ -98,16 +85,31 @@
                         },
                     );
                 });
+
+                const authInstance = getAuth();
+                const user = authInstance.currentUser;
+                let userId = user ? user.uid : null;
+
+                if (!userId) {
+                    throw new Error("User not authenticated");
+                }
+                const userDocRef = doc(firestore, "users", userId);
+                const userDoc = await getDoc(userDocRef);
+                const userData = userDoc.data();
+
+                if (!userData || !userData.group) {
+                    throw new Error("User data is invalid");
+                }
+
+                await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {
+                    title: post.title,
+                    content: post.content,
+                    imageUrl,
+                });
+
+                successMessage = "Post updated successfully!";
+                dispatch("postUpdated");
             }
-
-            await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {
-                title: post.title,
-                content: post.content,
-                imageUrl,
-            });
-
-            successMessage = "Post updated successfully!";
-            dispatch("postUpdated");
         }
     };
 </script>
@@ -115,7 +117,7 @@
 <div class="edit-post">
     <h2>Edit Post</h2>
     {#if post}
-        <form on:submit|preventDefault="{editPost}">
+        <form on:submit|preventDefault="{updatePost}">
             <label for="title">Title</label>
             <input id="title" bind:value="{post.title}" required />
 

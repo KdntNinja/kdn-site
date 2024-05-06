@@ -114,28 +114,11 @@
         height: 94vh;
         margin: auto;
     }
-    .post-title h2 {
-        font-size: 1.6em;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #fff;
-    }
-    .post-content p {
-        line-height: 1.5;
-        color: #fff;
-        margin-bottom: 10px;
-    }
 
     @media (max-width: 768px) {
         .svelte-scroll-area {
             margin-top: 30px;
             width: 100%;
-        }
-        .post-title h2 {
-            font-size: 1.3em;
-        }
-        .post-content p {
-            font-size: 0.9em;
         }
     }
 </style>
