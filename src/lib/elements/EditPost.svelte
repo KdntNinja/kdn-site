@@ -155,6 +155,9 @@
         margin-bottom: 5px;
         color: dodgerblue;
     }
+    .edit-post input textarea {
+        color: blue;
+    }
     .edit-post textarea {
         width: 100%;
         padding: 10px;
