@@ -148,13 +148,11 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        color: dodgerblue;
     }
     .edit-post label {
         display: block;
         margin-bottom: 5px;
-        color: #fff;
-    }
-    .edit-post input textarea {
         color: dodgerblue;
     }
     .edit-post textarea {
