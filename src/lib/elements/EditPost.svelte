@@ -148,14 +148,12 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        color: dodgerblue;
     }
     .edit-post label {
         display: block;
         margin-bottom: 5px;
-        color: dodgerblue;
     }
-    .edit-post input textarea {
+    .edit-post input {
         color: blue;
     }
     .edit-post textarea {
@@ -164,6 +162,7 @@
         margin-bottom: 10px;
         border-radius: 5px;
         border: none;
+        color: blue;
     }
     .current-image {
         display: block;
