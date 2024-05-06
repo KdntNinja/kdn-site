@@ -85,31 +85,31 @@
                         },
                     );
                 });
-
-                const authInstance = getAuth();
-                const user = authInstance.currentUser;
-                let userId = user ? user.uid : null;
-
-                if (!userId) {
-                    throw new Error("User not authenticated");
-                }
-                const userDocRef = doc(firestore, "users", userId);
-                const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data();
-
-                if (!userData || !userData.group) {
-                    throw new Error("User data is invalid");
-                }
-
-                await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {
-                    title: post.title,
-                    content: post.content,
-                    imageUrl,
-                });
-
-                successMessage = "Post updated successfully!";
-                dispatch("postUpdated");
             }
+
+            const authInstance = getAuth();
+            const user = authInstance.currentUser;
+            let userId = user ? user.uid : null;
+
+            if (!userId) {
+                throw new Error("User not authenticated");
+            }
+            const userDocRef = doc(firestore, "users", userId);
+            const userDoc = await getDoc(userDocRef);
+            const userData = userDoc.data();
+
+            if (!userData || !userData.group) {
+                throw new Error("User data is invalid");
+            }
+
+            await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {
+                title: post.title,
+                content: post.content,
+                imageUrl,
+            });
+
+            successMessage = "Post updated successfully!";
+            dispatch("postUpdated");
         }
     };
 </script>
