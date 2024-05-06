@@ -60,5 +60,5 @@ export {
     updateDoc,
     getDoc,
     setPersistence,
-    browserSessionPersistence
+    browserSessionPersistence,
 };
