@@ -69,6 +69,14 @@
             return;
         }
 
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+
+        if (!userData || !userData.group) {
+            console.error("User data is invalid");
+            return;
+        }
+
         if (post) {
             let imageUrl = post.imageUrl;
             if (file) {
