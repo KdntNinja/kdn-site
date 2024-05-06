@@ -117,10 +117,10 @@
     <h2>Edit Post</h2>
     {#if post}
         <form on:submit|preventDefault="{updatePost}">
-            <label for="title">Title</label>
+            <label for="title shadow">Title</label>
             <input id="title" bind:value="{post.title}" required />
 
-            <label for="content">Content</label>
+            <label for="content shadow">Content</label>
             <textarea id="content" bind:value="{post.content}" required></textarea>
 
             <label for="image">Image</label>
@@ -141,6 +141,9 @@
 </div>
 
 <style>
+    .shadow {
+        text-shadow: 1px 1px 2px var(--text-shadow-color);
+    }
     .edit-post {
         width: 90%;
         margin: 20px auto;
@@ -148,7 +151,6 @@
         color: var(--text-color);
         padding: 20px;
         border-radius: 10px;
-        text-shadow: 1px 1px 2px var(--text-shadow-color);
     }
     .edit-post label {
         display: block;
