@@ -50,12 +50,17 @@
                 userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
             }
             let userId = user ? user.uid : null;
+
             if (!userId) {
                 throw new Error("User not authenticated");
             }
             const userDocRef = doc(firestore, "users", userId);
             const userDoc = await getDoc(userDocRef);
             const userData = userDoc.data();
+
+            if (!userData || !userData.group) {
+                throw new Error("User data is invalid");
+            }
 
             let imageUrl = "";
             if (file) {
@@ -80,7 +85,7 @@
                 });
             }
 
-            await addDoc(collection(firestore, "groups", user.group, "posts"), {
+            await addDoc(collection(firestore, "groups", userData.group, "posts"), {
                 title,
                 content,
                 userId,

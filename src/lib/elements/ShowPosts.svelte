@@ -4,7 +4,7 @@
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box";
     import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+    import { collection, onSnapshot, query, orderBy, getDoc, doc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
     import type { PostModel } from "$lib/models";
@@ -16,9 +16,28 @@
     let initialLoad: boolean = true;
     let unsubscribe: (() => void) | null = null;
 
-    const fetchPosts = () => {
-        const postCollection = collection(firestore, "posts");
-        unsubscribe = onSnapshot(
+    const fetchPosts = async () => {
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        let userName = "";
+        if (user) {
+            userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
+        }
+        let userId = user ? user.uid : null;
+        if (!userId) {
+            throw new Error("User not authenticated");
+        }
+        const userDocRef = doc(firestore, "users", userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+
+        if (!userData || !userData.group) {
+            throw new Error("User data is invalid");
+        }
+
+        if (user) {
+            const postCollection = collection(firestore, "groups", userData.group, "posts");
+            unsubscribe = onSnapshot(
             query(postCollection, orderBy("timestamp", "desc")),
             (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
@@ -51,6 +70,10 @@
                 error = err.message;
             },
         );
+        } else {
+            window.location.href = routes.LOGIN;
+        }
+
     };
 
     onMount(() => {

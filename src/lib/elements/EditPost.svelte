@@ -7,6 +7,7 @@
     import { v4 as uuidv4 } from "uuid";
     import { Button } from "$lib/components/ui/button";
     import { createEventDispatcher } from "svelte";
+    import { getAuth } from "firebase/auth";
     const dispatch = createEventDispatcher();
 
     export let postId: string;
@@ -44,7 +45,22 @@
         }
     };
 
-    const updatePost = async () => {
+    const editPost = async () => {
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        let userId = user ? user.uid : null;
+
+        if (!userId) {
+            throw new Error("User not authenticated");
+        }
+        const userDocRef = doc(firestore, "users", userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+
+        if (!userData || !userData.group) {
+            throw new Error("User data is invalid");
+        }
+
         if (post) {
             let imageUrl = post.imageUrl;
             if (file) {
@@ -69,7 +85,7 @@
                 });
             }
 
-            await updateDoc(doc(firestore, "posts", postId), {
+            await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {
                 title: post.title,
                 content: post.content,
                 imageUrl,
@@ -84,7 +100,7 @@
 <div class="edit-post">
     <h2>Edit Post</h2>
     {#if post}
-        <form on:submit|preventDefault="{updatePost}">
+        <form on:submit|preventDefault="{editPost}">
             <label for="title">Title</label>
             <input id="title" bind:value="{post.title}" required />
 
