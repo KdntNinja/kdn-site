@@ -145,6 +145,7 @@
         width: 90%;
         margin: 20px auto;
         background-color: #222;
+        color: #fff;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -152,17 +153,18 @@
     .edit-post label {
         display: block;
         margin-bottom: 5px;
+        color: #fff;
     }
     .edit-post input {
-        color: blue;
+        color: mediumblue;
     }
     .edit-post textarea {
+        color: mediumblue;
         width: 100%;
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 5px;
         border: none;
-        color: blue;
     }
     .current-image {
         display: block;
