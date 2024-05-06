@@ -195,8 +195,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: var(--background-color);
-        color: var(--text-color);
     }
     .center-button {
         display: block;

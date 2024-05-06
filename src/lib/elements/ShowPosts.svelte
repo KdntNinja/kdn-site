@@ -113,8 +113,6 @@
         width: 35%;
         height: 94vh;
         margin: auto;
-        background-color: var(--background-color);
-        color: var(--text-color);
     }
 
     @media (max-width: 768px) {
