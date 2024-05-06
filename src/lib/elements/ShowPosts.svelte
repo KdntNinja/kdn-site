@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card";
-    import Post from "$lib/elements/Post.svelte";
+    import Post from "$lib/elements/PostUI.svelte";
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box";
     import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";

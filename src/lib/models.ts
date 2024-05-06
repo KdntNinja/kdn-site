@@ -2,6 +2,7 @@ export interface User {
     uid: string;
     displayName: string;
     email: string;
+    group: string;
 }
 
 export type PostModel = {
@@ -15,5 +16,6 @@ export type PostModel = {
 };
 
 export interface UserRole {
+    group: string;
     isAdmin: boolean;
 }

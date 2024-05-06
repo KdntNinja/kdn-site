@@ -80,7 +80,7 @@
                 });
             }
 
-            await addDoc(collection(firestore, "posts"), {
+            await addDoc(collection(firestore, "groups", user.group, "posts"), {
                 title,
                 content,
                 userId,
