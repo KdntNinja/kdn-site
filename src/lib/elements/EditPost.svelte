@@ -148,14 +148,15 @@
         color: var(--text-color);
         padding: 20px;
         border-radius: 10px;
-        --box-color: 1px 1px 2px var(--text-shadow-color);
     }
     .edit-post label {
         display: block;
         margin-bottom: 5px;
         color: var(--text-color);
     }
-    .edit-post input,
+    .edit-post input {
+        box-shadow: 0 0 10px var(--box-shadow-color);
+    }
     .edit-post textarea {
         width: 100%;
         padding: 10px;
