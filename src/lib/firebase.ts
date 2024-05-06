@@ -20,7 +20,7 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged,
-    getAuth
+    getAuth,
 } from "firebase/auth";
 
 const firebaseConfig = {

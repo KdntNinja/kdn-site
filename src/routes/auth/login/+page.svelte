@@ -5,12 +5,17 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import { auth, signInWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
-    import { continueWithGoogle } from "$lib/continueWithGoogle";
+    import { continueWithGoogle, handleRedirectResult } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
+    import { onMount } from "svelte";
 
     let email = "";
     let password = "";
+
+    onMount(async () => {
+        await handleRedirectResult();
+    });
 
     const login = async (email: string, password: string) => {
         if (!email || !password) {
