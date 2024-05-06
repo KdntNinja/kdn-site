@@ -21,6 +21,8 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged,
+    setPersistence,
+    browserSessionPersistence,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -57,4 +59,6 @@ export {
     setDoc,
     updateDoc,
     getDoc,
+    setPersistence,
+    browserSessionPersistence
 };

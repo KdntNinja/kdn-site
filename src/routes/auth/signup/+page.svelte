@@ -8,6 +8,7 @@
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
+    import { browserSessionPersistence, setPersistence } from "firebase/auth";
 
     let email = "";
     let password = "";
@@ -16,6 +17,7 @@
     const signup = async (email: string, password: string) => {
         const db = getFirestore();
         try {
+            await setPersistence(auth, browserSessionPersistence);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             if (user) {

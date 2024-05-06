@@ -4,7 +4,16 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { auth, signInWithEmailAndPassword, getFirestore, doc, getDoc, setDoc } from "$lib/firebase";
+    import {
+        auth,
+        signInWithEmailAndPassword,
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc,
+        setPersistence,
+        browserSessionPersistence,
+    } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
@@ -21,6 +30,7 @@
         }
         const db = getFirestore();
         try {
+            await setPersistence(auth, browserSessionPersistence);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             if (user) {
