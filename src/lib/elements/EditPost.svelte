@@ -145,7 +145,6 @@
         width: 90%;
         margin: 20px auto;
         background-color: #222;
-        color: lawngreen;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -153,9 +152,11 @@
     .edit-post label {
         display: block;
         margin-bottom: 5px;
-        color: lawngreen;
+        color: #fff;
     }
-    .edit-post input,
+    .edit-post input {
+        color: dodgerblue;
+    }
     .edit-post textarea {
         width: 100%;
         padding: 10px;
