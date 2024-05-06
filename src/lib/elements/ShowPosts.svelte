@@ -19,10 +19,6 @@
     const fetchPosts = async () => {
         const authInstance = getAuth();
         const user = authInstance.currentUser;
-        let userName = "";
-        if (user) {
-            userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
-        }
         let userId = user ? user.uid : null;
         if (!userId) {
             throw new Error("User not authenticated");
@@ -48,7 +44,6 @@
                         content: data.content,
                         userId: data.userId,
                         userName: data.userName,
-
                         timestamp: data.timestamp,
                         imageUrl: data.imageUrl,
                     } as PostModel;
