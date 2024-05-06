@@ -6,7 +6,7 @@ export const continueWithGoogle = async () => {
     try {
         await setPersistence(auth, browserLocalPersistence);
     } catch (error) {
-        console.error("Failed to set persistence:",  error);
+        console.error("Failed to set persistence:", error);
     }
 
     const provider = new GoogleAuthProvider();

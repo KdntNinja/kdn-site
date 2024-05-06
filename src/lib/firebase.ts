@@ -20,9 +20,7 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged,
-    getAuth,
-    browserLocalPersistence,
-    setPersistence,
+    getAuth
 } from "firebase/auth";
 
 const firebaseConfig = {
