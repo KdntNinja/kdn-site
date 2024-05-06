@@ -73,8 +73,7 @@
                 await new Promise((resolve, reject) => {
                     uploadTask.on(
                         "state_changed",
-                        () => {
-                        },
+                        () => {},
                         (error) => {
                             console.error("Upload failed", error);
                             reject(error);
