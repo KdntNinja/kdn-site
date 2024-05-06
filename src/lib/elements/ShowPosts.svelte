@@ -34,41 +34,40 @@
         if (user) {
             const postCollection = collection(firestore, "groups", userData.group, "posts");
             unsubscribe = onSnapshot(
-            query(postCollection, orderBy("timestamp", "desc")),
-            (snapshot) => {
-                snapshot.docChanges().forEach((change) => {
-                    const data = change.doc.data();
-                    const post = {
-                        id: change.doc.id,
-                        title: data.title,
-                        content: data.content,
-                        userId: data.userId,
-                        userName: data.userName,
-                        timestamp: data.timestamp,
-                        imageUrl: data.imageUrl,
-                    } as PostModel;
+                query(postCollection, orderBy("timestamp", "desc")),
+                (snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        const data = change.doc.data();
+                        const post = {
+                            id: change.doc.id,
+                            title: data.title,
+                            content: data.content,
+                            userId: data.userId,
+                            userName: data.userName,
+                            timestamp: data.timestamp,
+                            imageUrl: data.imageUrl,
+                        } as PostModel;
 
-                    if (change.type === "added") {
-                        posts = [post, ...posts];
-                    } else if (change.type === "modified") {
-                        const index = posts.findIndex((p) => p.id === post.id);
-                        if (index !== -1) {
-                            posts[index] = post;
+                        if (change.type === "added") {
+                            posts = [post, ...posts];
+                        } else if (change.type === "modified") {
+                            const index = posts.findIndex((p) => p.id === post.id);
+                            if (index !== -1) {
+                                posts[index] = post;
+                            }
+                        } else if (change.type === "removed") {
+                            posts = posts.filter((p) => p.id !== post.id);
                         }
-                    } else if (change.type === "removed") {
-                        posts = posts.filter((p) => p.id !== post.id);
-                    }
-                    posts.sort((a, b) => b.timestamp - a.timestamp);
-                });
-            },
-            (err) => {
-                error = err.message;
-            },
-        );
+                        posts.sort((a, b) => b.timestamp - a.timestamp);
+                    });
+                },
+                (err) => {
+                    error = err.message;
+                },
+            );
         } else {
             window.location.href = routes.LOGIN;
         }
-
     };
 
     onMount(() => {

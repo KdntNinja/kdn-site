@@ -7,7 +7,7 @@
     import { v4 as uuidv4 } from "uuid";
     import { Button } from "$lib/components/ui/button";
     import { createEventDispatcher } from "svelte";
-    import { getAuth } from "firebase/auth";
+    import { getAuth, signOut } from "firebase/auth";
     const dispatch = createEventDispatcher();
 
     export let postId: string;
@@ -16,9 +16,14 @@
     let successMessage: string | null = null;
 
     onMount(async () => {
-        const postDoc = await getDoc(doc(firestore, "posts", postId));
-        post = postDoc.data() as PostModel;
+        if (postId) {
+            const postDoc = await getDoc(doc(firestore, "posts", postId));
+            post = postDoc.data() as PostModel;
+        } else {
+            console.error("postId is null");
+        }
     });
+
 
     const onFileChange = (event: Event) => {
         const input = event.target as HTMLInputElement;
@@ -50,15 +55,18 @@
         const user = authInstance.currentUser;
         let userId = user ? user.uid : null;
 
-        if (!userId) {
-            throw new Error("User not authenticated");
+        if (!user) {
+            console.error("User not authenticated");
+            await signOut(authInstance);
+            return;
         }
-        const userDocRef = doc(firestore, "users", userId);
-        const userDoc = await getDoc(userDocRef);
-        const userData = userDoc.data();
 
-        if (!userData || !userData.group) {
-            throw new Error("User data is invalid");
+        let userDocRef;
+        if (userId) {
+            userDocRef = doc(firestore, "users", userId);
+        } else {
+            console.error("userId is null");
+            return;
         }
 
         if (post) {
