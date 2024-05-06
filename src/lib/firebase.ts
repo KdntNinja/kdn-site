@@ -22,7 +22,7 @@ import {
     onAuthStateChanged,
     getAuth,
     browserLocalPersistence,
-    setPersistence
+    setPersistence,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -39,14 +39,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const firestore = getFirestore();
-
-(async () => {
-    try {
-        await setPersistence(auth, browserLocalPersistence);
-    } catch (error) {
-        console.error("Failed to set persistence:", error);
-    }
-})();
 
 export {
     signInWithEmailAndPassword,

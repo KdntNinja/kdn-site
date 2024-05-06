@@ -155,7 +155,8 @@
         margin-bottom: 5px;
         color: #fff;
     }
-    .edit-post textarea, .edit-post input {
+    .edit-post textarea,
+    .edit-post input {
         color: forestgreen;
         width: 100%;
         padding: 10px;
