@@ -9,10 +9,9 @@
 
     import { routes } from "$lib/routes";
 
-    let name = "";
     let email = "";
     let password = "";
-    let confirmPassword = "";zz
+    let confirmPassword = "";
 
     const signup = async (email: string, password: string) => {
         const db = getFirestore();
