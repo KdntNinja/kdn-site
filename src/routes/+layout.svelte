@@ -9,7 +9,7 @@
     inject();
     injectSpeedInsights();
 
-    if ("serviceWorker" in navigator) {
+    if (!import.meta.env.SSR && "serviceWorker" in navigator) {
         window.addEventListener("load", function () {
             navigator.serviceWorker.register("/service-worker.js");
         });
