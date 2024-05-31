@@ -8,6 +8,12 @@
 
     inject();
     injectSpeedInsights();
+
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+            navigator.serviceWorker.register("/service-worker.js");
+        });
+    }
 </script>
 
 <slot></slot>
