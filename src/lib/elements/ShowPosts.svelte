@@ -38,7 +38,12 @@
             let postQuery = query(postCollection, orderBy("timestamp", "desc"), limit(batchSize));
 
             if (lastVisible) {
-                postQuery = query(postCollection, orderBy("timestamp", "desc"), startAfter(lastVisible), limit(batchSize));
+                postQuery = query(
+                    postCollection,
+                    orderBy("timestamp", "desc"),
+                    startAfter(lastVisible),
+                    limit(batchSize),
+                );
             }
 
             unsubscribe = onSnapshot(
