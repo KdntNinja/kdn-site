@@ -66,7 +66,7 @@
     <div class="top-spacer">
         {#if isAdmin}
             <div class="top-spacer justify-center">
-                <Button on:click="{swapGroup}" class="swap-group-button">
+                <Button on:click="{swapGroup}" class="swap-group-button justify-left">
                     <span>{selectedGroup === "family" ? "family" : "default"}</span>
                 </Button>
                 <Button on:click="{clearPosts}" class="clear-posts-button">Clear Posts</Button>

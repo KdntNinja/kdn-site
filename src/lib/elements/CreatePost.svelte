@@ -204,6 +204,7 @@
 
     @media (max-width: 768px) {
         .post-button {
+            justify-content: right;
             right: 10%;
             width: 80%;
             height: 50px;
