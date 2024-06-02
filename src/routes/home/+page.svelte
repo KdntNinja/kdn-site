@@ -7,6 +7,7 @@
     import { onMount } from "svelte";
     import { collection, doc, getDocs, query, updateDoc, deleteDoc } from "firebase/firestore";
     import { firestore, getDoc } from "$lib/firebase";
+    import { Label } from "$lib/components/ui/label";
 
     let auth;
     let isAdmin: boolean = false;
@@ -71,6 +72,8 @@
                 </Button>
                 <Button on:click="{clearPosts}" class="clear-posts-button">Clear Posts</Button>
             </div>
+        {:else}
+            <Button>{selectedGroup}</Button>
         {/if}
         <ShowPosts />
     </div>
