@@ -198,21 +198,11 @@
 </div>
 
 <style>
-    .post-button {
-        position: absolute;
-        top: 0;
-        left: auto;
-        right: 25%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     .center-button {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
-
     @media (max-width: 768px) {
         .post-button {
             justify-content: right;
