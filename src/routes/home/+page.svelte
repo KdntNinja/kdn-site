@@ -81,8 +81,8 @@
         margin-top: 20px;
     }
 
-    .swap-group-button,
-    .clear-posts-button {
+    :global(.swap-group-button),
+    :global(.clear-posts-button) {
         font-size: 16px;
         padding: 12px 20px;
         border-radius: 16px;
@@ -93,8 +93,8 @@
             margin-top: 30px;
         }
 
-        .swap-group-button,
-        .clear-posts-button {
+        :global(.swap-group-button),
+        :global(.clear-posts-button) {
             font-size: 18px;
             padding: 14px 24px;
             border-radius: 18px;
