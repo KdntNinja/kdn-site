@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { Label } from "$lib/components/ui/label";
     import { Switch } from "$lib/components/ui/switch";
     import { Badge } from "$lib/components/ui/badge";
@@ -6,6 +7,7 @@
     import type { PostModel } from "$lib/models";
     import EditPost from "./EditPost.svelte";
     import { getAuth } from "firebase/auth";
+    import { Button } from "$lib/components/ui/button";
 
     export let post: PostModel;
     let isEditing = false;
@@ -73,6 +75,9 @@
     }
     .edit-button {
         justify-content: right;
+    }
+    .delete-button {
+        justify-content: left;
     }
 
     @media (max-width: 768px) {

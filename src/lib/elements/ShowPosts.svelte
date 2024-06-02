@@ -9,7 +9,6 @@
     import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
     import type { PostModel } from "$lib/models";
-    import { Button } from "$lib/components/ui/button";
 
     let auth: ReturnType<typeof getAuth>;
     let posts: PostModel[] = [];
@@ -18,9 +17,6 @@
     let initialLoad: boolean = true;
     let unsubscribe: (() => void) | null = null;
     let userId: string | null = null;
-    let isAdmin: boolean = false;
-    let selectedGroup: string = "default";
-    let groups: string[] = ["Family", "Default"];
 
     const fetchPosts = async () => {
         const authInstance = getAuth();
@@ -76,21 +72,6 @@
         }
     };
 
-    const changeGroup = async (newGroup: string) => {
-        if (!userId) {
-            throw new Error("User not authenticated");
-        }
-        const userDocRef = doc(firestore, "users", userId);
-        await updateDoc(userDocRef, {
-            group: newGroup,
-        });
-    };
-
-    const swapGroup = async () => {
-        selectedGroup = selectedGroup === "family" ? "default" : "family";
-        await changeGroup(selectedGroup);
-        location.reload();
-    };
 
     onMount(async () => {
         auth = getAuth();
@@ -98,13 +79,8 @@
             if (!user) {
                 window.location.href = routes.LOGIN;
             } else {
-                userId = user.uid;
-                const userDocRef = doc(firestore, "users", userId);
-                const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data();
-                isAdmin = userData?.isAdmin || false;
-                selectedGroup = userData?.group || "default";
                 await fetchPosts();
+                initialLoad = false;
             }
         });
     });
@@ -115,14 +91,6 @@
         }
     });
 </script>
-
-{#if isAdmin}
-    <div class="top-spacer justify-center">
-        <Button on:click="{swapGroup}" class="swap-group-button">
-            <span>{selectedGroup === "family" ? "family" : "default"}</span>
-        </Button>
-    </div>
-{/if}
 
 <div class="svelte-scroll-area">
     {#if initialLoad && isLoading}
@@ -149,16 +117,6 @@
         width: 35%;
         height: 94vh;
         margin: auto;
-    }
-    .top-spacer {
-        margin-top: 20px;
-        position: absolute;
-        top: 0;
-        left: 25%;
-        right: auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
     @media (max-width: 768px) {
         .swap-group-button {
