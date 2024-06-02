@@ -7,7 +7,6 @@
     import type { PostModel } from "$lib/models";
     import EditPost from "./EditPost.svelte";
     import { getAuth } from "firebase/auth";
-    import { Button } from "$lib/components/ui/button";
 
     export let post: PostModel;
     let isEditing = false;

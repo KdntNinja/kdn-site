@@ -1,13 +1,14 @@
 <script lang="ts">
+    import * as Dialog from "$lib/components/ui/dialog/index.js";
     import Post from "$lib/elements/CreatePost.svelte";
     import ShowPosts from "$lib/elements/ShowPosts.svelte";
     import { routes } from "$lib/routes";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { Button } from "$lib/components/ui/button";
+    import { Button, buttonVariants } from "$lib/components/ui/button";
     import { onMount } from "svelte";
     import { collection, doc, getDocs, query, updateDoc, deleteDoc } from "firebase/firestore";
     import { firestore, getDoc } from "$lib/firebase";
-    import { Label } from "$lib/components/ui/label";
+    import { toast } from "svelte-sonner";
 
     let auth;
     let isAdmin: boolean = false;
@@ -37,9 +38,12 @@
         const postCollection = collection(firestore, "groups", selectedGroup, "posts");
         const postQuery = query(postCollection);
         const snapshot = await getDocs(postQuery);
+        let deletedCount = 0;
         for (const doc1 of snapshot.docs) {
             await deleteDoc(doc1.ref);
+            deletedCount++;
         }
+        toast.success(`Successfully deleted ${deletedCount} post(s).`);
     };
 
     onMount(() => {
@@ -70,7 +74,26 @@
                 <Button on:click="{swapGroup}" class="swap-group-button justify-left">
                     <span>{selectedGroup === "family" ? "family" : "default"}</span>
                 </Button>
-                <Button on:click="{clearPosts}" class="clear-posts-button">Clear Posts</Button>
+                <Dialog.Root>
+                    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
+                        Delete Posts
+                    </Dialog.Trigger>
+                    <Dialog.Content class="sm:max-w-[425px]">
+                        <Dialog.Header>
+                            <Dialog.Title>Delete profile</Dialog.Title>
+                            <Dialog.Description>
+                                Are you sure you want to delete all posts? This action cannot be undone.
+                            </Dialog.Description>
+                        </Dialog.Header>
+                        <Dialog.Footer>
+                            <Dialog.Close asChild let:builder>
+                                <Button builders="{[builder]}" on:click="{clearPosts}" class="clear-posts-button">
+                                    Confirm Delete
+                                </Button>
+                            </Dialog.Close>
+                        </Dialog.Footer>
+                    </Dialog.Content>
+                </Dialog.Root>
             </div>
         {:else}
             <Button>{selectedGroup}</Button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import * as Drawer from "$lib/components/ui/drawer/index.js";
     import { v4 as uuidv4 } from "uuid";
     import { toast } from "svelte-sonner";
     import { addDoc, collection, doc, getDoc } from "firebase/firestore";
