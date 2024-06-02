@@ -42,7 +42,7 @@
                 try {
                     file = await imageCompression(uploadedFile, options);
                 } catch (error) {
-                    console.error('Error occurred while compressing the image.', error);
+                    console.error("Error occurred while compressing the image.", error);
                     file = null;
                 }
             } else {

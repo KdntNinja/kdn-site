@@ -75,9 +75,7 @@
                     <span>{selectedGroup === "family" ? "family" : "default"}</span>
                 </Button>
                 <Dialog.Root>
-                    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>
-                        Delete Posts
-                    </Dialog.Trigger>
+                    <Dialog.Trigger class="{buttonVariants({ variant: 'outline' })}">Delete Posts</Dialog.Trigger>
                     <Dialog.Content class="sm:max-w-[425px]">
                         <Dialog.Header>
                             <Dialog.Title>Delete profile</Dialog.Title>
