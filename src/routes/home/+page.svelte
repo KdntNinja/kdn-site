@@ -1,9 +1,7 @@
 <script lang="ts">
     import Post from "$lib/elements/CreatePost.svelte";
     import ShowPosts from "$lib/elements/ShowPosts.svelte";
-
     import { routes } from "$lib/routes";
-
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { Button } from "$lib/components/ui/button";
     import { onMount } from "svelte";
@@ -63,7 +61,6 @@
     });
 </script>
 
-
 <main>
     <Post />
     <div class="top-spacer">
@@ -72,9 +69,7 @@
                 <Button on:click="{swapGroup}" class="swap-group-button">
                     <span>{selectedGroup === "family" ? "family" : "default"}</span>
                 </Button>
-                <Button on:click="{clearPosts}" class="clear-posts-button">
-                    Clear Posts
-                </Button>
+                <Button on:click="{clearPosts}" class="clear-posts-button">Clear Posts</Button>
             </div>
         {/if}
         <ShowPosts />
@@ -86,7 +81,8 @@
         margin-top: 20px;
     }
 
-    .swap-group-button, .clear-posts-button {
+    .swap-group-button,
+    .clear-posts-button {
         font-size: 16px;
         padding: 12px 20px;
         border-radius: 16px;
@@ -97,7 +93,8 @@
             margin-top: 30px;
         }
 
-        .swap-group-button, .clear-posts-button {
+        .swap-group-button,
+        .clear-posts-button {
             font-size: 18px;
             padding: 14px 24px;
             border-radius: 18px;
