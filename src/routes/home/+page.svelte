@@ -83,7 +83,9 @@
 
     :global(.swap-group-button),
     :global(.clear-posts-button) {
-        display: none;
+        font-size: 18px;
+        padding: 14px 24px;
+        border-radius: 18px;
     }
 
     @media (max-width: 768px) {
@@ -93,9 +95,7 @@
 
         :global(.swap-group-button),
         :global(.clear-posts-button) {
-            font-size: 18px;
-            padding: 14px 24px;
-            border-radius: 18px;
+            display: none;
         }
     }
 </style>
