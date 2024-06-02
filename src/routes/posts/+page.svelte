@@ -85,7 +85,7 @@
                     <Sheet.Header>
                         <Sheet.Title class="chat-features-title">Chat Features</Sheet.Title>
                     </Sheet.Header>
-                    <Sheet.Content>
+                    <Sheet.Content class="sheet-content">
                         <div class="grid gap-4 py-4">
                             <div class="top-spacer">
                                 <div class="button-container">
@@ -167,10 +167,8 @@
         font-size: 24px;
         font-weight: bold;
     }
-
-    .warning-button {
-        background-color: red;
-        color: white;
+    .sheet-content {
+        padding: 20px;
     }
 
     .swap-group-button,
