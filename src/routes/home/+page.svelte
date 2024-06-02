@@ -96,7 +96,6 @@
             margin-top: 30px;
         }
 
-        :global(.swap-group-button),
         :global(.clear-posts-button) {
             display: none;
         }
