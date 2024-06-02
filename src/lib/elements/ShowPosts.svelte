@@ -118,7 +118,7 @@
 
 {#if isAdmin}
     <div class="top-spacer justify-center">
-        <Button on:click="{swapGroup}">
+        <Button on:click="{swapGroup}" class="swap-group-button">
             <span>{selectedGroup === "family" ? "family" : "default"}</span>
         </Button>
     </div>
@@ -161,6 +161,11 @@
         align-items: center;
     }
     @media (max-width: 768px) {
+        .swap-group-button {
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 12px;
+        }
         .svelte-scroll-area {
             margin-top: 30px;
             width: 100%;
