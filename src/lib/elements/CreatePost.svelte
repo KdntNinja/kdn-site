@@ -1,5 +1,4 @@
 <script lang="ts">
-    import * as Drawer from "$lib/components/ui/drawer";
     import { v4 as uuidv4 } from "uuid";
     import { toast } from "svelte-sonner";
     import { addDoc, collection, doc, getDoc } from "firebase/firestore";
@@ -9,14 +8,15 @@
     import Toaster from "$lib/components/ui/sonner/sonner.svelte";
     import { Label } from "$lib/components/ui/label";
     import { getAuth } from "firebase/auth";
-    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+    import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+    import imageCompression from "browser-image-compression";
 
     let title = "";
     let content = "";
     let errorMessage = "";
     let file: File | null = null;
 
-    const onFileChange = (event: Event) => {
+    const onFileChange = async (event: Event) => {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files[0]) {
             const uploadedFile = input.files[0];
@@ -33,7 +33,17 @@
             ];
 
             if (allowedFileTypes.includes(fileType)) {
-                file = uploadedFile;
+                const options = {
+                    maxSizeMB: 3,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                };
+                try {
+                    file = await imageCompression(uploadedFile, options);
+                } catch (error) {
+                    console.error('Error occurred while compressing the image.', error);
+                    file = null;
+                }
             } else {
                 console.error("Invalid file type. Please upload an image file.");
                 file = null;

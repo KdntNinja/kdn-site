@@ -8,6 +8,7 @@
     import { Button } from "$lib/components/ui/button";
     import { createEventDispatcher } from "svelte";
     import { getAuth } from "firebase/auth";
+    import imageCompression from "browser-image-compression";
 
     const dispatch = createEventDispatcher();
 
@@ -36,7 +37,7 @@
         post = postDoc.data() as PostModel;
     });
 
-    const onFileChange = (event: Event) => {
+    const onFileChange = async (event: Event) => {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files[0]) {
             const uploadedFile = input.files[0];
@@ -53,7 +54,17 @@
             ];
 
             if (allowedFileTypes.includes(fileType)) {
-                file = uploadedFile;
+                const options = {
+                    maxSizeMB: 3,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                };
+                try {
+                    file = await imageCompression(uploadedFile, options);
+                } catch (error) {
+                    console.error('Error occurred while compressing the image.', error);
+                    file = null;
+                }
             } else {
                 console.error("Invalid file type. Please upload an image file.");
                 file = null;
