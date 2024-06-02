@@ -70,7 +70,6 @@
         }
     };
 
-
     onMount(async () => {
         auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
