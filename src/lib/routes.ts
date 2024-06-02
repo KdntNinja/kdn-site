@@ -1,6 +1,6 @@
 export const routes = {
     INDEX: "/",
-    CHAT: "/chat",
+    POSTS: "/posts",
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
 };

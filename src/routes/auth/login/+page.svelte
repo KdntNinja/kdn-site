@@ -46,7 +46,7 @@
                     );
                 }
             }
-            window.location.href = routes.CHAT;
+            window.location.href = routes.POSTS;
         } catch (error) {
             console.error(error);
         }

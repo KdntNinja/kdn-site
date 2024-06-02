@@ -10,6 +10,7 @@
     import { collection, doc, getDocs, query, updateDoc, deleteDoc } from "firebase/firestore";
     import { firestore, getDoc } from "$lib/firebase";
     import { toast } from "svelte-sonner";
+    import { getStorage, ref, deleteObject } from "firebase/storage";
 
     let auth;
     let isAdmin: boolean = false;
@@ -40,7 +41,13 @@
         const postQuery = query(postCollection);
         const snapshot = await getDocs(postQuery);
         let deletedCount = 0;
+        const storage = getStorage();
         for (const doc1 of snapshot.docs) {
+            const postData = doc1.data();
+            if (postData.imageUrl) {
+                const imageRef = ref(storage, postData.imageUrl);
+                await deleteObject(imageRef);
+            }
             await deleteDoc(doc1.ref);
             deletedCount++;
         }
