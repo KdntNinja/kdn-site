@@ -81,11 +81,7 @@
                 <Sheet.Trigger asChild let:builder>
                     <Button builders="{[builder]}" variant="secondary" class="open-button">Open</Button>
                 </Sheet.Trigger>
-                <Sheet.Content side="right">
-                    <Sheet.Header>
-                        <Sheet.Title class="chat-features-title">Chat Features</Sheet.Title>
-                    </Sheet.Header>
-                    <Sheet.Content class="sheet-content">
+                <Sheet.Content side="right" class="sheet-content">
                         <div class="grid gap-4 py-4">
                             <div class="top-spacer">
                                 <div class="button-container">
@@ -130,12 +126,6 @@
                                 </div>
                             </div>
                         </div>
-                    </Sheet.Content>
-                    <Sheet.Footer>
-                        <Sheet.Close asChild let:builder>
-                            <Button builders="{[builder]}" type="submit" title="Save Changes">Save changes</Button>
-                        </Sheet.Close>
-                    </Sheet.Footer>
                 </Sheet.Content>
             </Sheet.Root>
         </div>
@@ -161,11 +151,6 @@
     .open-button {
         font-size: 20px;
         padding: 10px 20px;
-    }
-
-    .chat-features-title {
-        font-size: 24px;
-        font-weight: bold;
     }
     .sheet-content {
         padding: 20px;
