@@ -28,7 +28,7 @@
     };
 
     const swapGroup = async () => {
-        selectedGroup = selectedGroup === "family" ? "default" : "family";
+        selectedGroup = selectedGroup === "private" ? "default" : "private";
         await changeGroup(selectedGroup);
         location.reload();
     };
@@ -98,7 +98,7 @@
                                                 class="swap-group-button justify-left"
                                                 title="Swap Group"
                                             >
-                                                <span>{selectedGroup === "family" ? "family" : "default"}</span>
+                                                <span>{selectedGroup === "private" ? "private" : "default"}</span>
                                             </Button>
                                         </Sheet.Close>
                                         <Sheet.Close asChild let:builder>

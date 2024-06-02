@@ -75,10 +75,6 @@
     .edit-button {
         justify-content: right;
     }
-    .delete-button {
-        justify-content: left;
-    }
-
     @media (max-width: 768px) {
         .post-card {
             padding: 10px;
