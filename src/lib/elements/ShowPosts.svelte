@@ -74,7 +74,6 @@
                         posts.sort((a, b) => b.timestamp - a.timestamp);
                     });
 
-                    // Get the last visible document
                     lastVisible = snapshot.docs[snapshot.docs.length - 1];
                 },
                 (err) => {
@@ -112,7 +111,7 @@
     });
 </script>
 
-<div class="svelte-scroll-area">
+<div class="svelte-scroll-area rounded-md justify-center p-4">
     {#if initialLoad && isLoading}
         <p>Loading...</p>
     {:else if error}
@@ -120,7 +119,7 @@
     {:else if posts.length === 0}
         <p>No posts found.</p>
     {:else}
-        <ScrollArea class="rounded-md justify-center p-4" on:scroll="{handleScroll}">
+        <ScrollArea class="" on:scroll="{handleScroll}">
             <div class="p-4">
                 {#each posts as post}
                     <Post {post} />
