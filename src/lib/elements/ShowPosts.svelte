@@ -1,6 +1,4 @@
 <script lang="ts">
-    import * as Card from "$lib/components/ui/card";
-    import { updateDoc } from "firebase/firestore";
     import Post from "$lib/elements/PostUI.svelte";
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box";
     import { onMount, onDestroy } from "svelte";
@@ -119,11 +117,6 @@
         margin: auto;
     }
     @media (max-width: 768px) {
-        .swap-group-button {
-            font-size: 14px;
-            padding: 10px 16px;
-            border-radius: 12px;
-        }
         .svelte-scroll-area {
             margin-top: 30px;
             width: 100%;
