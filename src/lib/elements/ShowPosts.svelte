@@ -82,7 +82,7 @@
         }
         const userDocRef = doc(firestore, "users", userId);
         await updateDoc(userDocRef, {
-            group: newGroup
+            group: newGroup,
         });
     };
 
