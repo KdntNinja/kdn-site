@@ -6,17 +6,42 @@
     import { Separator } from "$lib/components/ui/separator";
     import type { PostModel } from "$lib/models";
     import EditPost from "./EditPost.svelte";
-    import { getAuth } from "firebase/auth";
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { getDoc, doc } from "firebase/firestore";
+    import { firestore } from "$lib/firebase";
+    import { onMount } from "svelte";
+    import { routes } from "$lib/routes";
 
     export let post: PostModel;
     let isEditing = false;
+    let isAdmin = false;
 
-    const auth = getAuth();
-    const currentUserId = auth.currentUser?.uid;
+    let auth;
+    let currentUserId: string | null = null;
+    let selectedGroup;
 
     const postUpdated = () => {
         isEditing = false;
     };
+
+    onMount(() => {
+        auth = getAuth();
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = routes.LOGIN;
+            } else {
+                currentUserId = user.uid;
+                const userDocRef = doc(firestore, "users", currentUserId);
+                const userDoc = await getDoc(userDocRef);
+                const userData = userDoc.data();
+                if (!userData || !userData.group) {
+                    throw new Error("User data is invalid");
+                }
+                isAdmin = userData.isAdmin;
+                selectedGroup = userData.group;
+            }
+        });
+    });
 </script>
 
 <div class="post-card">
@@ -44,7 +69,7 @@
             <p>{new Date(post.timestamp).toLocaleString()}</p>
         </div>
         <div class="flex items-center space-x-2 edit-button">
-            {#if post.userId === currentUserId}
+            {#if post.userId === currentUserId || isAdmin}
                 <Switch id="edit-mode" bind:checked="{isEditing}" />
                 <Label for="edit-mode">Edit</Label>
             {/if}
@@ -52,7 +77,7 @@
     </div>
 </div>
 
-{#if isEditing && post.userId === currentUserId}
+{#if isEditing && (post.userId === currentUserId || isAdmin)}
     <EditPost postId="{post.id}" on:postUpdated="{postUpdated}" on:close="{() => (isEditing = false)}" />
 {/if}
 
