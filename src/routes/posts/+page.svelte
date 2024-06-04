@@ -42,15 +42,17 @@
         const snapshot = await getDocs(postQuery);
         let deletedCount = 0;
         const storage = getStorage();
+        const deletePromises = [];
         for (const doc1 of snapshot.docs) {
             const postData = doc1.data();
             if (postData.imageUrl) {
                 const imageRef = ref(storage, postData.imageUrl);
-                await deleteObject(imageRef);
+                deletePromises.push(deleteObject(imageRef));
             }
-            await deleteDoc(doc1.ref);
-            deletedCount++;
+            deletePromises.push(deleteDoc(doc1.ref));
         }
+        await Promise.all(deletePromises);
+        deletedCount = deletePromises.length;
         toast.success(`Successfully deleted ${deletedCount} post(s).`);
     };
 
