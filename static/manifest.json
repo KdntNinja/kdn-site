@@ -1,6 +1,6 @@
 {
-    "name": "LinkedOut",
-    "short_name": "LinkedOut",
+    "name": "LinkLoop",
+    "short_name": "LinkLoop",
     "description": "Your application description",
     "start_url": "/",
     "display": "standalone",
