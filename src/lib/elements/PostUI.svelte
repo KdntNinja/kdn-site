@@ -54,7 +54,7 @@
         <div class="post-title">
             <h2>{post.title}</h2>
         </div>
-        <div class="post-text">
+        <div>
             <p>{post.content}</p>
         </div>
         <div class="post-image">
