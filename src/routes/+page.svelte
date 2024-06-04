@@ -17,7 +17,7 @@
         <Card.Header>
             <Card.Title>Welcome to LinkLoop!</Card.Title>
         </Card.Header>
-        <Card.Description>Keeps you linked and in the loop.</Card.Description>
+        <Card.Description>Keeps you linked and in the loop. (Credit: Max)</Card.Description>
         <Card.Content>
             <p class="mb-4 text-lg">Please log in or sign up to continue.</p>
             <div class="flex justify-center mt-8">
