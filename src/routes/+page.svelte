@@ -17,8 +17,8 @@
         <Card.Header>
             <Card.Title>Welcome to LinkLoop!</Card.Title>
         </Card.Header>
-        <Card.Description>Keeps you linked and in the loop.</Card.Description>
         <Card.Content>
+            <Card.Description>Keeps you linked and in the loop.</Card.Description>
             <p class="mb-4 text-lg">Please log in or sign up to continue.</p>
             <div class="flex justify-center mt-8">
                 <Button on:click="{goToLogin}" aria-label="Log In" class="mr-4 font-bold py-2 px-4 rounded"
