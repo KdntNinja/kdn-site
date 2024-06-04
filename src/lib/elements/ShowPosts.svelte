@@ -16,7 +16,6 @@
     let unsubscribe: (() => void) | null = null;
     let userId: string | null = null;
     let lastVisible: any = null;
-    const batchSize = 5;
 
     const fetchPosts = async () => {
         const authInstance = getAuth();
@@ -35,14 +34,13 @@
 
         if (user) {
             const postCollection = collection(firestore, "groups", userData.group, "posts");
-            let postQuery = query(postCollection, orderBy("timestamp", "desc"), limit(batchSize));
+            let postQuery = query(postCollection, orderBy("timestamp", "desc"));
 
             if (lastVisible) {
                 postQuery = query(
                     postCollection,
                     orderBy("timestamp", "desc"),
                     startAfter(lastVisible),
-                    limit(batchSize),
                 );
             }
 
