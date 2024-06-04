@@ -29,6 +29,9 @@
                 >
             </div>
         </Card.Content>
-        <Card.Footer>(Credit: Max, name and description)</Card.Footer>
     </Card.Root>
 </div>
+
+<footer class="justify-center">
+    (Credit: Max, name and description)
+</footer>
