@@ -19,3 +19,8 @@ export interface UserRole {
     group: "default" | "family";
     isAdmin: boolean;
 }
+
+export interface Credit {
+    name: string;
+    role: string;
+}

@@ -77,7 +77,6 @@
         <div>
             <p>Made in China.</p>
         </div>
-
     </div>
 </div>
 

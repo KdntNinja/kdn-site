@@ -84,50 +84,50 @@
                     <Button builders="{[builder]}" variant="secondary" class="open-button">Open</Button>
                 </Sheet.Trigger>
                 <Sheet.Content side="right" class="sheet-content">
-                        <div class="grid gap-4 py-4">
-                            <div class="top-spacer">
-                                <div class="button-container">
-                                    {#if isAdmin}
-                                        <Post />
-                                        <Sheet.Close asChild let:builder>
-                                            <Button
-                                                builders="{[builder]}"
-                                                on:click="{swapGroup}"
-                                                class="swap-group-button justify-left"
-                                                title="Swap Group"
+                    <div class="grid gap-4 py-4">
+                        <div class="top-spacer">
+                            <div class="button-container">
+                                {#if isAdmin}
+                                    <Post />
+                                    <Sheet.Close asChild let:builder>
+                                        <Button
+                                            builders="{[builder]}"
+                                            on:click="{swapGroup}"
+                                            class="swap-group-button justify-left"
+                                            title="Swap Group"
+                                        >
+                                            <span>{selectedGroup === "private" ? "private" : "default"}</span>
+                                        </Button>
+                                    </Sheet.Close>
+                                    <Sheet.Close asChild let:builder>
+                                        <Dialog.Root>
+                                            <Dialog.Trigger class="{buttonVariants({ variant: 'outline' })}"
+                                                >Delete Posts</Dialog.Trigger
                                             >
-                                                <span>{selectedGroup === "private" ? "private" : "default"}</span>
-                                            </Button>
-                                        </Sheet.Close>
-                                        <Sheet.Close asChild let:builder>
-                                            <Dialog.Root>
-                                                <Dialog.Trigger class="{buttonVariants({ variant: 'outline' })}"
-                                                    >Delete Posts</Dialog.Trigger
-                                                >
-                                                <Dialog.Content class="sm:max-w-[425px]">
-                                                    <Dialog.Header>
-                                                        <Dialog.Title>Delete profile</Dialog.Title>
-                                                        <Dialog.Description>
-                                                            Are you sure you want to delete all posts? This action
-                                                            cannot be undone.
-                                                        </Dialog.Description>
-                                                    </Dialog.Header>
-                                                    <Dialog.Footer>
-                                                        <Button
-                                                            builders="{[builder]}"
-                                                            on:click="{clearPosts}"
-                                                            class="clear-posts-button"
-                                                        >
-                                                            Confirm Delete
-                                                        </Button>
-                                                    </Dialog.Footer>
-                                                </Dialog.Content>
-                                            </Dialog.Root>
-                                        </Sheet.Close>
-                                    {/if}
-                                </div>
+                                            <Dialog.Content class="sm:max-w-[425px]">
+                                                <Dialog.Header>
+                                                    <Dialog.Title>Delete profile</Dialog.Title>
+                                                    <Dialog.Description>
+                                                        Are you sure you want to delete all posts? This action cannot be
+                                                        undone.
+                                                    </Dialog.Description>
+                                                </Dialog.Header>
+                                                <Dialog.Footer>
+                                                    <Button
+                                                        builders="{[builder]}"
+                                                        on:click="{clearPosts}"
+                                                        class="clear-posts-button"
+                                                    >
+                                                        Confirm Delete
+                                                    </Button>
+                                                </Dialog.Footer>
+                                            </Dialog.Content>
+                                        </Dialog.Root>
+                                    </Sheet.Close>
+                                {/if}
                             </div>
                         </div>
+                    </div>
                 </Sheet.Content>
             </Sheet.Root>
         </div>

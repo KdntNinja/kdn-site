@@ -37,11 +37,7 @@
             let postQuery = query(postCollection, orderBy("timestamp", "desc"));
 
             if (lastVisible) {
-                postQuery = query(
-                    postCollection,
-                    orderBy("timestamp", "desc"),
-                    startAfter(lastVisible),
-                );
+                postQuery = query(postCollection, orderBy("timestamp", "desc"), startAfter(lastVisible));
             }
 
             unsubscribe = onSnapshot(

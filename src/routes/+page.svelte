@@ -3,6 +3,7 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { goto } from "$app/navigation";
     import { routes } from "$lib/routes";
+    import { Header } from "$lib/components/ui/sheet";
 
     const goToLogin = () => {
         goto(routes.LOGIN);
@@ -10,7 +11,14 @@
     const goToSignup = () => {
         goto(routes.SIGNUP);
     };
+    const goToCredits = () => {
+        goto(routes.CREDITS);
+    };
 </script>
+
+<header>
+    <Button on:click="{goToCredits}" aria-label="Credits" class="ml-4 font-bold py-2 px-4 rounded">Credits</Button>
+</header>
 
 <div class="card-container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
     <Card.Root class="w-[350px]">
@@ -31,7 +39,3 @@
         </Card.Content>
     </Card.Root>
 </div>
-
-<footer class="justify-center">
-    (Credit: Max, name and description)
-</footer>
