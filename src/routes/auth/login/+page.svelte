@@ -13,7 +13,6 @@
         setPersistence,
         browserSessionPersistence
     } from "$lib/firebase";
-    import { sendEmailVerification } from "firebase/auth";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
@@ -44,11 +43,6 @@
                         },
                         { merge: true },
                     );
-                }
-                if (!user.emailVerified) {
-                    await sendEmailVerification(user);
-                    alert("Please verify your email. We have sent a verification email to your account.");
-                    return;
                 }
             }
             window.location.href = routes.POSTS;
