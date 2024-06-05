@@ -74,6 +74,10 @@
                 <Label for="edit-mode">Edit</Label>
             {/if}
         </div>
+        <div>
+        <p><Made in China./p>
+        </div>
+
     </div>
 </div>
 
