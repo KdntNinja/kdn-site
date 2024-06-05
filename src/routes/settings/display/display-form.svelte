@@ -39,7 +39,7 @@
     import SuperDebug from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import * as Checkbox from "$lib/registry/new-york/ui/checkbox/index.js";
-    import * as Form from "$lib/registry/new-york/ui/form/index.js";
+    import * as Form from "$lib/registry/new-york/ui/form/index";
     import { browser } from "$app/environment";
 
     export let data: SuperValidated<Infer<DisplayFormSchema>>;
