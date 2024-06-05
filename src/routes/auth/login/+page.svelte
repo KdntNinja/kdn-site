@@ -11,8 +11,9 @@
         getDoc,
         setDoc,
         setPersistence,
-        browserSessionPersistence,
+        browserSessionPersistence
     } from "$lib/firebase";
+    import { sendEmailVerification } from "firebase/auth";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
@@ -20,7 +21,6 @@
 
     let email = "";
     let password = "";
-    let rememberMe = false;
 
     const login = async (email: string, password: string) => {
         if (!email || !password) {
@@ -46,7 +46,8 @@
                     );
                 }
                 if (!user.emailVerified) {
-                    alert("Please verify your email before logging in.");
+                    await sendEmailVerification(user);
+                    alert("Please verify your email. We have sent a verification email to your account.");
                     return;
                 }
             }
