@@ -11,7 +11,7 @@
         getDoc,
         setDoc,
         setPersistence,
-        browserSessionPersistence
+        browserSessionPersistence,
     } from "$lib/firebase";
     import googleIcon from "../../../Google.svg";
     import { continueWithGoogle } from "$lib/continueWithGoogle";
