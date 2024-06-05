@@ -1,5 +1,6 @@
 import { auth, GoogleAuthProvider, signInWithPopup, getFirestore, doc, setDoc, getDoc } from "$lib/firebase";
 import { routes } from "$lib/routes";
+import { sendEmailVerification } from "firebase/auth";
 
 export const continueWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
@@ -19,6 +20,9 @@ export const continueWithGoogle = async () => {
                     },
                     { merge: true },
                 );
+            }
+            if (user.email && !user.emailVerified) {
+                await sendEmailVerification(user);
             }
         }
         window.location.href = routes.POSTS;

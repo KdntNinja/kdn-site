@@ -6,11 +6,11 @@
     import { Separator } from "$lib/components/ui/separator";
     import type { PostModel } from "$lib/models";
     import EditPost from "./EditPost.svelte";
-    import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { getDoc, doc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { onMount } from "svelte";
     import { routes } from "$lib/routes";
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     export let post: PostModel;
     let isEditing = false;

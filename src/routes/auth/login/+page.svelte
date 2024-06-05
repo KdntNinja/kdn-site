@@ -45,6 +45,10 @@
                         { merge: true },
                     );
                 }
+                if (!user.emailVerified) {
+                    alert("Please verify your email before logging in.");
+                    return;
+                }
             }
             window.location.href = routes.POSTS;
         } catch (error) {

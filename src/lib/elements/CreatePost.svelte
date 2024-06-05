@@ -56,21 +56,21 @@
         try {
             const authInstance = getAuth();
             const user = authInstance.currentUser;
+
             let userName = "";
+            let userId = null;
             if (user) {
                 userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
+                userId = user.uid;
             }
-            let userId = user ? user.uid : null;
 
             if (!userId) {
                 throw new Error("User not authenticated");
             }
-            const userDocRef = doc(firestore, "users", userId);
-            const userDoc = await getDoc(userDocRef);
-            const userData = userDoc.data();
 
-            if (!userData || !userData.group) {
-                throw new Error("User data is invalid");
+            if (!user.emailVerified) {
+                alert("Please verify your email before creating a post.");
+                return;
             }
 
             let imageUrl = "";
