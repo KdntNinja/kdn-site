@@ -75,7 +75,7 @@
             {/if}
         </div>
         <div>
-        <p>Made in China.</p>
+            <p>Made in China.</p>
         </div>
 
     </div>
