@@ -39,3 +39,11 @@
         </Card.Content>
     </Card.Root>
 </div>
+
+<style>
+    header {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+</style>
