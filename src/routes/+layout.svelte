@@ -16,7 +16,17 @@
     }
 </script>
 
-<slot></slot>
+<img src="/LinkLoop.png" alt="Linkloop Logo" class="logo" />
 
+<slot></slot>
 <Toaster />
 <ModeWatcher />
+
+<style>
+    .logo {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        height: 50px;
+    }
+</style>
