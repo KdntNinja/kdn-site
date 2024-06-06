@@ -69,10 +69,16 @@
             <br />
         {/each}
     </div>
-    <Button on:click="{goToHome}">Home</Button>
+    <div  class="button-right">
+        <Button on:click="{goToHome}">Home</Button>
+    </div>
 </div>
 
 <style>
+    .button-right {
+        text-align: right;
+        display: block;
+    }
     .svelte-scroll-area {
         justify-content: center;
         align-items: center;

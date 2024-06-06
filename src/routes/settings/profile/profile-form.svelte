@@ -18,6 +18,7 @@
     import SuperDebug from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { tick } from "svelte";
+    import { onDestroy } from "svelte";
     import * as Form from "$lib/components/new-york/ui/form";
     import * as Select from "$lib/components/new-york/ui/select";
     import { Input } from "$lib/components/new-york/ui/input";
@@ -63,6 +64,7 @@
 
                     if (userDoc.exists()) {
                         userData = { ...defaultUserData, ...userDoc.data() };
+                        console.log(userData);
                     } else {
                         console.error(`No document found for user with id ${user.uid}`);
                     }
@@ -100,12 +102,12 @@
 
     onMount(async () => {
         await loadUserData();
-        const formElement = document.getElementById('profile-form') as HTMLFormElement;
+        const formElement = document.getElementById("profile-form") as HTMLFormElement;
         enhance(formElement);
     });
 
     $: if (userData.fields) {
-        $formData.fields = userData.fields;
+        formData.fields = userData.fields;
     }
 </script>
 
