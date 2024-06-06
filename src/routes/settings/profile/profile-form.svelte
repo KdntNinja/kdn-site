@@ -8,7 +8,7 @@
                 .max(15, "Username must not be longer than 15 characters"),
             bio: z.string().min(4).max(160).default(""),
             urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
-        })
+        }),
     });
     export type ProfileFormSchema = typeof profileFormSchema;
 </script>
@@ -33,10 +33,10 @@
 
     let defaultUserData = {
         fields: {
-            username: '',
-            bio: '',
-            urls: []
-        }
+            username: "",
+            bio: "",
+            urls: [],
+        },
     };
 
     let userData = { ...defaultUserData };
@@ -70,7 +70,7 @@
                     console.error(`Failed to load user data: ${error}`);
                 }
             } else {
-                console.error('No user is currently authenticated');
+                console.error("No user is currently authenticated");
             }
         });
     }
@@ -83,7 +83,7 @@
 
     const form = superForm(data, {
         validators: zodClient(profileFormSchema),
-        dataType: "json"
+        dataType: "json",
     });
 
     const { form: formData, enhance } = form;
@@ -100,7 +100,7 @@
 
     onMount(async () => {
         await loadUserData();
-        const formElement = document.getElementById('profile-form');
+        const formElement = document.getElementById('profile-form') as HTMLFormElement;
         enhance(formElement);
     });
 
@@ -133,7 +133,7 @@
         <Form.Fieldset {form} name="fields.urls">
             <Form.Legend>URLs</Form.Legend>
             {#each $formData.fields.urls as _, i}
-                <Form.ElementField {form} name={`fields.urls[${i}]`}>
+                <Form.ElementField {form} name="{`fields.urls[${i}]`}">
                     <Form.Description class="{cn(i !== 0 && 'sr-only')}">
                         Add links to your website, blog, or social media profiles.
                     </Form.Description>
