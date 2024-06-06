@@ -107,7 +107,7 @@
     });
 
     $: if (userData.fields) {
-        formData.fields = userData.fields;
+        $formData.fields = userData.fields;
     }
 </script>
 
