@@ -19,11 +19,11 @@
     import SuperDebug, { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { browser } from "$app/environment";
-    import * as Form from "$lib/registry/new-york/ui/form/index";
-    import * as RadioGroup from "$lib/registry/new-york/ui/radio-group/index.js";
-    import { Label } from "$lib/registry/new-york/ui/label/index.js";
+    import * as Form from "$lib/components/new-york/ui/form/index";
+    import * as RadioGroup from "$lib/components/new-york/ui/radio-group/index.js";
+    import { Label } from "$lib/components/new-york/ui/label/index.js";
     import { cn } from "$lib/utils.js";
-    import { buttonVariants } from "$lib/registry/new-york/ui/button/index.js";
+    import { buttonVariants } from "$lib/components/new-york/ui/button/index.js";
     export let data: SuperValidated<Infer<AppearanceFormSchema>>;
 
     const form = superForm(data, {

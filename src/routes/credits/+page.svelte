@@ -30,7 +30,7 @@
         credits.forEach((credit) => {
             const roleParts = credit.role.split("\\");
             let rolesHtml = "";
-            roleParts.forEach((rolePart) => {
+            roleParts.forEach((rolePart: string) => {
                 rolesHtml += `<li>${rolePart}</li>`;
             });
 

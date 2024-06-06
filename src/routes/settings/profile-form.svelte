@@ -6,8 +6,8 @@
             .min(2, "Username must be at least 2 characters.")
             .max(30, "Username must not be longer than 30 characters"),
         email: z.string({ required_error: "Please select an email to display" }).email(),
-        bio: z.string().min(4).max(160).default("I own a computer."),
-        urls: z.array(z.string().url()).default(["https://shadcn.com", "https://twitter.com/shadcn"]),
+        bio: z.string().min(4).max(160).default(""),
+        urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
     });
     export type ProfileFormSchema = typeof profileFormSchema;
 </script>
@@ -17,11 +17,11 @@
     import SuperDebug from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { tick } from "svelte";
-    import * as Form from "$lib/registry/new-york/ui/form/index";
-    import * as Select from "$lib/registry/new-york/ui/select/index.js";
-    import { Input } from "$lib/registry/new-york/ui/input/index.js";
-    import { Button } from "$lib/registry/new-york/ui/button/index.js";
-    import { Textarea } from "$lib/registry/new-york/ui/textarea/index.js";
+    import * as Form from "$lib/components/new-york/ui/form/index";
+    import * as Select from "$lib/components/new-york/ui/select/index.js";
+    import { Input } from "$lib/components/new-york/ui/input/index.js";
+    import { Button } from "$lib/components/new-york/ui/button/index.js";
+    import { Textarea } from "$lib/components/new-york/ui/textarea/index.js";
     import { cn } from "$lib/utils.js";
     import { browser } from "$app/environment";
 
@@ -53,11 +53,10 @@
     <Form.Field {form} name="username">
         <Form.Control let:attrs>
             <Form.Label>Username</Form.Label>
-            <Input placeholder="@shadcn" {...attrs} bind:value="{$formData.username}" />
+            <Input placeholder="@username" {...attrs} bind:value="{$formData.username}" />
         </Form.Control>
         <Form.Description>
-            This is your public display name. It can be your real name or a pseudonym. You can only change this once
-            every 30 days.
+            This is your public display name. It can be your real name or a pseudonym.
         </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
@@ -83,7 +82,7 @@
             <input hidden name="{attrs.name}" bind:value="{$formData.email}" />
         </Form.Control>
         <Form.Description>
-            You can manage verified email addresses in your <a href="/examples/forms">email settings</a>.
+            You can manage verified email addresses in your <a href="/settings/forms">email settings</a>.
         </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
