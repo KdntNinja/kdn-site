@@ -4,8 +4,7 @@
         username: z
             .string()
             .min(2, "Username must be at least 2 characters.")
-            .max(30, "Username must not be longer than 30 characters"),
-        email: z.string({ required_error: "Please select an email to display" }).email(),
+            .max(15, "Username must not be longer than 15 characters"),
         bio: z.string().min(4).max(160).default(""),
         urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
     });
@@ -22,8 +21,44 @@
     import { Input } from "$lib/components/new-york/ui/input/index.js";
     import { Button } from "$lib/components/new-york/ui/button/index.js";
     import { Textarea } from "$lib/components/new-york/ui/textarea/index.js";
+    import { routes } from "$lib/routes";
     import { cn } from "$lib/utils.js";
     import { browser } from "$app/environment";
+
+    import { onMount } from "svelte";
+    import { doc, setDoc, getDoc } from "firebase/firestore";
+    import { getAuth } from "firebase/auth";
+    import { firestore } from "$lib/firebase";
+
+    let userData = {};
+
+    async function saveUserData() {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+            const userDocRef = doc(firestore, "users", user.uid);
+            await setDoc(userDocRef, userData, { merge: true });
+        }
+    }
+
+    async function loadUserData() {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+            const userDocRef = doc(firestore, "users", user.uid);
+            const userDoc = await getDoc(userDocRef);
+
+            if (userDoc.exists()) {
+                userData = userDoc.data();
+            }
+        }
+    }
+
+    onMount(async () => {
+        await loadUserData();
+    });
 
     export let data: SuperValidated<Infer<ProfileFormSchema>>;
 
@@ -42,11 +77,6 @@
             lastInput && lastInput.focus();
         });
     }
-
-    $: selectedEmail = {
-        label: $formData.email,
-        value: $formData.email,
-    };
 </script>
 
 <form method="POST" class="space-y-8" use:enhance id="profile-form">
@@ -55,37 +85,10 @@
             <Form.Label>Username</Form.Label>
             <Input placeholder="@username" {...attrs} bind:value="{$formData.username}" />
         </Form.Control>
-        <Form.Description>
-            This is your public display name. It can be your real name or a pseudonym.
-        </Form.Description>
+        <Form.Description>This is your public display name. It can be your real name or a pseudonym.</Form.Description>
         <Form.FieldErrors />
     </Form.Field>
 
-    <Form.Field {form} name="email">
-        <Form.Control let:attrs>
-            <Form.Label>Email</Form.Label>
-            <Select.Root
-                selected="{selectedEmail}"
-                onSelectedChange="{(s) => {
-                    s && ($formData.email = s.value);
-                }}"
-            >
-                <Select.Trigger {...attrs}>
-                    <Select.Value placeholder="Select a verified email to display" />
-                </Select.Trigger>
-                <Select.Content>
-                    <Select.Item value="m@example.com" label="m@example.com" />
-                    <Select.Item value="m@google.com" label="m@google.com" />
-                    <Select.Item value="m@support.com" label="m@supporte.com" />
-                </Select.Content>
-            </Select.Root>
-            <input hidden name="{attrs.name}" bind:value="{$formData.email}" />
-        </Form.Control>
-        <Form.Description>
-            You can manage verified email addresses in your <a href="/settings/forms">email settings</a>.
-        </Form.Description>
-        <Form.FieldErrors />
-    </Form.Field>
     <Form.Field {form} name="bio">
         <Form.Control let:attrs>
             <Form.Label>Bio</Form.Label>

@@ -16,7 +16,7 @@
         {
             title: "Appearance",
             href: "/settings/forms/appearance",
-        }
+        },
     ];
 </script>
 

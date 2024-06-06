@@ -4,4 +4,6 @@ export const routes = {
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
     CREDITS: "/credits",
+
+    SETTINGS: "/settings/forms",
 };
