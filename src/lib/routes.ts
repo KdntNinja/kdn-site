@@ -1,9 +1,12 @@
 export const routes = {
     INDEX: "/",
     POSTS: "/posts",
+    CREDITS: "/credits",
+    PAGES: "/pages",
+
     LOGIN: "/auth/login",
     SIGNUP: "/auth/signup",
-    CREDITS: "/credits",
 
-    SETTINGS: "/settings/forms",
+    SETTINGS: "/settings/profile",
+    SETTINGS_APPEARANCE: "/settings/appearance",
 };

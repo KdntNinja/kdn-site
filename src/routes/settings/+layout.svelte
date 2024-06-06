@@ -3,6 +3,8 @@
     import { Separator } from "$lib/components/new-york/ui/separator";
     import FormsLight from "$lib/img/forms-light.png";
     import FormsDark from "$lib/img/forms-dark.png";
+    import { routes } from "$lib/routes";
+    import { Button } from "$lib/components/ui/button";
 
     const sidebarNavItems = [
         {
@@ -35,3 +37,14 @@
         </div>
     </div>
 </div>
+<div class="go-home-button">
+    <Button on:click={() => window.location.href = routes.PAGES}>Home</Button>
+</div>
+
+<style>
+    .go-home-button {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+    }
+</style>

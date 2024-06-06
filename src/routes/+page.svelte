@@ -1,23 +1,11 @@
 <script lang="ts">
     import * as Card from "$lib/components/ui/card/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
-    import { goto } from "$app/navigation";
     import { routes } from "$lib/routes";
-    import { Header } from "$lib/components/ui/sheet";
-
-    const goToLogin = () => {
-        goto(routes.LOGIN);
-    };
-    const goToSignup = () => {
-        goto(routes.SIGNUP);
-    };
-    const goToCredits = () => {
-        goto(routes.CREDITS);
-    };
 </script>
 
 <header>
-    <Button on:click="{goToCredits}" aria-label="Credits" class="ml-4 font-bold py-2 px-4 rounded">Credits</Button>
+    <Button on:click={() => window.location.href = routes.CREDITS} aria-label="Credits" class="ml-4 font-bold py-2 px-4 rounded">Credits</Button>
 </header>
 
 <div class="card-container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
@@ -29,10 +17,10 @@
             <Card.Description>Keeps you linked and in the loop.</Card.Description>
             <p class="mb-4 text-lg">Please log in or sign up to continue.</p>
             <div class="flex justify-center mt-8">
-                <Button on:click="{goToLogin}" aria-label="Log In" class="mr-4 font-bold py-2 px-4 rounded"
+                <Button on:click={() => window.location.href = routes.LOGIN} aria-label="Log In" class="mr-4 font-bold py-2 px-4 rounded"
                     >Log In</Button
                 >
-                <Button on:click="{goToSignup}" aria-label="Sign Up" class="ml-4 font-bold py-2 px-4 rounded"
+                <Button on:click={() => window.location.href = routes.SIGNUP} aria-label="Sign Up" class="ml-4 font-bold py-2 px-4 rounded"
                     >Sign Up</Button
                 >
             </div>

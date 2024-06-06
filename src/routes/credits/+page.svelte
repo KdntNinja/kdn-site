@@ -69,7 +69,7 @@
             <br />
         {/each}
     </div>
-    <div  class="button-right">
+    <div class="button-right">
         <Button on:click="{goToHome}">Home</Button>
     </div>
 </div>
