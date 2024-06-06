@@ -56,21 +56,21 @@
         try {
             const authInstance = getAuth();
             const user = authInstance.currentUser;
-
             let userName = "";
-            let userId = null;
             if (user) {
                 userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
-                userId = user.uid;
             }
+            let userId = user ? user.uid : null;
 
             if (!userId) {
                 throw new Error("User not authenticated");
             }
+            const userDocRef = doc(firestore, "users", userId);
+            const userDoc = await getDoc(userDocRef);
+            const userData = userDoc.data();
 
-            if (!user.emailVerified) {
-                alert("Please verify your email before creating a post.");
-                return;
+            if (!userData || !userData.group) {
+                throw new Error("User data is invalid");
             }
 
             let imageUrl = "";
@@ -198,11 +198,21 @@
 </div>
 
 <style>
+    .post-button {
+        position: absolute;
+        top: 0;
+        left: auto;
+        right: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .center-button {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
+
     @media (max-width: 768px) {
         .post-button {
             justify-content: right;
