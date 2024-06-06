@@ -111,7 +111,7 @@
     }
 </script>
 
-<form method="POST" class="space-y-8" id="profile-form" on:submit|preventDefault="{onSubmit}">
+<form method="POST" class="space-y-6 md:space-y-8" id="profile-form" on:submit|preventDefault="{onSubmit}">
     <Form.Field {form} name="fields.username">
         <Form.Control let:attrs>
             <Form.Label>Username</Form.Label>
@@ -155,3 +155,12 @@
 {#if browser}
     <SuperDebug data="{$formData}" />
 {/if}
+
+<style>
+    @media (max-width: 768px) {
+        .space-y-6 {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+</style>

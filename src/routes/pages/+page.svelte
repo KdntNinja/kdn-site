@@ -3,7 +3,7 @@
     import { Separator } from "$lib/components/ui/separator";
     import { Button } from "$lib/components/ui/button";
     import { goto } from "$app/navigation";
-    import { routes } from "$lib/routes"
+    import { routes } from "$lib/routes";
 
     let paths = [
         { name: "Posts", path: routes.POSTS },

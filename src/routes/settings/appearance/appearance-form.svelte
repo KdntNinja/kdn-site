@@ -58,7 +58,7 @@
         <Form.Description>Select the theme for the dashboard.</Form.Description>
         <Form.FieldErrors />
         <RadioGroup.Root
-            class="grid max-w-md grid-cols-2 gap-8 pt-2"
+            class="grid max-w-md grid-cols-1 md:grid-cols-2 gap-8 pt-2"
             orientation="horizontal"
             bind:value="{$formData.theme}"
         >
@@ -111,9 +111,17 @@
             <RadioGroup.Input name="theme" />
         </RadioGroup.Root>
     </Form.Fieldset>
-    <Form.Button>Update preferences</Form.Button>
+    <Form.Button class="w-full md:w-auto">Update preferences</Form.Button>
 </form>
 
 {#if browser}
     <SuperDebug data="{$formData}" />
 {/if}
+
+<style>
+    @media (max-width: 768px) {
+        form {
+            padding: 10px;
+        }
+    }
+</style>
