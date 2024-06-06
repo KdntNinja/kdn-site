@@ -2,7 +2,7 @@ import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { type Actions, fail } from "@sveltejs/kit";
 import { profileFormSchema } from "./profile-form.svelte";
-import type { PageServerLoad } from "./$types.js";
+import type { PageServerLoad } from "../../../../.svelte-kit/types/src/routes";
 
 export const load: PageServerLoad = async () => {
     return {

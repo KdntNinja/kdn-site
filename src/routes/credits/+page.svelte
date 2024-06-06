@@ -9,12 +9,17 @@
     import { goto } from "$app/navigation";
     import { routes } from "$lib/routes";
 
-    let credits: Credit[] = [];
+    type CreditWithRolePart = Credit & { rolePart: string[] };
+    let credits: CreditWithRolePart[] = [];
 
     onMount(async () => {
         const creditsCollection = collection(firestore, "credits");
         const creditsSnapshot = await getDocs(creditsCollection);
-        credits = creditsSnapshot.docs.map((doc) => ({ name: doc.id, role: doc.data().role }));
+        credits = creditsSnapshot.docs.map((doc) => ({
+            name: doc.id,
+            role: doc.data().role,
+            rolePart: doc.data().role.split("\\"),
+        }));
     });
 
     const goToHome = () => {
@@ -44,32 +49,26 @@
                 </div>
             `;
         });
-
-        const scrollBox = document.querySelector(".scroll-box");
-        if (scrollBox) {
-            scrollBox.innerHTML = html;
-        }
     }
 
     fetchCredits();
 </script>
 
 <div class="svelte-scroll-area rounded-md justify-center p-4">
-    <ScrollArea class="">
-        <div class="p-4">
-            {#each credits as credit (credit.name)}
-                <Card class="p-4 rounded-lg shadow-md">
-                    <h2 class="font-medium text-2xl mb-2">{credit.name}</h2>
-                    <Separator class="mb-2" />
-                    <p class="text-lg">
-                        {#each credit.role.split("\\") as rolePart (rolePart)}
-                            {rolePart}<br />
-                        {/each}
-                    </p>
-                </Card>
-            {/each}
-        </div>
-    </ScrollArea>
+    <div class="p-4">
+        {#each credits as credit (credit.name)}
+            <Card class="p-4 rounded-lg shadow-md">
+                <h2 class="font-medium text-2xl mb-2">{credit.name}</h2>
+                <Separator class="mb-2" />
+                <p class="text-lg">
+                    {#each credit.rolePart as part}
+                        {part}
+                    {/each}
+                </p>
+            </Card>
+            <br />
+        {/each}
+    </div>
     <Button on:click="{goToHome}">Home</Button>
 </div>
 

@@ -1,21 +1,17 @@
 <script lang="ts">
     import SidebarNav from "./(components)/sidebar-nav.svelte";
-    import { Separator } from "$lib/components/new-york/ui/separator/index.js";
+    import { Separator } from "$lib/components/new-york/ui/separator";
     import FormsLight from "$lib/img/forms-light.png";
     import FormsDark from "$lib/img/forms-dark.png";
 
     const sidebarNavItems = [
         {
             title: "Profile",
-            href: "/settings/forms",
-        },
-        {
-            title: "Account",
-            href: "/settings/forms/account",
+            href: "/settings/profile/",
         },
         {
             title: "Appearance",
-            href: "/settings/forms/appearance",
+            href: "/settings/appearance/",
         },
     ];
 </script>
