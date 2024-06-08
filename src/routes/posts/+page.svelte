@@ -89,6 +89,7 @@
                             <div class="button-container">
                                 {#if isAdmin}
                                     <Post />
+                                    <br>
                                     <Sheet.Close asChild let:builder>
                                         <Button
                                             builders="{[builder]}"
@@ -106,7 +107,7 @@
                                             >
                                             <Dialog.Content class="sm:max-w-[425px]">
                                                 <Dialog.Header>
-                                                    <Dialog.Title>Delete profile</Dialog.Title>
+                                                    <Dialog.Title>Delete posts</Dialog.Title>
                                                     <Dialog.Description>
                                                         Are you sure you want to delete all posts? This action cannot be
                                                         undone.
