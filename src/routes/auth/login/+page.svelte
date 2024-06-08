@@ -45,11 +45,7 @@
                     );
                 }
             }
-            if (window.innerWidth <= 768) {
-                window.location.href = routes.POSTS;
-            } else {
-                window.location.href = routes.PAGES;
-            }
+            window.location.href = routes.PAGES;
         } catch (error) {
             console.error(error);
         }
