@@ -31,7 +31,7 @@
         });
     });
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string, route: string) => {
         if (!email || !password) {
             alert("Please enter your email and password.");
             return;
@@ -55,7 +55,7 @@
                     );
                 }
             }
-            window.location.href = routes.PAGES;
+            window.location.href = route;
         } catch (error) {
             console.error(error);
         }
@@ -82,12 +82,23 @@
                 </div>
             </form>
         </Card.Content>
-        <Card.Footer class="flex justify-between">
+        <Card.Footer class="flex justify-between posts pages">
             <div class="flex justify-center">
                 <Button
                     on:click="{(e) => {
                         e.preventDefault();
-                        login(email, password);
+                        login(email, password, routes.POSTS);
+                    }}">Login</Button
+                >
+                <button on:click="{continueWithGoogle}" class="ml-4">
+                    <img src="{googleIcon}" alt="Google logo" />
+                </button>
+            </div>
+            <div class="flex justify-center pages">
+                <Button
+                    on:click="{(e) => {
+                        e.preventDefault();
+                        login(email, password, routes.PAGES);
                     }}">Login</Button
                 >
                 <button on:click="{continueWithGoogle}" class="ml-4">
@@ -100,3 +111,20 @@
         </div>
     </Card.Root>
 </div>
+
+<style>
+    .posts {
+        display: none;
+    }
+    .pages {
+        display: block;
+    }
+    @media (max-width: 768px) {
+        .posts {
+            display: block;
+        }
+        .pages {
+            display: none;
+        }
+    }
+</style>
