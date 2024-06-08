@@ -17,9 +17,19 @@
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
+    import { onMount } from "svelte";
+    import { onAuthStateChanged } from "firebase/auth";
 
     let email = "";
     let password = "";
+
+    onMount(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = routes.PAGES;
+            }
+        });
+    });
 
     const login = async (email: string, password: string) => {
         if (!email || !password) {
