@@ -162,19 +162,21 @@
                     <div style="display: flex; align-items: center;">
                         <Drawer.Close asChild let:builder>
                             <div class="center-button">
-                            <Button
-                                builders="{[builder]}"
-                                on:click="{createPost}"
-                                aria-label="Create Post"
-                                class="mr-4 font-bold py-2 px-4 rounded {(!title && !content && !file) ? 'disabled' : ''}"
-                                disabled="{!title && !content && !file}"
-                            >
-                                {#if title || content || file}
-                                    Create Post
-                                {:else}
-                                    Fill in the title, content or attach an image.
-                                {/if}
-                            </Button>
+                                <Button
+                                    builders="{[builder]}"
+                                    on:click="{createPost}"
+                                    aria-label="Create Post"
+                                    class="mr-4 font-bold py-2 px-4 rounded {!title && !content && !file
+                                        ? 'disabled'
+                                        : ''}"
+                                    disabled="{!title && !content && !file}"
+                                >
+                                    {#if title || content || file}
+                                        Create Post
+                                    {:else}
+                                        Fill in the title, content or attach an image.
+                                    {/if}
+                                </Button>
                             </div>
                         </Drawer.Close>
                     </div>
