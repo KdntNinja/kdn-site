@@ -53,7 +53,6 @@
     <div class="post-content">
         <div class="title-text">
             <h2>{post.title}</h2>
-            <br />
         </div>
         <div>
             <p>{post.content}</p>

@@ -129,10 +129,10 @@
     {#if post}
         <form on:submit|preventDefault="{updatePost}">
             <label for="title">Title</label>
-            <input id="title" bind:value="{post.title}" required />
+            <input id="title" bind:value="{post.title}" />
 
             <label for="content">Content</label>
-            <textarea id="content" bind:value="{post.content}" required></textarea>
+            <textarea id="content" bind:value="{post.content}"></textarea>
 
             <label for="image">Image</label>
             <input type="file" id="image" on:change="{onFileChange}" />
@@ -141,7 +141,9 @@
                 <img src="{post.imageUrl}" alt="CurrentImage" class="current-image" />
             {/if}
 
-            <Button type="submit">Update Post</Button>
+            <Button type="submit" class="{!post.title && !file ? 'disabled' : ''}" disabled="{!post.title && !file}">
+                Update Post
+            </Button>
         </form>
         {#if successMessage}
             <p class="success-message">{successMessage}</p>
