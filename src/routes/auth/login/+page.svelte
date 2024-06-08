@@ -24,7 +24,7 @@
     let password = "";
 
     function isMobileDevice() {
-        return /Android|webOS|iPhone|iPad/i.test(navigator.userAgent);
+        return /Android|iPhone/i.test(navigator.userAgent);
     }
 
     onMount(() => {
