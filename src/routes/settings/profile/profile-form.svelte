@@ -25,8 +25,9 @@
 
     import { onMount } from "svelte";
     import { doc, setDoc, getDoc } from "firebase/firestore";
-    import { getAuth } from "firebase/auth";
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { firestore } from "$lib/firebase";
+    import { routes } from "$lib/routes";
 
     let defaultUserData = {
         fields: {
@@ -35,8 +36,10 @@
             urls: [],
         },
     };
-
     let userData = { ...defaultUserData };
+
+    let auth;
+    let currentUserId: string | null = null;
 
     async function saveUserData() {
         const auth = getAuth();
@@ -50,25 +53,21 @@
     }
 
     async function loadUserData() {
-        const auth = getAuth();
+        auth = getAuth();
         const user = auth.currentUser;
 
-        if (user) {
-            try {
-                const userDocRef = doc(firestore, "users", user.uid);
-                const userDoc = await getDoc(userDocRef);
-
-                if (userDoc.exists()) {
-                    userData = { ...defaultUserData, ...userDoc.data() };
-                    console.log(userData);
-                } else {
-                    console.error(`No document found for user with id ${user.uid}`);
-                }
-            } catch (error) {
-                console.error(`Failed to load user data: ${error}`);
-            }
-        } else {
+        if (!user) {
             console.error("No user is currently authenticated");
+        } else {
+            currentUserId = user.uid;
+            const userDocRef = doc(firestore, "users", currentUserId);
+            const userDoc = await getDoc(userDocRef);
+            let userData = userDoc.data();
+            if (!userData || !userData.group) {
+                throw new Error("User data is invalid");
+            }
+            userData = { ...defaultUserData, ...userData };
+            console.log(userData);
         }
     }
 
@@ -95,14 +94,21 @@
         });
     }
 
-    onMount(async () => {
-        await loadUserData();
-        const formElement = document.getElementById("profile-form") as HTMLFormElement;
-        enhance(formElement);
+    onMount(() => {
+        auth = getAuth();
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = routes.LOGIN;
+            } else {
+                await loadUserData();
+            }
+        });
     });
 
     $: if (userData.fields) {
-        $formData.fields = userData.fields;
+        $formData.fields.username = userData.fields.username;
+        $formData.fields.bio = userData.fields.bio;
+        $formData.fields.urls = userData.fields.urls;
     }
 </script>
 
@@ -129,7 +135,7 @@
     <div>
         <Form.Fieldset {form} name="fields.urls">
             <Form.Legend>URLs</Form.Legend>
-            {#each $formData.fields.urls as _, i}
+            {#each $formData.fields.urls as url, i}
                 <Form.ElementField {form} name="{`fields.urls[${i}]`}">
                     <Form.Description class="{cn(i !== 0 && 'sr-only')}">
                         Add links to your website, blog, or social media profiles.

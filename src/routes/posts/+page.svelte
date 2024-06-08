@@ -123,7 +123,7 @@
                                             </Dialog.Content>
                                         </Dialog.Root>
                                     </Sheet.Close>
-                                    <br>
+                                    <br />
                                     <Post />
                                 {/if}
                             </div>

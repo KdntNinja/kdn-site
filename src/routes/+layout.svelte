@@ -8,12 +8,6 @@
 
     inject();
     injectSpeedInsights();
-
-    if (!import.meta.env.SSR && "serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-            navigator.serviceWorker.register("/service-worker.js");
-        });
-    }
 </script>
 
 <img src="/LinkLoop.png" alt="Linkloop Logo" class="logo" />
