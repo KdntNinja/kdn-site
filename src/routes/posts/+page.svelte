@@ -88,8 +88,6 @@
                         <div class="top-spacer">
                             <div class="button-container">
                                 {#if isAdmin}
-                                    <Post />
-                                    <br>
                                     <Sheet.Close asChild let:builder>
                                         <Button
                                             builders="{[builder]}"
@@ -125,6 +123,8 @@
                                             </Dialog.Content>
                                         </Dialog.Root>
                                     </Sheet.Close>
+                                    <br>
+                                    <Post />
                                 {/if}
                             </div>
                         </div>

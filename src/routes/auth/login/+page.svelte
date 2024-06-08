@@ -113,18 +113,19 @@
 </div>
 
 <style>
-    .posts {
-        display: none;
-    }
     .pages {
         display: block;
     }
+    .posts {
+        display: none;
+    }
+
     @media (max-width: 768px) {
-        .posts {
-            display: block;
-        }
         .pages {
             display: none;
+        }
+        .posts {
+            display: block;
         }
     }
 </style>
