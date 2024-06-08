@@ -51,13 +51,14 @@
         </div>
     </div>
     <div class="post-content">
-        <div class="post-title">
+        <div class="title-text">
             <h2>{post.title}</h2>
+            <br />
         </div>
         <div>
             <p>{post.content}</p>
         </div>
-        <div class="post-image">
+        <div>
             {#if post.imageUrl}
                 <img src="{post.imageUrl}" alt="NoImage" />
             {/if}
@@ -85,6 +86,10 @@
 {/if}
 
 <style>
+    .title-text {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
     .post-card {
         width: 90%;
         margin: 20px auto;
