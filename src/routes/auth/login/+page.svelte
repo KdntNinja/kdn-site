@@ -23,15 +23,19 @@
     let email = "";
     let password = "";
 
+    function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = routes.PAGES;
+                window.location.href = isMobileDevice() ? routes.POSTS : routes.PAGES;
             }
         });
     });
 
-    const login = async (email: string, password: string, route: string) => {
+    const login = async (email: string, password: string) => {
         if (!email || !password) {
             alert("Please enter your email and password.");
             return;
@@ -54,8 +58,8 @@
                         { merge: true },
                     );
                 }
+                window.location.href = isMobileDevice() ? routes.POSTS : routes.PAGES;
             }
-            window.location.href = route;
         } catch (error) {
             console.error(error);
         }
@@ -82,23 +86,12 @@
                 </div>
             </form>
         </Card.Content>
-        <Card.Footer class="flex justify-between posts pages">
+        <Card.Footer class="flex justify-between">
             <div class="flex justify-center">
                 <Button
                     on:click="{(e) => {
                         e.preventDefault();
-                        login(email, password, routes.POSTS);
-                    }}">Login</Button
-                >
-                <button on:click="{continueWithGoogle}" class="ml-4">
-                    <img src="{googleIcon}" alt="Google logo" />
-                </button>
-            </div>
-            <div class="flex justify-center pages">
-                <Button
-                    on:click="{(e) => {
-                        e.preventDefault();
-                        login(email, password, routes.PAGES);
+                        login(email, password);
                     }}">Login</Button
                 >
                 <button on:click="{continueWithGoogle}" class="ml-4">
@@ -111,21 +104,3 @@
         </div>
     </Card.Root>
 </div>
-
-<style>
-    .pages {
-        display: block;
-    }
-    .posts {
-        display: none;
-    }
-
-    @media (max-width: 768px) {
-        .pages {
-            display: none;
-        }
-        .posts {
-            display: block;
-        }
-    }
-</style>
