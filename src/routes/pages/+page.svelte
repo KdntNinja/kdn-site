@@ -7,7 +7,7 @@
 
     let paths = [
         { name: "Posts", path: routes.POSTS },
-        { name: "Settings", path: routes.SETTINGS },
+        { name: "Settings (IN PROGRESS)", path: routes.SETTINGS },
     ];
 
     const goToRoute = (path: string) => {

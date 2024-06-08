@@ -15,21 +15,17 @@
 
 <script lang="ts">
     import { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
-    import SuperDebug from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { tick } from "svelte";
-    import { onDestroy } from "svelte";
     import * as Form from "$lib/components/new-york/ui/form";
-    import * as Select from "$lib/components/new-york/ui/select";
     import { Input } from "$lib/components/new-york/ui/input";
     import { Button } from "$lib/components/new-york/ui/button";
     import { Textarea } from "$lib/components/new-york/ui/textarea";
     import { cn } from "$lib/utils.js";
-    import { browser } from "$app/environment";
 
     import { onMount } from "svelte";
     import { doc, setDoc, getDoc } from "firebase/firestore";
-    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { getAuth } from "firebase/auth";
     import { firestore } from "$lib/firebase";
 
     let defaultUserData = {
@@ -55,26 +51,25 @@
 
     async function loadUserData() {
         const auth = getAuth();
+        const user = auth.currentUser;
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
-                    const userDocRef = doc(firestore, "users", user.uid);
-                    const userDoc = await getDoc(userDocRef);
+        if (user) {
+            try {
+                const userDocRef = doc(firestore, "users", user.uid);
+                const userDoc = await getDoc(userDocRef);
 
-                    if (userDoc.exists()) {
-                        userData = { ...defaultUserData, ...userDoc.data() };
-                        console.log(userData);
-                    } else {
-                        console.error(`No document found for user with id ${user.uid}`);
-                    }
-                } catch (error) {
-                    console.error(`Failed to load user data: ${error}`);
+                if (userDoc.exists()) {
+                    userData = { ...defaultUserData, ...userDoc.data() };
+                    console.log(userData);
+                } else {
+                    console.error(`No document found for user with id ${user.uid}`);
                 }
-            } else {
-                console.error("No user is currently authenticated");
+            } catch (error) {
+                console.error(`Failed to load user data: ${error}`);
             }
-        });
+        } else {
+            console.error("No user is currently authenticated");
+        }
     }
 
     async function onSubmit() {
@@ -152,15 +147,13 @@
     <Form.Button type="submit">Update profile</Form.Button>
 </form>
 
-{#if browser}
-    <SuperDebug data="{$formData}" />
-{/if}
-
 <style>
+    form {
+        padding: 10px;
+    }
     @media (max-width: 768px) {
-        .space-y-6 {
-            margin-top: 0;
-            margin-bottom: 0;
+        form {
+            padding: 5px;
         }
     }
 </style>
