@@ -62,12 +62,12 @@
             currentUserId = user.uid;
             const userDocRef = doc(firestore, "users", currentUserId);
             const userDoc = await getDoc(userDocRef);
-            let userData = userDoc.data();
-            if (!userData || !userData.group) {
+            let fetchedData = userDoc.data();
+            if (!fetchedData || !fetchedData.group) {
                 throw new Error("User data is invalid");
             }
-            userData = { ...defaultUserData, ...userData };
-            console.log(userData);
+            fetchedData.fields = { ...defaultUserData.fields, ...fetchedData.fields };
+            console.log(fetchedData);
         }
     }
 
@@ -105,18 +105,14 @@
         });
     });
 
-    $: if (userData.fields) {
-        $formData.fields.username = userData.fields.username;
-        $formData.fields.bio = userData.fields.bio;
-        $formData.fields.urls = userData.fields.urls;
-    }
+    $: userData = { ...defaultUserData };
 </script>
 
 <form method="POST" class="space-y-6 md:space-y-8" id="profile-form" on:submit|preventDefault="{onSubmit}">
     <Form.Field {form} name="fields.username">
         <Form.Control let:attrs>
             <Form.Label>Username</Form.Label>
-            <Input placeholder="@username" {...attrs} bind:value="{$formData.fields.username}" />
+            <Input placeholder="@username" bind:value="{$formData.fields.username}" />
         </Form.Control>
         <Form.Description>This is your public display name. It can be your real name or a pseudonym.</Form.Description>
         <Form.FieldErrors />
@@ -125,7 +121,7 @@
     <Form.Field {form} name="fields.bio">
         <Form.Control let:attrs>
             <Form.Label>Bio</Form.Label>
-            <Textarea {...attrs} bind:value="{$formData.fields.bio}" />
+            <Textarea bind:value="{$formData.fields.bio}" />
         </Form.Control>
         <Form.Description>
             You can <span>@mention</span> other users and organizations to link to them.
