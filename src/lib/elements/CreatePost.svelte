@@ -54,84 +54,78 @@
 
     const createPost = async () => {
         if (!title && !content && !file) {
-            toast.error("Error creating post", {
-                description: "Please fill in the title, content or attach an image",
+            alert("Please fill in the title, content or attach an image.");
+        }
+        try {
+            const authInstance = getAuth();
+            const user = authInstance.currentUser;
+            let userName = "";
+            if (user) {
+                userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
+            }
+            let userId = user ? user.uid : null;
+
+            if (!userId) {
+                throw new Error("User not authenticated");
+            }
+            const userDocRef = doc(firestore, "users", userId);
+            const userDoc = await getDoc(userDocRef);
+            const userData = userDoc.data();
+
+            if (!userData || !userData.group) {
+                throw new Error("User data is invalid");
+            }
+
+            let imageUrl = "";
+            if (file) {
+                const storage = getStorage();
+                const uniqueId = uuidv4();
+                const storageRef = ref(storage, `${userId}/posts/${uniqueId}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                await new Promise((resolve, reject) => {
+                    uploadTask.on(
+                        "state_changed",
+                        () => {},
+                        (error) => {
+                            console.error("Upload failed", error);
+                            reject(error);
+                        },
+                        async () => {
+                            imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                            resolve(null);
+                        },
+                    );
+                });
+            }
+
+            await addDoc(collection(firestore, "groups", userData.group, "posts"), {
+                title,
+                content,
+                userId,
+                userName,
+                timestamp: Date.now(),
+                imageUrl,
+            });
+            toast.success("Post created successfully", {
+                description: `Title: ${title}, Content: ${content}`,
                 action: {
                     label: "Dismiss",
                     onClick: () => toast.dismiss(),
                 },
             });
-            try {
-                const authInstance = getAuth();
-                const user = authInstance.currentUser;
-                let userName = "";
-                if (user) {
-                    userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
-                }
-                let userId = user ? user.uid : null;
-
-                if (!userId) {
-                    throw new Error("User not authenticated");
-                }
-                const userDocRef = doc(firestore, "users", userId);
-                const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data();
-
-                if (!userData || !userData.group) {
-                    throw new Error("User data is invalid");
-                }
-
-                let imageUrl = "";
-                if (file) {
-                    const storage = getStorage();
-                    const uniqueId = uuidv4();
-                    const storageRef = ref(storage, `${userId}/posts/${uniqueId}`);
-                    const uploadTask = uploadBytesResumable(storageRef, file);
-
-                    await new Promise((resolve, reject) => {
-                        uploadTask.on(
-                            "state_changed",
-                            () => {},
-                            (error) => {
-                                console.error("Upload failed", error);
-                                reject(error);
-                            },
-                            async () => {
-                                imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-                                resolve(null);
-                            },
-                        );
-                    });
-                }
-
-                await addDoc(collection(firestore, "groups", userData.group, "posts"), {
-                    title,
-                    content,
-                    userId,
-                    userName,
-                    timestamp: Date.now(),
-                    imageUrl,
-                });
-                toast.success("Post created successfully", {
-                    description: `Title: ${title}, Content: ${content}`,
-                    action: {
-                        label: "Dismiss",
-                        onClick: () => toast.dismiss(),
-                    },
-                });
-                title = "";
-                content = "";
-            } catch (e) {
-                console.error("Error creating posts", e);
-                errorMessage = (e as Error).message;
-                toast.error("Error creating post", {
-                    description: errorMessage,
-                    action: {
-                        label: "Dismiss",
-                        onClick: () => toast.dismiss(),
-                    },
-                });
-            }
+            title = "";
+            content = "";
+        } catch (e) {
+            console.error("Error creating posts", e);
+            errorMessage = (e as Error).message;
+            toast.error("Error creating post", {
+                description: errorMessage,
+                action: {
+                    label: "Dismiss",
+                    onClick: () => toast.dismiss(),
+                },
+            });
         }
     };
 </script>
@@ -168,23 +162,19 @@
                     <div style="display: flex; align-items: center;">
                         <Drawer.Close asChild let:builder>
                             <div class="center-button">
-                                <Button
-                                    builders="{[builder]}"
-                                    on:click="{createPost}"
-                                    aria-label="Create Post"
-                                    class="mr-4 font-bold py-2 px-4 rounded"
-                                    disabled="{!title && !content && !file}"
-                                >
-                                    {#if (title && content) || (title && file) || (content && file) || (title && content && file) || file}
-                                        Create Post
-                                    {:else if title || file}
-                                        Fill in the title, content or attach an image
-                                    {:else if content}
-                                        Fill in the title or attach an image
-                                    {:else}
-                                        Fill in the content or attach an image
-                                    {/if}
-                                </Button>
+                            <Button
+                                builders="{[builder]}"
+                                on:click="{createPost}"
+                                aria-label="Create Post"
+                                class="mr-4 font-bold py-2 px-4 rounded {(!title && !content && !file) ? 'disabled' : ''}"
+                                disabled="{!title && !content && !file}"
+                            >
+                                {#if title || content || file}
+                                    Create Post
+                                {:else}
+                                    Fill in the title, content or attach an image.
+                                {/if}
+                            </Button>
                             </div>
                         </Drawer.Close>
                     </div>
