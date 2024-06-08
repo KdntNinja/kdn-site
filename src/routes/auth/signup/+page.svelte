@@ -8,11 +8,20 @@
     import { continueWithGoogle } from "$lib/continueWithGoogle";
 
     import { routes } from "$lib/routes";
-    import { browserSessionPersistence, setPersistence } from "firebase/auth";
+    import { browserSessionPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
+    import { onMount } from "svelte";
 
     let email = "";
     let password = "";
     let confirmPassword = "";
+
+    onMount(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = routes.PAGES;
+            }
+        });
+    });
 
     const signup = async (email: string, password: string) => {
         const db = getFirestore();
