@@ -16,18 +16,20 @@
     let post: PostModel | null = null;
     let file: File | null = null;
     let successMessage: string | null = null;
+    let userData;
+    let userId;
 
     onMount(async () => {
         const authInstance = getAuth();
         const user = authInstance.currentUser;
-        let userId = user ? user.uid : null;
+        userId = user ? user.uid : null;
 
         if (!userId) {
             throw new Error("User not authenticated");
         }
         const userDocRef = doc(firestore, "users", userId);
         const userDoc = await getDoc(userDocRef);
-        const userData = userDoc.data();
+        userData = userDoc.data();
 
         if (!userData || !userData.group) {
             throw new Error("User data is invalid");
@@ -73,12 +75,28 @@
     };
 
     const updatePost = async () => {
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        let userId = user ? user.uid : null;
+
+        if (!userId) {
+            throw new Error("User not authenticated");
+        }
+        const userDocRef = doc(firestore, "users", userId);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.data();
+
+        if (!userData || !userData.group) {
+            throw new Error("User data is invalid");
+        }
+
+        let imageUrl = "";
         if (post) {
-            let imageUrl = post.imageUrl;
             if (file) {
                 const storage = getStorage();
                 const uniqueId = uuidv4();
-                const storageRef = ref(storage, `${post.userId}/posts/${uniqueId}`);
+                const userGroup = userData.group;
+                const storageRef = ref(storage, `${userGroup}/${userId}/${uniqueId}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
 
                 await new Promise((resolve, reject) => {
@@ -95,21 +113,6 @@
                         },
                     );
                 });
-            }
-
-            const authInstance = getAuth();
-            const user = authInstance.currentUser;
-            let userId = user ? user.uid : null;
-
-            if (!userId) {
-                throw new Error("User not authenticated");
-            }
-            const userDocRef = doc(firestore, "users", userId);
-            const userDoc = await getDoc(userDocRef);
-            const userData = userDoc.data();
-
-            if (!userData || !userData.group) {
-                throw new Error("User data is invalid");
             }
 
             await updateDoc(doc(firestore, "groups", userData.group, "posts", postId), {

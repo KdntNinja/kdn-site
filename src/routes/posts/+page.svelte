@@ -40,20 +40,27 @@
         const postCollection = collection(firestore, "groups", selectedGroup, "posts");
         const postQuery = query(postCollection);
         const snapshot = await getDocs(postQuery);
-        let deletedCount = 0;
         const storage = getStorage();
-        const deletePromises = [];
-        for (const doc1 of snapshot.docs) {
-            const postData = doc1.data();
-            if (postData.imageUrl) {
-                const imageRef = ref(storage, postData.imageUrl);
-                deletePromises.push(deleteObject(imageRef));
-            }
-            deletePromises.push(deleteDoc(doc1.ref));
-        }
-        await Promise.all(deletePromises);
-        deletedCount = deletePromises.length;
-        toast.success(`Successfully deleted ${deletedCount} post(s).`);
+        const deletePromises = snapshot.docs.map(doc1 => {
+            return new Promise(async (resolve) => {
+                const postData = doc1.data();
+                try {
+                    if (postData.imageUrl) {
+                        const imageRef = ref(storage, postData.imageUrl);
+                        await deleteObject(imageRef);
+                    }
+                    await deleteDoc(doc1.ref);
+                    resolve({ status: 'fulfilled' });
+                } catch (error) {
+                    console.error(`Failed to delete post with ID: ${doc1.id}`, error);
+                    resolve({ status: 'rejected' });
+                }
+            });
+        });
+        const results = await Promise.allSettled(deletePromises);
+        const deletedCount = results.filter(result => result.status === 'fulfilled').length;
+        const failedCount = results.filter(result => result.status === 'rejected').length;
+        toast.success(`Successfully deleted ${deletedCount} post(s). Failed to delete ${failedCount} post(s).`);
     };
 
     onMount(() => {

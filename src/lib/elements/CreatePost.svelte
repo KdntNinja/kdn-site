@@ -80,7 +80,8 @@
             if (file) {
                 const storage = getStorage();
                 const uniqueId = uuidv4();
-                const storageRef = ref(storage, `${userId}/posts/${uniqueId}`);
+                const userGroup = userData.group;
+                const storageRef = ref(storage, `${userGroup}/${userId}/${uniqueId}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
 
                 await new Promise((resolve, reject) => {
