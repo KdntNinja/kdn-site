@@ -7,6 +7,7 @@
     import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
     import type { PostModel } from "$lib/models";
+    import { goto } from "$app/navigation";
 
     let currentUserId: string | null = null;
 
@@ -52,7 +53,6 @@
                             title: data.title,
                             content: data.content,
                             userId: data.userId,
-                            userName: data.userName,
                             timestamp: data.timestamp,
                             imageUrl: data.imageUrl,
                         } as PostModel;
@@ -77,7 +77,7 @@
                 },
             );
         } else {
-            window.location.href = routes.LOGIN;
+            await goto(routes.LOGIN);
         }
     };
 
@@ -92,7 +92,7 @@
         auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                window.location.href = routes.LOGIN;
+                await goto(routes.LOGIN);
             } else {
                 await fetchPosts();
                 initialLoad = false;

@@ -6,11 +6,16 @@
     import { onAuthStateChanged } from "firebase/auth";
     import { auth } from "$lib/firebase";
     import { isMobileDevice } from "$lib/isMobile";
+    import { goto } from "$app/navigation";
 
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = isMobileDevice() ? routes.POSTS : routes.PAGES;
+                if (isMobileDevice()) {
+                    goto(routes.POSTS);
+                } else {
+                    goto(routes.PAGES);
+                }
             }
         });
     });
@@ -18,7 +23,7 @@
 
 <header>
     <Button
-        on:click="{() => (window.location.href = routes.CREDITS)}"
+        on:click="{() => (goto(routes.CREDITS))}"
         aria-label="Credits"
         class="ml-4 font-bold py-2 px-4 rounded">Credits</Button
     >
@@ -34,12 +39,12 @@
             <p class="mb-4 text-lg">Please log in or sign up to continue.</p>
             <div class="flex justify-center mt-8">
                 <Button
-                    on:click="{() => (window.location.href = routes.LOGIN)}"
+                    on:click="{() => (goto(routes.LOGIN))}"
                     aria-label="Log In"
                     class="mr-4 font-bold py-2 px-4 rounded">Log In</Button
                 >
                 <Button
-                    on:click="{() => (window.location.href = routes.SIGNUP)}"
+                    on:click="{() => (goto(routes.SIGNUP))}"
                     aria-label="Sign Up"
                     class="ml-4 font-bold py-2 px-4 rounded">Sign Up</Button
                 >

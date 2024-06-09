@@ -12,6 +12,12 @@
     import { toast } from "svelte-sonner";
     import { getStorage, ref, deleteObject } from "firebase/storage";
 
+    import { goto } from '$app/navigation';
+
+    function navigateToSettings() {
+        goto(routes.SETTINGS);
+    }
+
     let auth;
     let isAdmin: boolean = false;
     let userId: string | null = null;
@@ -67,7 +73,7 @@
         auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                window.location.href = routes.LOGIN;
+                await goto(routes.LOGIN);
             } else {
                 userId = user.uid;
                 const userDocRef = doc(firestore, "users", userId);
@@ -84,67 +90,67 @@
 </script>
 
 <main>
-    {#if isAdmin}
-        <div class="top-spacer">
-            <Sheet.Root>
-                <Sheet.Trigger asChild let:builder>
-                    <Button builders="{[builder]}" variant="secondary" class="open-button">Open</Button>
-                </Sheet.Trigger>
-                <Sheet.Content side="right" class="sheet-content">
-                    <div class="grid gap-4 py-4">
-                        <div class="top-spacer">
-                            <div class="button-container">
-                                {#if isAdmin}
-                                    <Sheet.Close asChild let:builder>
-                                        <Button
-                                            builders="{[builder]}"
-                                            on:click="{swapGroup}"
-                                            class="swap-group-button justify-left"
-                                            title="Swap Group"
+    <div class="top-spacer">
+        <button class="fas fa-cog settings-cog" on:click={navigateToSettings}>Settings</button>
+        <Sheet.Root>
+            <Sheet.Trigger asChild let:builder>
+                <Button builders="{[builder]}" variant="secondary" class="open-button">Open</Button>
+            </Sheet.Trigger>
+            <Sheet.Content side="right" class="sheet-content">
+                <div class="grid gap-4 py-4">
+                    <div class="top-spacer">
+                        <div class="button-container">
+
+                            {#if isAdmin}
+                                <Sheet.Close asChild let:builder>
+                                    <Button
+                                        builders="{[builder]}"
+                                        on:click="{swapGroup}"
+                                        class="swap-group-button justify-left"
+                                        title="Swap Group"
+                                    >
+                                        <span>{selectedGroup === "private" ? "private" : "default"}</span>
+                                    </Button>
+                                </Sheet.Close>
+                                <Sheet.Close asChild let:builder>
+                                    <Dialog.Root>
+                                        <Dialog.Trigger class="{buttonVariants({ variant: 'outline' })}"
+                                            >Delete Posts</Dialog.Trigger
                                         >
-                                            <span>{selectedGroup === "private" ? "private" : "default"}</span>
-                                        </Button>
-                                    </Sheet.Close>
-                                    <Sheet.Close asChild let:builder>
-                                        <Dialog.Root>
-                                            <Dialog.Trigger class="{buttonVariants({ variant: 'outline' })}"
-                                                >Delete Posts</Dialog.Trigger
-                                            >
-                                            <Dialog.Content class="sm:max-w-[425px]">
-                                                <Dialog.Header>
-                                                    <Dialog.Title>Delete posts</Dialog.Title>
-                                                    <Dialog.Description>
-                                                        Are you sure you want to delete all posts? This action cannot be
-                                                        undone.
-                                                    </Dialog.Description>
-                                                </Dialog.Header>
-                                                <Dialog.Footer>
-                                                    <Button
-                                                        builders="{[builder]}"
-                                                        on:click="{clearPosts}"
-                                                        class="clear-posts-button"
-                                                    >
-                                                        Confirm Delete
-                                                    </Button>
-                                                </Dialog.Footer>
-                                            </Dialog.Content>
-                                        </Dialog.Root>
-                                    </Sheet.Close>
-                                    <br />
-                                    <Post />
-                                {/if}
-                            </div>
+                                        <Dialog.Content class="sm:max-w-[425px]">
+                                            <Dialog.Header>
+                                                <Dialog.Title>Delete posts</Dialog.Title>
+                                                <Dialog.Description>
+                                                    Are you sure you want to delete all posts? This action cannot be
+                                                    undone.
+                                                </Dialog.Description>
+                                            </Dialog.Header>
+                                            <Dialog.Footer>
+                                                <Button
+                                                    builders="{[builder]}"
+                                                    on:click="{clearPosts}"
+                                                    class="clear-posts-button"
+                                                >
+                                                    Confirm Delete
+                                                </Button>
+                                            </Dialog.Footer>
+                                        </Dialog.Content>
+                                    </Dialog.Root>
+                                </Sheet.Close>
+                                <br />
+                                <Post />
+                            {/if}
                         </div>
                     </div>
-                </Sheet.Content>
-            </Sheet.Root>
-        </div>
-    {:else}
+                </div>
+            </Sheet.Content>
+        </Sheet.Root>
+    </div>
+    {#if !isAdmin}
         <div class="top-spacer">
             <Post />
         </div>
     {/if}
-
     <ShowPosts />
 </main>
 
@@ -165,5 +171,10 @@
         align-items: center;
         justify-content: center;
         height: 100%;
+    }
+    @media (max-width: 768px) {
+        .settings-cog {
+            display: none;
+        }
     }
 </style>

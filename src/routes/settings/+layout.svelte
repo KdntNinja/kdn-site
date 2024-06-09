@@ -6,6 +6,7 @@
     import FormsAuto from "$lib/img/forms-auto.png";
     import { routes } from "$lib/routes";
     import { Button } from "$lib/components/ui/button";
+    import { goto } from "$app/navigation";
 
     const sidebarNavItems = [
         {
@@ -40,7 +41,7 @@
     </div>
 </div>
 <div class="go-home-button">
-    <Button on:click="{() => (window.location.href = routes.PAGES)}">Home</Button>
+    <Button on:click="{() => (goto(routes.PAGES))}">Home</Button>
 </div>
 
 <style>

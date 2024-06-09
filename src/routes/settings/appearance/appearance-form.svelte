@@ -22,6 +22,7 @@
     import { firestore } from "$lib/firebase";
     import { getDoc } from "firebase/firestore";
     import { routes } from "$lib/routes";
+    import { goto } from "$app/navigation";
 
     export let data: SuperValidated<Infer<AppearanceFormSchema>>;
     const form = superForm(data, {
@@ -61,7 +62,7 @@
         auth = getAuth();
         onAuthStateChanged(auth, async (userAuth) => {
             if (!userAuth) {
-                window.location.href = routes.LOGIN;
+                await goto(routes.LOGIN);
             } else {
                 user = userAuth;
                 userId = user.uid;

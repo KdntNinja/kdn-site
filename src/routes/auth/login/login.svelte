@@ -17,6 +17,7 @@
         browserSessionPersistence,
     } from "$lib/firebase";
     import { isMobileDevice } from "$lib/isMobile";
+    import { goto } from "$app/navigation";
 
     let email = "";
     let password = "";
@@ -44,7 +45,11 @@
                         { merge: true },
                     );
                 }
-                window.location.href = isMobileDevice() ? routes.POSTS : routes.PAGES;
+                if (isMobileDevice()) {
+                    await goto(routes.POSTS);
+                } else {
+                    await goto(routes.PAGES);
+                }
             }
         } catch (error) {
             console.error(error);

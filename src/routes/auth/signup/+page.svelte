@@ -10,6 +10,7 @@
     import { routes } from "$lib/routes";
     import { browserSessionPersistence, onAuthStateChanged, setPersistence } from "firebase/auth";
     import { onMount } from "svelte";
+    import { goto } from "$app/navigation";
 
     let email = "";
     let password = "";
@@ -18,7 +19,7 @@
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = routes.PAGES;
+                goto(routes.PAGES);
             }
         });
     });
@@ -43,7 +44,7 @@
                     );
                 }
             }
-            window.location.href = routes.PAGES;
+            await goto(routes.PAGES);
         } catch (error) {
             console.error(error);
         }

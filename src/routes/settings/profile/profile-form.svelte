@@ -27,6 +27,7 @@
     import { onSnapshot } from "firebase/firestore";
     import { routes } from "$lib/routes";
     import type { User } from "firebase/auth";
+    import { goto } from "$app/navigation";
 
     export let data: SuperValidated<Infer<ProfileFormSchema>>;
     const form = superForm(data, {
@@ -62,9 +63,11 @@
         if (userId) {
             const userDocRef = doc(firestore, "profiles", userId);
 
-            const querySnapshot = await getDocs(query(collection(firestore, "profiles"), where("username", "==", $formData.username)));
+            const querySnapshot = await getDocs(
+                query(collection(firestore, "profiles"), where("username", "==", $formData.username)),
+            );
 
-            const usernameExists = querySnapshot.docs.some(doc => doc.id !== userId);
+            const usernameExists = querySnapshot.docs.some((doc) => doc.id !== userId);
 
             if (usernameExists) {
                 console.log("Username is already taken");
@@ -91,7 +94,7 @@
         auth = getAuth();
         onAuthStateChanged(auth, async (userAuth) => {
             if (!userAuth) {
-                window.location.href = routes.LOGIN;
+                await goto(routes.LOGIN);
             } else {
                 user = userAuth;
                 userId = user.uid;
@@ -117,12 +120,10 @@
             <Input
                 placeholder="{user ? user.displayName || (user.email ? user.email.split('@')[0] : '') : ''}"
                 {...attrs}
-                bind:value={$formData.username}
+                bind:value="{$formData.username}"
             />
         </Form.Control>
-        <Form.Description>
-            This is your public display name. It can be your real name or a pseudonym.
-        </Form.Description>
+        <Form.Description>This is your public display name. It can be your real name or a pseudonym.</Form.Description>
         <Form.FieldErrors class="text-red-500" />
     </Form.Field>
     <Form.Field {form} name="bio">

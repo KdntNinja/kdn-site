@@ -6,11 +6,16 @@
     import { isMobileDevice } from "$lib/isMobile";
 
     import Login from "./login.svelte";
+    import { goto } from "$app/navigation";
 
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = isMobileDevice() ? routes.POSTS : routes.PAGES;
+                if (isMobileDevice()) {
+                    goto(routes.POSTS);
+                } else {
+                    goto(routes.PAGES);
+                }
             }
         });
     });
