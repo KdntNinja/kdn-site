@@ -49,7 +49,7 @@
     }
 
     function deleteUrl(index: number) {
-        $formData.urls.splice(index, 1);
+        $formData.urls = $formData.urls.filter((_, i) => i !== index);
     }
 
     async function updateUserData() {

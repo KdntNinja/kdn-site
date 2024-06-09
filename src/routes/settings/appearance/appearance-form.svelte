@@ -88,13 +88,13 @@
         <RadioGroup.Root
             class="grid max-w-full grid-cols-1 md:grid-cols-3 gap-8 pt-2"
             orientation="horizontal"
-            bind:value="{$formData.theme}"
+            bind:value={$formData.theme}
         >
             <Form.Control let:attrs>
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="auto" class="sr-only" />
                     <div
-                        class="flex items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
+                        class="{($formData.theme === 'auto' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} flex items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
                     >
                         <div class="w-1/2 space-y-2 rounded-sm bg-[#ecedef] p-2">
                             <div class="space-y-2 rounded-md bg-white p-2 shadow-sm">
@@ -131,7 +131,9 @@
             <Form.Control let:attrs>
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="light" class="sr-only" />
-                    <div class="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                    <div
+                        class="{($formData.theme === 'light' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} items-center rounded-md border-2 border-muted p-1 hover:border-accent"
+                    >
                         <div class="space-y-2 rounded-sm bg-[#ecedef] p-2">
                             <div class="space-y-2 rounded-md bg-white p-2 shadow-sm">
                                 <div class="h-2 w-[80px] rounded-lg bg-[#ecedef]"></div>
@@ -154,7 +156,7 @@
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="dark" class="sr-only" />
                     <div
-                        class="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
+                        class="{($formData.theme === 'dark' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
                     >
                         <div class="space-y-2 rounded-sm bg-slate-950 p-2">
                             <div class="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
