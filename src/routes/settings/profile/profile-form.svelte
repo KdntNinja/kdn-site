@@ -5,7 +5,7 @@
             .string()
             .min(2, "Username must be at least 2 characters.")
             .max(15, "Username must not be longer than 15 characters"),
-        bio: z.string().min(4).max(160).default("A LinkLoop user."),
+        bio: z.string().min(4).max(160),
         urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
     });
     export type ProfileFormSchema = typeof profileFormSchema;
@@ -22,7 +22,7 @@
     import { Textarea } from "$lib/components/ui/new-york/textarea/index.js";
     import { cn } from "$lib/utils.js";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+    import { collection, doc, getDocs, query, setDoc, where, getDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { onSnapshot } from "firebase/firestore";
     import { routes } from "$lib/routes";
@@ -52,7 +52,9 @@
         $formData.urls = $formData.urls.filter((_, i) => i !== index);
     }
 
-    async function updateUserData() {
+    async function updateUserData(event: Event) {
+        event.preventDefault();
+
         const authInstance = getAuth();
         const user = authInstance.currentUser;
         userId = user ? user.uid : null;
@@ -60,9 +62,29 @@
         if (userId) {
             const userDocRef = doc(firestore, "profiles", userId);
 
-            await setDoc(userDocRef, $formData);
+            const querySnapshot = await getDocs(query(collection(firestore, "profiles"), where("username", "==", $formData.username)));
+
+            const usernameExists = querySnapshot.docs.some(doc => doc.id !== userId);
+
+            if (usernameExists) {
+                console.log("Username is already taken");
+                window.location.reload();
+            } else {
+                if ($formData.username.trim() === "") {
+                    console.log("Username cannot be empty");
+                    window.location.reload();
+                } else {
+                    try {
+                        console.log("Saving data:", $formData);
+                        await setDoc(userDocRef, $formData);
+                        window.location.reload();
+                    } catch (error) {
+                        console.error("Failed to update user data:", error);
+                        window.location.reload();
+                    }
+                }
+            }
         }
-        location.reload();
     }
 
     onMount(() => {
@@ -95,13 +117,13 @@
             <Input
                 placeholder="{user ? user.displayName || (user.email ? user.email.split('@')[0] : '') : ''}"
                 {...attrs}
-                bind:value="{$formData.username}"
+                bind:value={$formData.username}
             />
         </Form.Control>
         <Form.Description>
             This is your public display name. It can be your real name or a pseudonym.
         </Form.Description>
-        <Form.FieldErrors />
+        <Form.FieldErrors class="text-red-500" />
     </Form.Field>
     <Form.Field {form} name="bio">
         <Form.Control let:attrs>
@@ -138,5 +160,10 @@
         </Form.Fieldset>
         <Button type="button" variant="outline" size="sm" class="mt-2" on:click="{addUrl}">Add URL</Button>
     </div>
-    <Form.Button on:click="{updateUserData}">Update profile</Form.Button>
+    <button
+        on:click|preventDefault="{updateUserData}"
+        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+    >
+        Update profile
+    </button>
 </form>

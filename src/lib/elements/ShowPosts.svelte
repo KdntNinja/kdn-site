@@ -3,7 +3,7 @@
     import { ScrollArea } from "$lib/components/ui/posts-scroll-box";
     import { onMount, onDestroy } from "svelte";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { collection, onSnapshot, query, orderBy, getDoc, doc, startAfter, limit } from "firebase/firestore";
+    import { collection, onSnapshot, query, orderBy, getDoc, doc, startAfter } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
     import type { PostModel } from "$lib/models";
