@@ -22,7 +22,7 @@
     import { Textarea } from "$lib/components/ui/new-york/textarea/index.js";
     import { cn } from "$lib/utils.js";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { doc, getDoc, setDoc } from "firebase/firestore";
+    import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { onSnapshot } from "firebase/firestore";
     import { routes } from "$lib/routes";
@@ -61,10 +61,12 @@
             const userDocRef = doc(firestore, "profiles", userId);
             const usernameDocRef = doc(firestore, "usernames", $formData.username);
 
-            // Check if the username is already taken
             const usernameDoc = await getDoc(usernameDocRef);
-            if (usernameDoc.exists() && usernameDoc.data().userId !== userId) {
-                throw new Error("Username is already taken");
+            if (usernameDoc.exists()) {
+                const usernameData = usernameDoc.data();
+                if (usernameData && usernameData.userId !== userId) {
+                    throw new Error("Username is already taken");
+                }
             }
 
             await setDoc(usernameDocRef, { userId });
