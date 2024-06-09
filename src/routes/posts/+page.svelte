@@ -144,7 +144,9 @@
             <Post />
         </div>
     {/if}
-    <Button class="fas fa-cog settings-cog" on:click={() => goto(routes.SETTINGS)}>Settings</Button>
+    <div class="fas fa-cog settings-cog">
+        <Button class="" on:click={() => goto(routes.SETTINGS)}>Settings</Button>
+    </div>
     <ShowPosts />
 </main>
 
