@@ -99,8 +99,7 @@
             />
         </Form.Control>
         <Form.Description>
-            This is your public display name. It can be your real name or a pseudonym. You can only change this once
-            every 30 days.
+            This is your public display name. It can be your real name or a pseudonym.
         </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
@@ -109,9 +108,6 @@
             <Form.Label>Bio</Form.Label>
             <Textarea {...attrs} bind:value="{$formData.bio}" />
         </Form.Control>
-        <Form.Description>
-            You can <span>@mention</span> other users and organizations to link to them.
-        </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
     <div>
