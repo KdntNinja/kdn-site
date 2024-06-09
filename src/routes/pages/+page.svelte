@@ -35,16 +35,10 @@
         width: 35%;
         height: 94vh;
         margin: auto;
-        text-align: center; /* Center the text on all elements */
+        text-align: center;
     }
     .p-4 {
-        padding: 1em; /* Increase padding for better spacing */
-    }
-    .rounded-lg {
-        border-radius: 1em; /* Increase border radius for a softer look */
-    }
-    .shadow-md {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+        padding: 1em;
     }
     @media (max-width: 768px) {
         .svelte-scroll-area {

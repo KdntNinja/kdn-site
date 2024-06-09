@@ -158,20 +158,6 @@
         justify-content: center;
         align-items: center;
     }
-    .open-button {
-        font-size: 20px;
-        padding: 10px 20px;
-    }
-    .sheet-content {
-        padding: 20px;
-    }
-
-    .swap-group-button,
-    .clear-posts-button {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
     .button-container {
         margin: 25px;
         display: flex;
