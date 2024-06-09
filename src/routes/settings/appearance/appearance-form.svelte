@@ -2,12 +2,8 @@
     import { z } from "zod";
 
     export const appearanceFormSchema = z.object({
-        theme: z.enum(["light", "dark"], {
+        theme: z.enum(["auto", "light", "dark"], {
             required_error: "Please select a theme.",
-        }),
-        font: z.enum(["inter", "manrope", "system"], {
-            invalid_type_error: "Select a font",
-            required_error: "Please select a font.",
         }),
     });
 
@@ -15,53 +11,111 @@
 </script>
 
 <script lang="ts">
-    import ChevronDown from "svelte-radix/ChevronDown.svelte";
-    import SuperDebug, { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
+    import  { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-    import { browser } from "$app/environment";
     import * as Form from "$lib/components/new-york/ui/form/index";
     import * as RadioGroup from "$lib/components/new-york/ui/radio-group/index.js";
     import { Label } from "$lib/components/new-york/ui/label/index.js";
-    import { cn } from "$lib/utils.js";
-    import { buttonVariants } from "$lib/components/new-york/ui/button/index.js";
-    export let data: SuperValidated<Infer<AppearanceFormSchema>>;
+    import { onMount } from "svelte";
+    import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
+    import { doc, getDoc, setDoc } from "firebase/firestore";
+    import { firestore } from "$lib/firebase";
+    import { routes } from "$lib/routes";
 
+    export let data: SuperValidated<Infer<AppearanceFormSchema>>;
     const form = superForm(data, {
         validators: zodClient(appearanceFormSchema),
     });
-
     const { form: formData, enhance } = form;
+
+    let auth;
+    let user: User | null = null;
+    let userId: string | null = null;
+
+    async function updateUserData() {
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        userId = user ? user.uid : null;
+
+        if (userId) {
+            const userDocRef = doc(firestore, "settings", userId);
+            const userDoc = await getDoc(userDocRef);
+
+            await setDoc(userDocRef, $formData);
+        }
+
+        form.reset();
+    }
+
+    onMount(() => {
+        auth = getAuth();
+        onAuthStateChanged(auth, async (userAuth) => {
+            if (!userAuth) {
+                window.location.href = routes.LOGIN;
+            } else {
+                user = userAuth;
+                userId = user.uid;
+                const userDocRef = doc(firestore, "profiles", userId);
+                const userDoc = await getDoc(userDocRef);
+                const userData = userDoc.data() as { theme: "auto" | "light" | "dark";};
+                if (userData) {
+                    $formData = userData;
+                } else {
+                    throw new Error("User data is invalid");
+                }
+            }
+        });
+    });
 </script>
 
 <form method="POST" use:enhance class="space-y-8">
-    <Form.Field {form} name="font">
-        <Form.Control let:attrs>
-            <Form.Label>Font</Form.Label>
-            <div class="relative w-max">
-                <select
-                    {...attrs}
-                    class="{cn(buttonVariants({ variant: 'outline' }), 'w-[200px] appearance-none font-normal')}"
-                    bind:value="{$formData.font}"
-                >
-                    <option value="inter">Inter</option>
-                    <option value="manrope">Manrope</option>
-                    <option value="system">System</option>
-                </select>
-                <ChevronDown class="absolute right-3 top-2.5 size-4 opacity-50" />
-            </div>
-        </Form.Control>
-        <Form.Description>Set the font you want to use in the dashboard.</Form.Description>
-        <Form.FieldErrors />
-    </Form.Field>
     <Form.Fieldset {form} name="theme">
         <Form.Legend>Theme</Form.Legend>
         <Form.Description>Select the theme for the dashboard.</Form.Description>
         <Form.FieldErrors />
         <RadioGroup.Root
-            class="grid max-w-md grid-cols-1 md:grid-cols-2 gap-8 pt-2"
+            class="grid max-w-full grid-cols-1 md:grid-cols-3 gap-8 pt-2"
             orientation="horizontal"
             bind:value="{$formData.theme}"
         >
+            <Form.Control let:attrs>
+                <Label class="[&:has([data-state=checked])>div]:border-primary">
+                    <RadioGroup.Item {...attrs} value="auto" class="sr-only" />
+                    <div
+                        class="flex items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
+                    >
+                        <div class="w-1/2 space-y-2 rounded-sm bg-[#ecedef] p-2">
+                            <div class="space-y-2 rounded-md bg-white p-2 shadow-sm">
+                                <div class="h-2 w-[40px] rounded-lg bg-[#ecedef]"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-[#ecedef]"></div>
+                            </div>
+                            <div class="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                <div class="h-4 w-4 rounded-full bg-[#ecedef]"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-[#ecedef]"></div>
+                            </div>
+                            <div class="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                <div class="h-4 w-4 rounded-full bg-[#ecedef]"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-[#ecedef]"></div>
+                            </div>
+                        </div>
+                        <div class="w-1/2 space-y-2 rounded-sm bg-slate-950 p-2">
+                            <div class="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                <div class="h-2 w-[40px] rounded-lg bg-slate-400"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-slate-400"></div>
+                            </div>
+                            <div class="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                <div class="h-4 w-4 rounded-full bg-slate-400"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-slate-400"></div>
+                            </div>
+                            <div class="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                <div class="h-4 w-4 rounded-full bg-slate-400"></div>
+                                <div class="h-2 w-[50px] rounded-lg bg-slate-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="block w-full p-2 text-center font-normal"> Auto </span>
+                </Label>
+            </Form.Control>
             <Form.Control let:attrs>
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="light" class="sr-only" />
@@ -111,12 +165,8 @@
             <RadioGroup.Input name="theme" />
         </RadioGroup.Root>
     </Form.Fieldset>
-    <Form.Button class="w-full md:w-auto">Update preferences</Form.Button>
+    <Form.Button class="w-full md:w-auto" on:click={updateUserData}>Update preferences</Form.Button>
 </form>
-
-{#if browser}
-    <SuperDebug data="{$formData}" />
-{/if}
 
 <style>
     @media (max-width: 768px) {

@@ -3,6 +3,7 @@
     import { Separator } from "$lib/components/new-york/ui/separator";
     import FormsLight from "$lib/img/forms-light.png";
     import FormsDark from "$lib/img/forms-dark.png";
+    import FormsAuto from "$lib/img/forms-auto.png";
     import { routes } from "$lib/routes";
     import { Button } from "$lib/components/ui/button";
 
@@ -19,6 +20,7 @@
 </script>
 
 <div class="md:hidden">
+    <enhanced:img src="{FormsAuto}" alt="Forms" class="hidden dark:block"></enhanced:img>
     <enhanced:img src="{FormsLight}" alt="Forms" class="block dark:hidden"></enhanced:img>
     <enhanced:img src="{FormsDark}" alt="Forms" class="hidden dark:block"></enhanced:img>
 </div>

@@ -1,127 +1,112 @@
 <script lang="ts" context="module">
     import { z } from "zod";
     export const profileFormSchema = z.object({
-        fields: z.object({
-            username: z
-                .string()
-                .min(2, "Username must be at least 2 characters.")
-                .max(15, "Username must not be longer than 15 characters"),
-            bio: z.string().min(4).max(160).default(""),
-            urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
-        }),
+        username: z
+            .string()
+            .min(2, "Username must be at least 2 characters.")
+            .max(15, "Username must not be longer than 15 characters"),
+        bio: z.string().min(4).max(160).default("A LinkLoop user."),
+        urls: z
+            .array(z.string().url())
+            .default(["https://kdnsite.xyz"]),
     });
     export type ProfileFormSchema = typeof profileFormSchema;
 </script>
 
 <script lang="ts">
+    import * as Form from "$lib/components/new-york/ui/form/index.js";
+    import * as Select from "$lib/components/new-york/ui/select/index.js";
     import { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-    import { tick } from "svelte";
-    import * as Form from "$lib/components/new-york/ui/form";
-    import { Input } from "$lib/components/new-york/ui/input";
-    import { Button } from "$lib/components/new-york/ui/button";
-    import { Textarea } from "$lib/components/new-york/ui/textarea";
+    import { onMount, tick } from "svelte";
+    import { Input } from "$lib/components/new-york/ui/input/index.js";
+    import { Button } from "$lib/components/new-york/ui/button/index.js";
+    import { Textarea } from "$lib/components/new-york/ui/textarea/index.js";
     import { cn } from "$lib/utils.js";
-
-    import { onMount } from "svelte";
-    import { doc, setDoc, getDoc } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { doc, getDoc, setDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
     import { routes } from "$lib/routes";
-
-    let defaultUserData = {
-        fields: {
-            username: "",
-            bio: "",
-            urls: [],
-        },
-    };
-    let userData = { ...defaultUserData };
-
-    let auth;
-    let currentUserId: string | null = null;
-
-    async function saveUserData() {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        if (user) {
-            const userDocRef = doc(firestore, "users", user.uid);
-            await setDoc(userDocRef, $formData.fields, { merge: true });
-            await loadUserData();
-        }
-    }
-
-    async function loadUserData() {
-        auth = getAuth();
-        const user = auth.currentUser;
-
-        if (!user) {
-            console.error("No user is currently authenticated");
-        } else {
-            currentUserId = user.uid;
-            const userDocRef = doc(firestore, "users", currentUserId);
-            const userDoc = await getDoc(userDocRef);
-            let fetchedData = userDoc.data();
-            if (!fetchedData || !fetchedData.group) {
-                throw new Error("User data is invalid");
-            }
-            fetchedData.fields = { ...defaultUserData.fields, ...fetchedData.fields };
-            console.log(fetchedData);
-        }
-    }
-
-    async function onSubmit() {
-        await saveUserData();
-    }
+    import type { User } from "firebase/auth";
 
     export let data: SuperValidated<Infer<ProfileFormSchema>>;
-
     const form = superForm(data, {
         validators: zodClient(profileFormSchema),
-        dataType: "json",
     });
-
     const { form: formData, enhance } = form;
 
+    let auth;
+    let user: User | null = null;
+    let userId: string | null = null;
+
     function addUrl() {
-        $formData.fields.urls = [...$formData.fields.urls, ""];
+        $formData.urls = [...$formData.urls, ""];
 
         tick().then(() => {
-            const urlInputs = Array.from(document.querySelectorAll<HTMLElement>("#profile-form input[name='urls']"));
+            const urlInputs = Array.from(
+                document.querySelectorAll<HTMLElement>("#profile-form input[name='urls']")
+            );
             const lastInput = urlInputs[urlInputs.length - 1];
             lastInput && lastInput.focus();
         });
     }
 
+    function deleteUrl(index: number) {
+        $formData.urls.splice(index, 1);
+    }
+
+    async function updateUserData() {
+        const authInstance = getAuth();
+        const user = authInstance.currentUser;
+        userId = user ? user.uid : null;
+
+        if (userId) {
+            const userDocRef = doc(firestore, "profiles", userId);
+            const userDoc = await getDoc(userDocRef);
+
+            await setDoc(userDocRef, $formData);
+        }
+
+        form.reset();
+    }
+
     onMount(() => {
         auth = getAuth();
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
+        onAuthStateChanged(auth, async (userAuth) => {
+            if (!userAuth) {
                 window.location.href = routes.LOGIN;
             } else {
-                await loadUserData();
+                user = userAuth;
+                userId = user.uid;
+                const userDocRef = doc(firestore, "profiles", userId);
+                const userDoc = await getDoc(userDocRef);
+                const userData = userDoc.data() as { username: string; bio: string; urls: string[]; };
+                if (userData) {
+                    $formData = userData;
+                } else {
+                    throw new Error("User data is invalid");
+                }
             }
         });
     });
-
-    $: userData = { ...defaultUserData };
 </script>
 
-<form method="POST" class="space-y-6 md:space-y-8" id="profile-form" on:submit|preventDefault="{onSubmit}">
-    <Form.Field {form} name="fields.username">
+<form method="POST" class="space-y-8" use:enhance id="profile-form">
+    <Form.Field {form} name="username">
         <Form.Control let:attrs>
             <Form.Label>Username</Form.Label>
-            <Input placeholder="@username" bind:value="{$formData.fields.username}" />
+            <Input placeholder={user ? (user.displayName || (user.email ? user.email.split("@")[0] : "")) : ""} {...attrs} bind:value={$formData.username} />
         </Form.Control>
-        <Form.Description>This is your public display name. It can be your real name or a pseudonym.</Form.Description>
+        <Form.Description>
+            This is your public display name. It can be your real name or a pseudonym. You can only
+            change this once every 30 days.
+        </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
-
-    <Form.Field {form} name="fields.bio">
+    <Form.Field {form} name="bio">
         <Form.Control let:attrs>
             <Form.Label>Bio</Form.Label>
-            <Textarea bind:value="{$formData.fields.bio}" />
+            <Textarea {...attrs} bind:value={$formData.bio} />
         </Form.Control>
         <Form.Description>
             You can <span>@mention</span> other users and organizations to link to them.
@@ -129,33 +114,28 @@
         <Form.FieldErrors />
     </Form.Field>
     <div>
-        <Form.Fieldset {form} name="fields.urls">
-            <Form.Legend>URLs</Form.Legend>
-            {#each $formData.fields.urls as url, i}
-                <Form.ElementField {form} name="{`fields.urls[${i}]`}">
-                    <Form.Description class="{cn(i !== 0 && 'sr-only')}">
-                        Add links to your website, blog, or social media profiles.
-                    </Form.Description>
-                    <Form.Control let:attrs>
-                        <Input {...attrs} bind:value="{$formData.fields.urls[i]}" />
-                    </Form.Control>
-                    <Form.FieldErrors />
-                </Form.ElementField>
-            {/each}
-        </Form.Fieldset>
-        <Button type="button" variant="outline" size="sm" class="mt-2" on:click="{addUrl}">Add URL</Button>
-    </div>
-
-    <Form.Button type="submit">Update profile</Form.Button>
+    <Form.Fieldset {form} name="urls">
+        <Form.Legend>URLs</Form.Legend>
+        {#each $formData.urls as _, i}
+            <Form.ElementField {form} name="urls[{i}]">
+                <Form.Description class={cn(i !== 0 && "sr-only")}>
+                    Add links to your website, blog, or social media profiles.
+                </Form.Description>
+                <Form.Control let:attrs>
+                    <div class="flex items-center">
+                        <Input {...attrs} bind:value={$formData.urls[i]} class="flex-grow" />
+                        <Button type="button" variant="outline" size="sm" class="ml-2" on:click={() => deleteUrl(i)}>
+                            Delete URL
+                        </Button>
+                    </div>
+                </Form.Control>
+                <Form.FieldErrors />
+            </Form.ElementField>
+        {/each}
+    </Form.Fieldset>
+    <Button type="button" variant="outline" size="sm" class="mt-2" on:click={addUrl}>
+        Add URL
+    </Button>
+</div>
+    <Form.Button on:click={updateUserData}>Update profile</Form.Button>
 </form>
-
-<style>
-    form {
-        padding: 10px;
-    }
-    @media (max-width: 768px) {
-        form {
-            padding: 5px;
-        }
-    }
-</style>
