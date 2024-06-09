@@ -11,6 +11,7 @@
     import { onMount } from "svelte";
     import { routes } from "$lib/routes";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { Button } from "$lib/components/ui/button";
 
     export let post: PostModel;
     let isEditing = false;
