@@ -62,7 +62,6 @@
 
             await setDoc(userDocRef, $formData);
         }
-        location.reload();
     }
 
     onMount(() => {

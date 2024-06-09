@@ -41,7 +41,7 @@
         const postQuery = query(postCollection);
         const snapshot = await getDocs(postQuery);
         const storage = getStorage();
-        const deletePromises = snapshot.docs.map(doc1 => {
+        const deletePromises = snapshot.docs.map((doc1) => {
             return new Promise(async (resolve) => {
                 const postData = doc1.data();
                 try {
@@ -50,16 +50,16 @@
                         await deleteObject(imageRef);
                     }
                     await deleteDoc(doc1.ref);
-                    resolve({ status: 'fulfilled' });
+                    resolve({ status: "fulfilled" });
                 } catch (error) {
                     console.error(`Failed to delete post with ID: ${doc1.id}`, error);
-                    resolve({ status: 'rejected' });
+                    resolve({ status: "rejected" });
                 }
             });
         });
         const results = await Promise.allSettled(deletePromises);
-        const deletedCount = results.filter(result => result.status === 'fulfilled').length;
-        const failedCount = results.filter(result => result.status === 'rejected').length;
+        const deletedCount = results.filter((result) => result.status === "fulfilled").length;
+        const failedCount = results.filter((result) => result.status === "rejected").length;
         toast.success(`Successfully deleted ${deletedCount} post(s). Failed to delete ${failedCount} post(s).`);
     };
 

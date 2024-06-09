@@ -60,9 +60,7 @@
             const authInstance = getAuth();
             const user = authInstance.currentUser;
             let userName = "";
-            if (user) {
-                userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
-            }
+
             let userId = user ? user.uid : null;
 
             if (!userId) {
@@ -74,6 +72,21 @@
 
             if (!userData || !userData.group) {
                 throw new Error("User data is invalid");
+            }
+
+            if (user) {
+                const userId = user.uid;
+                const userNameDocRef = doc(firestore, "profiles", userId);
+                const userDoc = await getDoc(userNameDocRef);
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    if (userData && userData.username) {
+                        userName = userData.username;
+                    } else {
+                        userName = user.displayName || (user.email ? user.email.split("@")[0] : "");
+                    }
+                }
             }
 
             let imageUrl = "";
