@@ -14,10 +14,6 @@
 
     import { goto } from '$app/navigation';
 
-    function navigateToSettings() {
-        goto(routes.SETTINGS);
-    }
-
     let auth;
     let isAdmin: boolean = false;
     let userId: string | null = null;
@@ -91,7 +87,6 @@
 
 <main>
     <div class="top-spacer">
-        <button class="fas fa-cog settings-cog" on:click={navigateToSettings}>Settings</button>
         <Sheet.Root>
             <Sheet.Trigger asChild let:builder>
                 <Button builders="{[builder]}" variant="secondary" class="open-button">Open</Button>
@@ -100,8 +95,8 @@
                 <div class="grid gap-4 py-4">
                     <div class="top-spacer">
                         <div class="button-container">
-
                             {#if isAdmin}
+                                <Post />
                                 <Sheet.Close asChild let:builder>
                                     <Button
                                         builders="{[builder]}"
@@ -137,8 +132,6 @@
                                         </Dialog.Content>
                                     </Dialog.Root>
                                 </Sheet.Close>
-                                <br />
-                                <Post />
                             {/if}
                         </div>
                     </div>
@@ -151,6 +144,7 @@
             <Post />
         </div>
     {/if}
+    <Button class="fas fa-cog settings-cog" on:click={() => goto(routes.SETTINGS)}>Settings</Button>
     <ShowPosts />
 </main>
 

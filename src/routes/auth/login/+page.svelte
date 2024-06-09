@@ -11,11 +11,7 @@
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                if (isMobileDevice()) {
-                    goto(routes.POSTS);
-                } else {
-                    goto(routes.PAGES);
-                }
+                goto(routes.POSTS);
             }
         });
     });

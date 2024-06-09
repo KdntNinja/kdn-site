@@ -45,11 +45,7 @@
                         { merge: true },
                     );
                 }
-                if (isMobileDevice()) {
-                    await goto(routes.POSTS);
-                } else {
-                    await goto(routes.PAGES);
-                }
+                await goto(routes.POSTS);
             }
         } catch (error) {
             console.error(error);

@@ -19,7 +19,7 @@
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                goto(routes.PAGES);
+                goto(routes.POSTS);
             }
         });
     });
@@ -44,7 +44,7 @@
                     );
                 }
             }
-            await goto(routes.PAGES);
+            await goto(routes.POSTS);
         } catch (error) {
             console.error(error);
         }
