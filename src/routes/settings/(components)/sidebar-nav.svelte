@@ -3,7 +3,7 @@
     import { crossfade } from "svelte/transition";
     import { cn } from "$lib/utils.js";
     import { page } from "$app/stores";
-    import { Button } from "$lib/components/new-york/ui/button/index.js";
+    import { Button } from "$lib/components/ui/new-york/button/index.js";
 
     let className: string | undefined | null = undefined;
     export let items: { href: string; title: string }[];

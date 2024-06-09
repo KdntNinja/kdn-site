@@ -13,9 +13,9 @@
 <script lang="ts">
     import { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
-    import * as Form from "$lib/components/new-york/ui/form/index";
-    import * as RadioGroup from "$lib/components/new-york/ui/radio-group/index.js";
-    import { Label } from "$lib/components/new-york/ui/label/index.js";
+    import * as Form from "$lib/components/ui/new-york/form/index";
+    import * as RadioGroup from "$lib/components/ui/new-york/radio-group/index.js";
+    import { Label } from "$lib/components/ui/new-york/label/index.js";
     import { onMount } from "svelte";
     import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
     import { doc, setDoc } from "firebase/firestore";

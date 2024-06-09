@@ -12,14 +12,14 @@
 </script>
 
 <script lang="ts">
-    import * as Form from "$lib/components/new-york/ui/form/index.js";
-    import * as Select from "$lib/components/new-york/ui/select/index.js";
+    import * as Form from "$lib/components/ui/new-york/form/index.js";
+    import * as Select from "$lib/components/ui/new-york/select/index.js";
     import { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import { onMount, tick } from "svelte";
-    import { Input } from "$lib/components/new-york/ui/input/index.js";
-    import { Button } from "$lib/components/new-york/ui/button/index.js";
-    import { Textarea } from "$lib/components/new-york/ui/textarea/index.js";
+    import { Input } from "$lib/components/ui/new-york/input/index.js";
+    import { Button } from "$lib/components/ui/new-york/button/index.js";
+    import { Textarea } from "$lib/components/ui/new-york/textarea/index.js";
     import { cn } from "$lib/utils.js";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { doc, getDoc, setDoc } from "firebase/firestore";
