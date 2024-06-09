@@ -90,7 +90,7 @@
             throw new Error("User data is invalid");
         }
 
-        let imageUrl = "";
+        let imageUrl = post?.imageUrl || "";
         if (post) {
             if (file) {
                 const storage = getStorage();
