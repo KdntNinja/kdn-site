@@ -59,17 +59,7 @@
 
         if (userId) {
             const userDocRef = doc(firestore, "profiles", userId);
-            const usernameDocRef = doc(firestore, "usernames", $formData.username);
 
-            const usernameDoc = await getDoc(usernameDocRef);
-            if (usernameDoc.exists()) {
-                const usernameData = usernameDoc.data();
-                if (usernameData && usernameData.userId !== userId) {
-                    throw new Error("Username is already taken");
-                }
-            }
-
-            await setDoc(usernameDocRef, { userId });
             await setDoc(userDocRef, $formData);
         }
         location.reload();
