@@ -8,6 +8,8 @@
     import { routes } from "$lib/routes";
     import type { PostModel } from "$lib/models";
 
+    let currentUserId: string | null = null;
+
     let auth: ReturnType<typeof getAuth>;
     let posts: PostModel[] = [];
     let isLoading: boolean = false;

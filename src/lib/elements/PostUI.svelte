@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as Dialog from "$lib/components/ui/dialog/index.js";
+    import * as Form from "$lib/components/ui/new-york/form/index.js";
     import { Label } from "$lib/components/ui/label";
     import { Switch } from "$lib/components/ui/switch";
     import { Badge } from "$lib/components/ui/badge";
@@ -11,12 +12,12 @@
     import { onMount } from "svelte";
     import { routes } from "$lib/routes";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import { Button } from "$lib/components/ui/button";
 
     export let post: PostModel;
     let isEditing = false;
     let isAdmin = false;
 
+    let userName: string = "";
     let auth;
     let currentUserId: string | null = null;
     let selectedGroup;
@@ -31,6 +32,14 @@
             if (!user) {
                 window.location.href = routes.LOGIN;
             } else {
+                const profileDocRef = doc(firestore, "profiles", post.userId);
+                const profileDoc = await getDoc(profileDocRef);
+                const profileData = profileDoc.data();
+                if (profileData) {
+                    userName = profileData.username;
+                } else {
+                    userName = user.displayName || (user.email ? user.email.split("@")[0] : "")
+                }
                 currentUserId = user.uid;
                 const userDocRef = doc(firestore, "users", currentUserId);
                 const userDoc = await getDoc(userDocRef);
@@ -48,7 +57,7 @@
 <div class="post-card">
     <div class="post-header">
         <div class="post-author">
-            <Badge>{post.userName}</Badge>
+            <Badge>{userName}</Badge>
         </div>
     </div>
     <div class="post-content">

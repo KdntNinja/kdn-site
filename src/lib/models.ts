@@ -10,9 +10,9 @@ export type PostModel = {
     title: string;
     content: string;
     userId: string;
-    userName: string;
     timestamp: number;
     imageUrl: string;
+    replies: Array<{ text: string; userId: string; timestamp: number }>;
 };
 
 export interface UserRole {

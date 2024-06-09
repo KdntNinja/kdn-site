@@ -7,7 +7,6 @@
 
     import Login from "./login.svelte";
 
-
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -16,6 +15,5 @@
         });
     });
 </script>
-
 
 <Login />
