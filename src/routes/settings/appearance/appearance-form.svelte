@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-    import  { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
+    import { type Infer, type SuperValidated, superForm } from "sveltekit-superforms";
     import { zodClient } from "sveltekit-superforms/adapters";
     import * as Form from "$lib/components/new-york/ui/form/index";
     import * as RadioGroup from "$lib/components/new-york/ui/radio-group/index.js";
@@ -68,7 +68,7 @@
                 const userDocRef = doc(firestore, "settings", userId);
 
                 const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data() as { theme: "auto" | "light" | "dark"; };
+                const userData = userDoc.data() as { theme: "auto" | "light" | "dark" };
 
                 if (userData) {
                     $formData = userData;
@@ -88,13 +88,15 @@
         <RadioGroup.Root
             class="grid max-w-full grid-cols-1 md:grid-cols-3 gap-8 pt-2"
             orientation="horizontal"
-            bind:value={$formData.theme}
+            bind:value="{$formData.theme}"
         >
             <Form.Control let:attrs>
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="auto" class="sr-only" />
                     <div
-                        class="{($formData.theme === 'auto' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} flex items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
+                        class="{$formData.theme === 'auto'
+                            ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60'
+                            : ''} flex items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
                     >
                         <div class="w-1/2 space-y-2 rounded-sm bg-[#ecedef] p-2">
                             <div class="space-y-2 rounded-md bg-white p-2 shadow-sm">
@@ -132,7 +134,9 @@
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="light" class="sr-only" />
                     <div
-                        class="{($formData.theme === 'light' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} items-center rounded-md border-2 border-muted p-1 hover:border-accent"
+                        class="{$formData.theme === 'light'
+                            ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60'
+                            : ''} items-center rounded-md border-2 border-muted p-1 hover:border-accent"
                     >
                         <div class="space-y-2 rounded-sm bg-[#ecedef] p-2">
                             <div class="space-y-2 rounded-md bg-white p-2 shadow-sm">
@@ -156,7 +160,9 @@
                 <Label class="[&:has([data-state=checked])>div]:border-primary">
                     <RadioGroup.Item {...attrs} value="dark" class="sr-only" />
                     <div
-                        class="{($formData.theme === 'dark' ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60' : '')} items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
+                        class="{$formData.theme === 'dark'
+                            ? 'ring-2 ring-offset-2 ring-offset-light-blue-300 ring-white ring-opacity-60'
+                            : ''} items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground"
                     >
                         <div class="space-y-2 rounded-sm bg-slate-950 p-2">
                             <div class="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
@@ -179,7 +185,7 @@
             <RadioGroup.Input name="theme" />
         </RadioGroup.Root>
     </Form.Fieldset>
-    <Form.Button class="w-full md:w-auto" on:click={updateUserData}>Update preferences</Form.Button>
+    <Form.Button class="w-full md:w-auto" on:click="{updateUserData}">Update preferences</Form.Button>
 </form>
 
 <style>
