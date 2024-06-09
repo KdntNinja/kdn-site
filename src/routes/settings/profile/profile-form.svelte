@@ -6,9 +6,7 @@
             .min(2, "Username must be at least 2 characters.")
             .max(15, "Username must not be longer than 15 characters"),
         bio: z.string().min(4).max(160).default("A LinkLoop user."),
-        urls: z
-            .array(z.string().url())
-            .default(["https://kdnsite.xyz"]),
+        urls: z.array(z.string().url()).default(["https://kdnsite.xyz"]),
     });
     export type ProfileFormSchema = typeof profileFormSchema;
 </script>
@@ -26,6 +24,7 @@
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import { doc, getDoc, setDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
+    import { onSnapshot } from "firebase/firestore";
     import { routes } from "$lib/routes";
     import type { User } from "firebase/auth";
 
@@ -43,9 +42,7 @@
         $formData.urls = [...$formData.urls, ""];
 
         tick().then(() => {
-            const urlInputs = Array.from(
-                document.querySelectorAll<HTMLElement>("#profile-form input[name='urls']")
-            );
+            const urlInputs = Array.from(document.querySelectorAll<HTMLElement>("#profile-form input[name='urls']"));
             const lastInput = urlInputs[urlInputs.length - 1];
             lastInput && lastInput.focus();
         });
@@ -62,12 +59,10 @@
 
         if (userId) {
             const userDocRef = doc(firestore, "profiles", userId);
-            const userDoc = await getDoc(userDocRef);
 
             await setDoc(userDocRef, $formData);
         }
-
-        form.reset();
+        location.reload();
     }
 
     onMount(() => {
@@ -79,13 +74,15 @@
                 user = userAuth;
                 userId = user.uid;
                 const userDocRef = doc(firestore, "profiles", userId);
-                const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data() as { username: string; bio: string; urls: string[]; };
-                if (userData) {
-                    $formData = userData;
-                } else {
-                    throw new Error("User data is invalid");
-                }
+
+                onSnapshot(userDocRef, (doc) => {
+                    const userData = doc.data() as { username: string; bio: string; urls: string[] };
+                    if (userData) {
+                        $formData = userData;
+                    } else {
+                        throw new Error("User data is invalid");
+                    }
+                });
             }
         });
     });
@@ -95,18 +92,22 @@
     <Form.Field {form} name="username">
         <Form.Control let:attrs>
             <Form.Label>Username</Form.Label>
-            <Input placeholder={user ? (user.displayName || (user.email ? user.email.split("@")[0] : "")) : ""} {...attrs} bind:value={$formData.username} />
+            <Input
+                placeholder="{user ? user.displayName || (user.email ? user.email.split('@')[0] : '') : ''}"
+                {...attrs}
+                bind:value="{$formData.username}"
+            />
         </Form.Control>
         <Form.Description>
-            This is your public display name. It can be your real name or a pseudonym. You can only
-            change this once every 30 days.
+            This is your public display name. It can be your real name or a pseudonym. You can only change this once
+            every 30 days.
         </Form.Description>
         <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="bio">
         <Form.Control let:attrs>
             <Form.Label>Bio</Form.Label>
-            <Textarea {...attrs} bind:value={$formData.bio} />
+            <Textarea {...attrs} bind:value="{$formData.bio}" />
         </Form.Control>
         <Form.Description>
             You can <span>@mention</span> other users and organizations to link to them.
@@ -114,28 +115,32 @@
         <Form.FieldErrors />
     </Form.Field>
     <div>
-    <Form.Fieldset {form} name="urls">
-        <Form.Legend>URLs</Form.Legend>
-        {#each $formData.urls as _, i}
-            <Form.ElementField {form} name="urls[{i}]">
-                <Form.Description class={cn(i !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
-                </Form.Description>
-                <Form.Control let:attrs>
-                    <div class="flex items-center">
-                        <Input {...attrs} bind:value={$formData.urls[i]} class="flex-grow" />
-                        <Button type="button" variant="outline" size="sm" class="ml-2" on:click={() => deleteUrl(i)}>
-                            Delete URL
-                        </Button>
-                    </div>
-                </Form.Control>
-                <Form.FieldErrors />
-            </Form.ElementField>
-        {/each}
-    </Form.Fieldset>
-    <Button type="button" variant="outline" size="sm" class="mt-2" on:click={addUrl}>
-        Add URL
-    </Button>
-</div>
-    <Form.Button on:click={updateUserData}>Update profile</Form.Button>
+        <Form.Fieldset {form} name="urls">
+            <Form.Legend>URLs</Form.Legend>
+            {#each $formData.urls as _, i}
+                <Form.ElementField {form} name="urls[{i}]">
+                    <Form.Description class="{cn(i !== 0 && 'sr-only')}">
+                        Add links to your website, blog, or social media profiles.
+                    </Form.Description>
+                    <Form.Control let:attrs>
+                        <div class="flex items-center">
+                            <Input {...attrs} bind:value="{$formData.urls[i]}" class="flex-grow" />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                class="ml-2"
+                                on:click="{() => deleteUrl(i)}"
+                            >
+                                Delete URL
+                            </Button>
+                        </div>
+                    </Form.Control>
+                    <Form.FieldErrors />
+                </Form.ElementField>
+            {/each}
+        </Form.Fieldset>
+        <Button type="button" variant="outline" size="sm" class="mt-2" on:click="{addUrl}">Add URL</Button>
+    </div>
+    <Form.Button on:click="{updateUserData}">Update profile</Form.Button>
 </form>

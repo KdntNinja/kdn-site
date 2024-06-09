@@ -18,8 +18,9 @@
     import { Label } from "$lib/components/new-york/ui/label/index.js";
     import { onMount } from "svelte";
     import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
-    import { doc, getDoc, setDoc } from "firebase/firestore";
+    import { doc, setDoc } from "firebase/firestore";
     import { firestore } from "$lib/firebase";
+    import { getDoc } from "firebase/firestore";
     import { routes } from "$lib/routes";
 
     export let data: SuperValidated<Infer<AppearanceFormSchema>>;
@@ -32,19 +33,28 @@
     let user: User | null = null;
     let userId: string | null = null;
 
+    let selectedTheme = "auto";
+    const themes = ["auto", "light", "dark"];
+    function sortThemes() {
+        return themes.sort((a, b) => (a === selectedTheme ? -1 : b === selectedTheme ? 1 : 0));
+    }
+
     async function updateUserData() {
         const authInstance = getAuth();
         const user = authInstance.currentUser;
         userId = user ? user.uid : null;
 
         if (userId) {
-            const userDocRef = doc(firestore, "settings", userId);
-            const userDoc = await getDoc(userDocRef);
+            const userDocRef = doc(firestore, "users", userId);
 
-            await setDoc(userDocRef, $formData);
+            const selectedTheme = $formData.theme;
+
+            await setDoc(userDocRef, { theme: selectedTheme }, { merge: true });
         }
 
         form.reset();
+
+        location.reload();
     }
 
     onMount(() => {
@@ -55,9 +65,11 @@
             } else {
                 user = userAuth;
                 userId = user.uid;
-                const userDocRef = doc(firestore, "profiles", userId);
+                const userDocRef = doc(firestore, "settings", userId);
+
                 const userDoc = await getDoc(userDocRef);
-                const userData = userDoc.data() as { theme: "auto" | "light" | "dark";};
+                const userData = userDoc.data() as { theme: "auto" | "light" | "dark"; };
+
                 if (userData) {
                     $formData = userData;
                 } else {
