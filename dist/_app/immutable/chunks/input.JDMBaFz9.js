@@ -1,6 +1,6 @@
 import {
     s as y,
-    v as T,
+    v as L,
     w as h,
     e as k,
     c as D,
@@ -19,14 +19,14 @@ import {
     H as Q,
     G as c,
 } from "./scheduler.CCxz69I-.js";
-import { S as G, i as I, t as X, b as Y } from "./index.BXRlT4_D.js";
-import { g as P } from "./spread.CgU5AtxT.js";
-import { c as g, r as Z } from "./routes.BurMO2Cv.js";
-import { G as x, g as $, l as ee, a as se, d as te, e as le, f as ne } from "./firebase.BWW6NFj2.js";
+import { S as I, i as P, t as X, b as Y } from "./index.BXRlT4_D.js";
+import { g as S } from "./spread.CgU5AtxT.js";
+import { c as g, r as Z } from "./routes.CVgu8Yrj.js";
+import { G as x, g as $, l as ee, a as se, d as te, e as le, f as ne } from "./firebase.CPJmnSU3.js";
 function ae(s) {
     let e, o, i;
     const d = s[3].default,
-        a = T(d, s, s[2], null);
+        a = L(d, s, s[2], null);
     let u = [{ class: (o = g("flex items-center p-6 pt-0", s[0])) }, s[1]],
         n = {};
     for (let l = 0; l < u.length; l += 1) n = h(n, u[l]);
@@ -49,7 +49,7 @@ function ae(s) {
             a && a.p && (!i || f & 4) && J(a, d, l, l[2], i ? M(d, l[2], f, null) : K(l[2]), null),
                 m(
                     e,
-                    (n = P(u, [
+                    (n = S(u, [
                         (!i || (f & 1 && o !== (o = g("flex items-center p-6 pt-0", l[0])))) && { class: o },
                         f & 2 && l[1],
                     ])),
@@ -81,9 +81,9 @@ function oe(s, e, o) {
         [n, d, u, a]
     );
 }
-class me extends G {
+class me extends I {
     constructor(e) {
-        super(), I(this, e, oe, ae, y, { class: 0 });
+        super(), P(this, e, oe, ae, y, { class: 0 });
     }
 }
 const _e = "" + new URL("../assets/Google.B9qdDu9j.svg", import.meta.url).href,
@@ -96,7 +96,7 @@ const _e = "" + new URL("../assets/Google.B9qdDu9j.svg", import.meta.url).href,
                 const d = te(e, "users", i.uid);
                 (await le(d)).exists() || (await ne(d, { group: "default", isAdmin: !1 }, { merge: !0 }));
             }
-            window.location.href = Z.PAGES;
+            window.location.href = Z.POSTS;
         } catch (o) {
             console.error(o);
         }
@@ -157,7 +157,7 @@ function ie(s) {
         p(n, [l]) {
             m(
                 e,
-                (u = P(a, [
+                (u = S(a, [
                     l & 2 &&
                         o !==
                             (o = g(
@@ -189,13 +189,16 @@ function re(s, e, o) {
     function f(t) {
         c.call(this, s, t);
     }
-    function S(t) {
+    function G(t) {
+        c.call(this, s, t);
+    }
+    function N(t) {
         c.call(this, s, t);
     }
     function A(t) {
         c.call(this, s, t);
     }
-    function N(t) {
+    function O(t) {
         c.call(this, s, t);
     }
     function q(t) {
@@ -204,13 +207,10 @@ function re(s, e, o) {
     function B(t) {
         c.call(this, s, t);
     }
-    function E(t) {
-        c.call(this, s, t);
-    }
-    function O(t) {
-        c.call(this, s, t);
-    }
     function R(t) {
+        c.call(this, s, t);
+    }
+    function T(t) {
         c.call(this, s, t);
     }
     function U(t) {
@@ -225,13 +225,13 @@ function re(s, e, o) {
     function z(t) {
         c.call(this, s, t);
     }
+    function E(t) {
+        c.call(this, s, t);
+    }
     function F(t) {
         c.call(this, s, t);
     }
-    function H(t) {
-        c.call(this, s, t);
-    }
-    function L() {
+    function H() {
         (u = this.value), o(0, u);
     }
     return (
@@ -242,12 +242,12 @@ function re(s, e, o) {
                 "value" in t && o(0, (u = t.value)),
                 "readonly" in t && o(2, (n = t.readonly));
         }),
-        [u, a, n, d, l, f, S, A, N, q, B, E, O, R, U, W, j, z, F, H, L]
+        [u, a, n, d, l, f, G, N, A, O, q, B, R, T, U, W, j, z, E, F, H]
     );
 }
-class ve extends G {
+class ve extends I {
     constructor(e) {
-        super(), I(this, e, re, ie, y, { class: 1, value: 0, readonly: 2 });
+        super(), P(this, e, re, ie, y, { class: 1, value: 0, readonly: 2 });
     }
 }
 export { me as C, ve as I, ge as c, _e as g };

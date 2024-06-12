@@ -1,4 +1,4 @@
-import { w as l } from "./routes.BurMO2Cv.js";
+import { w as l } from "./routes.CVgu8Yrj.js";
 const x = (u, s) => {
     const n = l(u),
         e = (t, o) => {

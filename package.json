@@ -10,7 +10,7 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "lint": "prettier --write . && eslint src --ignore .gitignore --fix --no-warn-ignored",
         "format": "npm run check && npm run lint",
-        "deploy": "npm run format && vercel --prod"
+        "deploy": "npm run lint && npm run build && npm run lint && npx cap sync"
     },
     "devDependencies": {
         "@capacitor/cli": "^6.1.0",
@@ -45,6 +45,7 @@
         "@codetrix-studio/capacitor-google-auth": "^3.4.0-rc.4",
         "@google-cloud/translate": "^8.2.0",
         "@internationalized/date": "^3.5.4",
+        "@sveltejs/adapter-node": "^5.0.1",
         "@sveltejs/adapter-static": "^3.0.1",
         "@sveltejs/adapter-vercel": "^5.3.0",
         "@unovis/svelte": "^1.4.1",
