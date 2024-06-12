@@ -40,7 +40,7 @@
         auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                    await goto(routes.LOGIN);
+                await goto(routes.LOGIN);
             } else {
                 currentUserId = user.uid;
                 const userDocRef = doc(firestore, "users", currentUserId);

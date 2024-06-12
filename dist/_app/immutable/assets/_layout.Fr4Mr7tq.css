@@ -1,0 +1,11 @@
+.go-home-button.svelte-1o7dljc {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}
+@media (max-width: 768px) {
+    .go-home-button.svelte-1o7dljc {
+        right: 10px;
+        bottom: 10px;
+    }
+}

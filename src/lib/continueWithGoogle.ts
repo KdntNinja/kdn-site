@@ -21,7 +21,7 @@ export const continueWithGoogle = async () => {
                 );
             }
         }
-        window.location.href = routes.PAGES;
+        window.location.href = routes.POSTS;
     } catch (error) {
         console.error(error);
     }

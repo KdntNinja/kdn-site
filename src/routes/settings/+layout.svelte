@@ -41,7 +41,7 @@
     </div>
 </div>
 <div class="go-home-button">
-    <Button on:click="{() => (goto(routes.POSTS))}">Home</Button>
+    <Button on:click="{() => goto(routes.POSTS)}">Home</Button>
 </div>
 
 <style>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>LinkLoop</title>
+        <meta charset="utf-8" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="manifest" href="/manifest.json" />
+
+        <link href="../_app/immutable/assets/0.C_q3zic9.css" rel="stylesheet" />
+        <link href="../_app/immutable/assets/sonner.436keKGd.css" rel="stylesheet" />
+        <link rel="modulepreload" href="../_app/immutable/entry/start.Vh3QzsEy.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/entry.VNHXcdGV.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/scheduler.CCxz69I-.js" />
+        <link rel="modulepreload" href="../_app/immutable/entry/app.Blu5Gr8v.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/index.BXRlT4_D.js" />
+        <link rel="modulepreload" href="../_app/immutable/nodes/0.Bm34j1EU.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/sonner.dqplRPyM.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/spread.CgU5AtxT.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/each.DUCJrQqa.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/stores.Cda7gkz8.js" />
+        <link rel="modulepreload" href="../_app/immutable/nodes/4.s4jLRebP.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/routes.BurMO2Cv.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/firebase.BWW6NFj2.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/card.C_2LXiek.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/card-title.DfG4Skik.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/input.EnLd8Tr8.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/index.OiyrjFVc.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/label.B47Zk4xs.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/label.DSIJsmca.js" />
+        <link rel="modulepreload" href="../_app/immutable/chunks/attrs.BDvkrEDx.js" />
+        <!-- HEAD_svelte-cpyj77_START -->
+        <!-- HTML_TAG_START -->
+        <script nonce="%sveltekit.nonce%">
+            (function setInitialMode(defaultMode, themeColors2) {
+                const rootEl = document.documentElement;
+                const mode = localStorage.getItem("mode-watcher-mode") || defaultMode;
+                const light =
+                    mode === "light" ||
+                    (mode === "system" && window.matchMedia("(prefers-color-scheme: light)").matches);
+                rootEl.classList[light ? "remove" : "add"]("dark");
+                rootEl.style.colorScheme = light ? "light" : "dark";
+                if (themeColors2) {
+                    const themeMetaEl = document.querySelector('meta[name="theme-color"]');
+                    if (themeMetaEl) {
+                        themeMetaEl.setAttribute("content", mode === "light" ? themeColors2.light : themeColors2.dark);
+                    }
+                }
+                localStorage.setItem("mode-watcher-mode", mode);
+            })("system");
+        </script>
+        <!-- HTML_TAG_END -->
+        <!-- HEAD_svelte-cpyj77_END -->
+    </head>
+    <body data-sveltekit-preload-data="hover">
+        <div style="display: contents">
+            <img src="/LinkLoop.png" alt="Linkloop Logo" class="logo svelte-jl2mtn" />
+            <main>
+                <div
+                    class="card-container"
+                    style="display: flex; justify-content: center; align-items: center; height: 100vh"
+                >
+                    <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-[350px]">
+                        <div class="flex flex-col space-y-1.5 p-6">
+                            <h3 class="text-lg font-semibold leading-none tracking-tight">Login</h3>
+                            <p class="text-sm text-muted-foreground">Enter your credentials to login.</p>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <form>
+                                <div class="grid w-full items-center gap-4">
+                                    <div class="flex flex-col space-y-1.5">
+                                        <label
+                                            data-melt-label=""
+                                            data-label-root=""
+                                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                            for="email"
+                                            >Email</label
+                                        >
+                                        <input
+                                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                            id="email"
+                                            placeholder="Your email"
+                                            value=""
+                                        />
+                                    </div>
+                                    <div class="flex flex-col space-y-1.5">
+                                        <label
+                                            data-melt-label=""
+                                            data-label-root=""
+                                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                            for="password"
+                                            >Password</label
+                                        >
+                                        <input
+                                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                            id="password"
+                                            type="password"
+                                            placeholder="Your password"
+                                            value=""
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="items-center p-6 pt-0 flex justify-between">
+                            <div class="flex justify-center">
+                                <button
+                                    type="button"
+                                    tabindex="0"
+                                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                                    data-button-root=""
+                                >
+                                    Login
+                                </button>
+                                <button class="ml-4" data-svelte-h="svelte-veytja">
+                                    <img src="/_app/immutable/assets/Google.B9qdDu9j.svg" alt="Google logo" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-center p-4" data-svelte-h="svelte-1al7gwq">
+                            <a href="/auth/signup" class="text-blue-500 hover:underline"
+                                >Don&#39;t have an account? Sign Up</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <script>
+                {
+                    __sveltekit_g6rdh0 = {
+                        base: new URL("..", location).pathname.slice(0, -1),
+                    };
+
+                    const element = document.currentScript.parentElement;
+
+                    const data = [null, { type: "data", data: null, uses: {} }];
+
+                    Promise.all([
+                        import("../_app/immutable/entry/start.Vh3QzsEy.js"),
+                        import("../_app/immutable/entry/app.Blu5Gr8v.js"),
+                    ]).then(([kit, app]) => {
+                        kit.start(app, element, {
+                            node_ids: [0, 4],
+                            data,
+                            form: null,
+                            error: null,
+                        });
+                    });
+                }
+            </script>
+        </div>
+    </body>
+</html>

@@ -4,6 +4,7 @@ import { type Actions, fail } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types.js";
 import { appearanceFormSchema } from "./appearance-form.svelte";
 
+export const prerender = true;
 export const load: PageServerLoad = async () => {
     return {
         form: await superValidate(zod(appearanceFormSchema)),

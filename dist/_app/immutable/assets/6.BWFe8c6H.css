@@ -1,0 +1,17 @@
+.button-right.svelte-2b6u35 {
+    text-align: right;
+    display: block;
+}
+.svelte-scroll-area.svelte-2b6u35 {
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    height: 94vh;
+    margin: auto;
+}
+@media (max-width: 768px) {
+    .svelte-scroll-area.svelte-2b6u35 {
+        margin-top: 30px;
+        width: 100%;
+    }
+}

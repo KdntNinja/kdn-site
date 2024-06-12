@@ -12,7 +12,7 @@
     import { toast } from "svelte-sonner";
     import { getStorage, ref, deleteObject } from "firebase/storage";
 
-    import { goto } from '$app/navigation';
+    import { goto } from "$app/navigation";
 
     let auth;
     let isAdmin: boolean = false;
@@ -145,7 +145,7 @@
         </div>
     {/if}
     <div class="fas fa-cog settings-cog">
-        <Button class="" on:click={() => goto(routes.SETTINGS)}>Settings</Button>
+        <Button class="" on:click="{() => goto(routes.SETTINGS)}">Settings</Button>
     </div>
     <ShowPosts />
 </main>
