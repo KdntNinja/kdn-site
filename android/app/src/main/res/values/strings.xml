@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">LinkLoop</string>
-    <string name="title_activity_main">LinkLoop</string>
-    <string name="package_name">com.kdntninja.linkloop</string>
-    <string name="custom_url_scheme">com.kdntninja.linkloop</string>
-</resources>

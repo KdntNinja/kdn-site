@@ -11,15 +11,17 @@
     onMount(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                goto(routes.POSTS);
+goto(routes.POSTS);
             }
         });
     });
 </script>
 
 <header>
-    <Button on:click="{() => goto(routes.CREDITS)}" aria-label="Credits" class="ml-4 font-bold py-2 px-4 rounded"
-        >Credits</Button
+    <Button
+        on:click="{() => (goto(routes.CREDITS))}"
+        aria-label="Credits"
+        class="ml-4 font-bold py-2 px-4 rounded">Credits</Button
     >
 </header>
 
@@ -33,12 +35,12 @@
             <p class="mb-4 text-lg">Please log in or sign up to continue.</p>
             <div class="flex justify-center mt-8">
                 <Button
-                    on:click="{() => goto(routes.LOGIN)}"
+                    on:click="{() => (goto(routes.LOGIN))}"
                     aria-label="Log In"
                     class="mr-4 font-bold py-2 px-4 rounded">Log In</Button
                 >
                 <Button
-                    on:click="{() => goto(routes.SIGNUP)}"
+                    on:click="{() => (goto(routes.SIGNUP))}"
                     aria-label="Sign Up"
                     class="ml-4 font-bold py-2 px-4 rounded">Sign Up</Button
                 >

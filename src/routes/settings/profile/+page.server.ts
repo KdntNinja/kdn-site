@@ -4,8 +4,6 @@ import { type Actions, fail } from "@sveltejs/kit";
 import { profileFormSchema } from "./profile-form.svelte";
 import type { PageServerLoad } from "./$types.js";
 
-export const prerender = true;
-
 export const load: PageServerLoad = async () => {
     return {
         form: await superValidate(zod(profileFormSchema)),
