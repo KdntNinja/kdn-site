@@ -23,7 +23,7 @@ import {
 } from "./scheduler.CCxz69I-.js";
 import { S as G, i as J, g as K, b as _, f as U, t as d } from "./index.BXRlT4_D.js";
 import { g as V } from "./spread.CgU5AtxT.js";
-import { m as W, d as X } from "./routes.CVgu8Yrj.js";
+import { m as W, d as X } from "./routes.DmSXBMY8.js";
 import { c as Y } from "./attrs.BDvkrEDx.js";
 function Z() {
     return {
